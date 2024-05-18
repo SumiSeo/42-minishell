@@ -1,0 +1,3 @@
+Standard input is a terminal.
+Standard output is not a terminal.
+Standard error is a terminal.
