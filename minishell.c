@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/18 17:26:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/18 18:01:58 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	create_prompt(char **env)
 {
-	char	*prompt;
+	char	cur_dir[1024];
+	char	*input;
 
 	(void)env;
 	while (42)
 	{
-		prompt = readline(prompt);
+		getcwd(cur_dir, 1024);
+		input = readline(cur_dir);
 	}
 }
 int	main(int argc, char **argv, char **envp)
