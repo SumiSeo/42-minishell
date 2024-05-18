@@ -7,16 +7,17 @@ OBJS = $(SRCS:%.c=%.o)
 
 #FLAGS 
 CC = clang
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra
+LDFLAGS = -lreadline
 DEBUGGER = -g3
 
 all : $(NAME)
 %.o : %.CC
 		$(CC) $(CFLAGS) -c $< -o $@
 $(NAME) : $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(DEBUGGER)
+		$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) $(DEBUGGER)
 clean :
 		rm -rf $(OBJS)
-fclean :
+fclean : clean
 		rm -rf $(NAME)
 re : fclean all
