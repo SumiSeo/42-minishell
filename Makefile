@@ -17,6 +17,6 @@ $(NAME) : $(OBJS)
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(DEBUGGER)
 clean :
 		rm -rf $(OBJS)
-flcean :
+fclean :
 		rm -rf $(NAME)
 re : fclean all
