@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error_controler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/18 15:18:24 by sumseo           ###   ########.fr       */
+/*   Created: 2024/05/18 15:15:05 by sumseo            #+#    #+#             */
+/*   Updated: 2024/05/18 15:19:54 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../minishell.h"
 
-# include <errno.h>
-# include <fcntl.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <term.h>
-# include <unistd.h>
-
-// error handler
-void	exit_program(char *s);
-
-#endif
+void	exit_program(char *s)
+{
+	printf("%s\n", s);
+	exit(EXIT_FAILURE);
+}

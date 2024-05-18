@@ -2,7 +2,7 @@ NAME = minishell
 
 #SRCS AND OBJS FOR COMPILING
 
-SRCS = minishell.c 
+SRCS = minishell.c errors/error_controler.c
 OBJS = $(SRCS:%.c=%.o)
 
 #FLAGS 
