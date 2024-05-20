@@ -1,9 +1,12 @@
 {
     "files.associations": {
-        "history.h": "c",
-        "stdio.h": "c",
-        "readline.h": "c",
-        "wait.h": "c",
-        "stdlib.h": "c"
-    }
+		"history.h": "c",
+		"stdio.h": "c",
+		"readline.h": "c",
+		"wait.h": "c",
+		"stdlib.h": "c",
+		"minishell.h": "c",
+		"string.h": "c",
+		"signal.h": "c"
+	}
 }
