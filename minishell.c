@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/20 12:59:27 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/20 13:14:04 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@ int	main(void)
 	char	*parsed_args[MAXLIST];
 	char	*parsed_args_piped[MAXLIST];
 	int		exe_flag;
+	int		piped;
 
+	piped = 0;
 	exe_flag = 0;
 	while (1)
 	{
 		print_dir();
 		if (take_input(input_string))
 			continue ;
-		exe_flag = process_string(input_string, parsed_args, parsed_args_piped);
+		piped = process_string(input_string, parsed_args, parsed_args_piped);
+		if (own_cmd_handler(parsed_args))
+			exe_flag = 0;
+		else
+			exe_flag = 1 + piped;
 		if (exe_flag == 1)
 			exec_args(parsed_args);
 		if (exe_flag == 2)
