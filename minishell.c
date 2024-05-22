@@ -6,17 +6,29 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/20 15:28:42 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/22 18:10:56 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
+void	display_array(char **array)
+{
+	int			i;
+
+	i = 0;
+	while (array[i])
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
+}
+
 int	main(void)
 {
 	char	input_string[MAXCOM];
-	char	*parsed_args[MAXLIST];
-	char	*parsed_args_piped[MAXLIST];
+	// char	*parsed_args[MAXLIST];
+	// char	*parsed_args_piped[MAXLIST];
 	int		exe_flag;
 	int		piped;
 
@@ -27,15 +39,17 @@ int	main(void)
 		print_dir();
 		if (take_input(input_string))
 			continue ;
-		piped = process_string(input_string, parsed_args, parsed_args_piped);
-		if (own_cmd_handler(parsed_args))
-			exe_flag = 0;
-		else
-			exe_flag = 1 + piped;
-		if (exe_flag == 1)
-			exec_args(parsed_args);
-		if (exe_flag == 2)
-			exec_args_piped(parsed_args, parsed_args_piped);
+		ft_split(input_string, ' ');
+		// piped = process_string(input_string, parsed_args, parsed_args_piped);
+		// display_array(parsed_args);
+		// if (own_cmd_handler(parsed_args))
+		// 	exe_flag = 0;
+		// else
+		// 	exe_flag = 1 + piped;
+		// if (exe_flag == 1)
+		// 	exec_args(parsed_args);
+		// if (exe_flag == 2)
+		// 	exec_args_piped(parsed_args, parsed_args_piped);
 	}
 	return (0);
 }
