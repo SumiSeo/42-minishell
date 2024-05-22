@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error_controler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:15:05 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/20 12:24:25 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/22 18:41:07 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
 void	exit_program(char *s)
 {

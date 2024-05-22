@@ -2,12 +2,13 @@ NAME = minishell
 
 #SRCS AND OBJS FOR COMPILING
 
-SRCS = minishell.c error_controler.c\
+SRCS = minishell.c handler/error_controler.c\
 a_current_directory.c\
 b_store_input.c\
 c_parsing.c\
 d_execution_builtin.c\
 e_execution_system.c\
+execution/pipe_init.c
 
 OBJDIR = obj
 
@@ -25,11 +26,11 @@ $(NAME) : $(OBJS)
 		$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) $(DEBUGGER)
 
 $(OBJDIR)/%.o : %.c
-		mkdir -p $(OBJDIR)
+		mkdir -p $(dir $@)
 		$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-		rm -rf $(OBJS)
+		rm -rf $(OBJDIR)
 
 fclean : clean
 		rm -rf $(NAME)

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:11:46 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/22 17:56:52 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/22 18:34:47 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	exec_args(char **parsed)
 {
 	pid_t	pid;
 
+	printf("only one command");
 	pid = fork();
 	if (pid == -1)
 	{
