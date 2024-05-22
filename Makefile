@@ -2,8 +2,16 @@ NAME = minishell
 
 #SRCS AND OBJS FOR COMPILING
 
-SRCS = minishell.c errors/error_controler.c
-OBJS = $(SRCS:%.c=%.o)
+SRCS = minishell.c error_controler.c\
+a_current_directory.c\
+b_store_input.c\
+c_parsing.c\
+d_execution_builtin.c\
+e_execution_system.c\
+
+OBJDIR = obj
+
+OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
 #FLAGS 
 CC = clang
@@ -12,12 +20,20 @@ LDFLAGS = -lreadline
 DEBUGGER = -g3
 
 all : $(NAME)
-%.o : %.CC
-		$(CC) $(CFLAGS) -c $< -o $@
+
 $(NAME) : $(OBJS)
 		$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) $(DEBUGGER)
+
+$(OBJDIR)/%.o : %.c
+		mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c $< -o $@
+
 clean :
 		rm -rf $(OBJS)
+
 fclean : clean
 		rm -rf $(NAME)
+
 re : fclean all
+
+.PHONY: all clean fclean re

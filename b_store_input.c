@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_controler.c                                  :+:      :+:    :+:   */
+/*   b_store_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:15:05 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/18 17:39:04 by sumseo           ###   ########.fr       */
+/*   Created: 2024/05/20 11:59:39 by ftanon            #+#    #+#             */
+/*   Updated: 2024/05/20 12:53:58 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "./minishell.h"
 
-void	exit_program(char *s)
+// Function to take input 
+int	take_input(char *str)
 {
-	perror(s);
-	exit(EXIT_FAILURE);
+	char	*buf;
+
+	buf = readline("\n>>> ");
+	if (strlen(buf) != 0)
+	{
+		add_history(buf);
+		strcpy(str, buf);
+		return (0);
+	}
+	else
+		return (1);
 }
