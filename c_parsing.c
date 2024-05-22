@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/22 18:29:34 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:00:11 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,28 @@ static int	countwords(char const *str, char c)
 {
 	int	i;
 	int	n;
+	int	quoted;
 
+	quoted = 0;
 	i = 0;
 	n = 0;
 	while (str[i] != '\0')
 	{
 		while (str[i] == c && str[i] != '\0')
 			i++;
-		if (str[i] != '\0')
-			n++;
-		while (str[i] != c && str[i] != '\0' && str[i] != '"' && str[i] != 39)
-			i++;
+		if (str[i] == '\0')
+			break ;
 		if (str[i] == '"' || str[i] == 39)
 		{
-			i++;
+			while (str[i] != '\0' && str[i] != '"' && str[i] != 39)
+				i++;
+			n++;
+		}
+		else
+		{
+			while (str[i] != c && str[i] != '\0' && str[i] != '"' && str[i] != 39)
+				i++;
+			n++;
 		}
 	}
 	printf("%d\n", n);
