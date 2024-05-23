@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/22 17:50:37 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/23 19:49:53 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	parse_space(char *str, char **parsed_args)
 	while (i < MAXLIST)
 	{
 		parsed_args[i] = strsep(&str, " ");
-		printf("%s\n", parsed_args[i]);
 		if (parsed_args[i] == NULL)
 			break ;
 		if (strlen(parsed_args[i]) == 0)

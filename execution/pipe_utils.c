@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_current_directory.c                              :+:      :+:    :+:   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 19:47:23 by sumseo           ###   ########.fr       */
+/*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
+/*   Updated: 2024/05/23 23:30:51 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-// Function to print Current Directory.
-void	print_dir(void)
+int	count_pipeline(char **argv)
 {
-	char	cwd[1024];
+	int	i;
 
-	getcwd(cwd, sizeof(cwd));
-	printf("\nCurrent Dir: %s", cwd);
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
+}
+
+void	is_first_pipe(void)
+{
+}
+
+void	is_last_pipe(void)
+{
 }

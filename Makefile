@@ -8,7 +8,8 @@ b_store_input.c\
 c_parsing.c\
 d_execution_builtin.c\
 e_execution_system.c\
-execution/pipe_init.c
+execution/pipe_init.c\
+execution/pipe_utils.c
 
 OBJDIR = obj
 

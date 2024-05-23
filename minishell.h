@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/20 13:14:39 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 23:31:06 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,15 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <term.h>
 # include <unistd.h>
-# include<string.h> 
-# include<sys/types.h> 
-# include<sys/wait.h> 
 
-# define MAXCOM 1000 // max number of letters to be supported 
-# define MAXLIST 100 // max number of commands to be supported 
+# define MAXCOM 1000 // max number of letters to be supported
+# define MAXLIST 100 // max number of commands to be supported
 
 // error handler
 void	exit_program(char *s);
@@ -37,9 +36,14 @@ void	create_prompt(char **env);
 
 int		take_input(char *str);
 void	print_dir(void);
-int		process_string(char	*str, char	**parsed, char	**parsedpipe);
+int		process_string(char *str, char **parsed, char **parsedpipe);
 void	exec_args(char **parsed);
 void	exec_args_piped(char **parsed, char **parsedpipe);
 int		own_cmd_handler(char **parsed);
+int		count_pipeline(char **argv);
+void	create_pipe(char *cmd, char *path, char **env, int total);
+void	create_pipeline(char **argv, char *path, char **env);
+void	is_first_pipe(void);
+void	is_last_pipe(void);
 
 #endif
