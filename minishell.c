@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/23 10:54:40 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 13:32:20 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(void)
 		print_dir();
 		if (take_input(input_string))
 			continue ;
+		printf("%lu\n", strlen(input_string));
 		ft_split(input_string, ' ');
 		// piped = process_string(input_string, parsed_args, parsed_args_piped);
 		// display_array(parsed_args);

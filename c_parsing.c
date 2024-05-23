@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 13:15:55 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 13:33:12 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,17 @@ static int	countwords(char const *str, char c)
 	int	i;
 	int	n;
 	int	quoted;
+	int len;
 
+	len = strlen(str);
 	quoted = 0;
 	i = 0;
 	n = 0;
-	while (str[i] != '\0')
+	while (i < len)
 	{
-		while (str[i] == c && str[i] != '\0')
+		while (str[i] == c && i < len)
 			i++;
-		if (str[i] == '\0')
+		if (i == len)
 			break ;
 		if (str[i] == '"' || str[i] == 39)
 		{
@@ -54,6 +56,26 @@ static int	countwords(char const *str, char c)
 			}
 			printf("%c", str[i]);
 			printf("]");
+			n++;
+		}
+		else if (str[i] == '>' && str[i + 1] == '>')
+		{
+			printf("[%d]", n);
+			printf("[");
+			printf("%c", str[i]);
+			printf("%c", str[i + 1]);
+			printf("]");
+			i++;
+			n++;
+		}
+		else if (str[i] == '<' && str[i + 1] == '<')
+		{
+			printf("[%d]", n);
+			printf("[");
+			printf("%c", str[i]);
+			printf("%c", str[i + 1]);
+			printf("]");
+			i++;
 			n++;
 		}
 		else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
