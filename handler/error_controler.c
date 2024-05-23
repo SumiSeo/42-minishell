@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:15:05 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/22 18:41:07 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/23 23:59:31 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	exit_program(char *s)
 {
-	perror(s);
+	printf("%s\n", s);
 	exit(EXIT_FAILURE);
 }
