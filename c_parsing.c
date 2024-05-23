@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 13:02:48 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 13:15:55 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ static int	countwords(char const *str, char c)
 				printf("%c", str[i]);
 				i++;
 			}
+			printf("%c", str[i]);
+			printf("]");
+			n++;
+		}
+		else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
+		{
+			printf("[%d]", n);
+			printf("[");
 			printf("%c", str[i]);
 			printf("]");
 			n++;
