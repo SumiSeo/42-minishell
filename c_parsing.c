@@ -6,11 +6,23 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 13:33:12 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 13:45:35 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
+
+size_t	ft_strlen(const char *string)
+{
+	int	i;
+
+	i = 0;
+	while (string[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
 
 // int	freearray(char **array, int wordnbr)
 // {
@@ -33,7 +45,7 @@ static int	countwords(char const *str, char c)
 	int	quoted;
 	int len;
 
-	len = strlen(str);
+	len = ft_strlen(str);
 	quoted = 0;
 	i = 0;
 	n = 0;
