@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/23 17:52:21 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 18:26:39 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@
 
 # define MAXCOM 1000 // max number of letters to be supported 
 # define MAXLIST 100 // max number of commands to be supported 
+
+// typedef struct s_lexer
+// {
+// 	int				position;
+// }	t_lexer;
 
 // error handler
 void	exit_program(char *s);

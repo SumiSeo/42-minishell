@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 18:03:18 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 18:27:02 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,26 +135,43 @@ static int	countwords(char const *str, char c)
 	return (n);
 }
 
+static char	*findstring(char const *s, int *ptr_i_string, char c)
+{
+	int		i;
+	char	*dest;
+
+	i = *ptr_i_string;
+	while (s[i] != '\0' && s[i] == c)
+		i++;
+	if (s[i] != '\0')
+		dest = stringdup(s + i, c);
+	while (s[i] != c && s[i] != '\0')
+		i++;
+	*ptr_i_string = i;
+	return (dest);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	// printf("%s\n", s);
 	// printf("%c\n", c);
 	char	**array;
-	array = NULL;
+	// array = NULL;
 	int		wordsnbr;
 	int		i_string;
 	int		i_array;
-	// int		*ptr_i_string;
+	int		*ptr_i_string;
 
 	// if (s == 0)
 		// return (0);
 	i_array = 0;
 	i_string = 0;
-	// ptr_i_string = &i_string;
+	ptr_i_string = &i_string;
 	wordsnbr = countwords(s, c);
-	// array = (char **)malloc(sizeof(char *) * (wordsnbr + 1));
-	// if (array == NULL)
-	// 	return (NULL);
+	array = (char **)malloc(sizeof(char *) * (wordsnbr + 1));
+	if (array == NULL)
+		return (NULL);
+	array[i_array] = findstring(s, ptr_i_string, c);
 	// while (i_array < wordsnbr)
 	// {
 	// 	array[i_array] = findstring(s, ptr_i_string, c);
