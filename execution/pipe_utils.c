@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/23 23:30:51 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/23 23:56:30 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,16 @@ int	count_pipeline(char **argv)
 	return (i);
 }
 
-void	is_first_pipe(void)
+void	create_first_pipe(char *cmd, char **env)
 {
+	(void)cmd;
+	(void)env;
+	printf("****created first pipe\n");
 }
 
-void	is_last_pipe(void)
+void	create_last_pipe(char *cmd, char **env)
 {
+	(void)cmd;
+	(void)env;
+	printf("****created last pipe\n");
 }
