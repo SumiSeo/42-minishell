@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/23 13:32:24 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 17:52:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	exec_args_piped(char **parsed, char **parsedpipe);
 int		own_cmd_handler(char **parsed);
 
 char	**ft_split(char const *s, char c);
+int		check_input(char const *str);
 
 #endif

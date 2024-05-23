@@ -6,37 +6,47 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 16:15:17 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 18:03:18 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-size_t	ft_strlen(const char *string)
+int	check_input(char const *str)
 {
 	int	i;
+	int	double_quotes;
+	int	single_quotes;
 
+	double_quotes = 0;
+	single_quotes = 0;
 	i = 0;
-	while (string[i] != '\0')
+	if ((str[i] < 97 || str[i] > 122))
 	{
+		printf("Error : Not lowercase character\n");
+		return (1);
+	}
+	i++;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '"')
+			double_quotes++;
+		else if (str[i] == 39)
+			single_quotes++;
 		i++;
 	}
-	return (i);
+	if (double_quotes > 0 && double_quotes % 2 != 0)
+	{
+		printf("Error : Quotes\n");
+		return (1);
+	}
+	else if (single_quotes > 0 && single_quotes % 2 != 0)
+	{
+		printf("Error : Quotes\n");
+		return (1);
+	}
+	return (0);
 }
-
-// int	freearray(char **array, int wordnbr)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < wordnbr)
-// 	{
-// 		free(array[i]);
-// 		i++;
-// 	}
-// 	free(array);
-// 	return (0);
-// }
 
 static int	countwords(char const *str, char c)
 {
@@ -125,6 +135,37 @@ static int	countwords(char const *str, char c)
 	return (n);
 }
 
+char	**ft_split(char const *s, char c)
+{
+	// printf("%s\n", s);
+	// printf("%c\n", c);
+	char	**array;
+	array = NULL;
+	int		wordsnbr;
+	int		i_string;
+	int		i_array;
+	// int		*ptr_i_string;
+
+	// if (s == 0)
+		// return (0);
+	i_array = 0;
+	i_string = 0;
+	// ptr_i_string = &i_string;
+	wordsnbr = countwords(s, c);
+	// array = (char **)malloc(sizeof(char *) * (wordsnbr + 1));
+	// if (array == NULL)
+	// 	return (NULL);
+	// while (i_array < wordsnbr)
+	// {
+	// 	array[i_array] = findstring(s, ptr_i_string, c);
+	// 	if (array[i_array] == NULL)
+	// 		freearray(array, wordsnbr);
+	// 	i_array++;
+	// }
+	// array[i_array] = NULL;
+	return (array);
+}
+
 // static char	*stringdup(char const *src, char c)
 // {
 // 	char	*dest;
@@ -162,38 +203,6 @@ static int	countwords(char const *str, char c)
 // 	*ptr_i_string = i;
 // 	return (dest);
 // }
-
-char	**ft_split(char const *s, char c)
-{
-	printf("%s\n", s);
-	printf("%c\n", c);
-	char	**array;
-	array = NULL;
-	int		wordsnbr;
-	int		i_string;
-	int		i_array;
-	// int		*ptr_i_string;
-
-	// if (s == 0)
-		// return (0);
-	i_array = 0;
-	i_string = 0;
-	// ptr_i_string = &i_string;
-	wordsnbr = countwords(s, c);
-	// array = (char **)malloc(sizeof(char *) * (wordsnbr + 1));
-	// if (array == NULL)
-	// 	return (NULL);
-	// while (i_array < wordsnbr)
-	// {
-	// 	array[i_array] = findstring(s, ptr_i_string, c);
-	// 	if (array[i_array] == NULL)
-	// 		freearray(array, wordsnbr);
-	// 	i_array++;
-	// }
-	// array[i_array] = NULL;
-	return (array);
-}
-
 
 // int	freearray(char **array, int wordnbr)
 // {
