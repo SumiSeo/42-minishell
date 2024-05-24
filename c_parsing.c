@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/24 15:23:24 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:31:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,71 +65,53 @@ static int	countwords(char const *str, char c)
 			break ;
 		if (str[i] == '"' || str[i] == 39)
 		{
-			printf("[%d]", n);
-			printf("[");
-			printf("%c", str[i]);
+			// printf("[%d][%c", n, str[i]);
 			i++;
 			while (str[i] != '\0' && str[i] != '"' && str[i] != 39)
 			{
-				printf("%c", str[i]);
+				// printf("%c", str[i]);
 				i++;
 			}
-			printf("%c", str[i]);
-			printf("]");
+			// printf("%c]", str[i]);
 			n++;
 		}
 		else if (str[i] == '>' && str[i + 1] == '>')
 		{
-			printf("[%d]", n);
-			printf("[");
-			printf("%c", str[i]);
-			printf("%c", str[i + 1]);
-			printf("]");
+			// printf("[%d][%c%c]", n, str[i], str[i + 1]);
 			i++;
 			n++;
 		}
 		else if (str[i] == '<' && str[i + 1] == '<')
 		{
-			printf("[%d]", n);
-			printf("[");
-			printf("%c", str[i]);
-			printf("%c", str[i + 1]);
-			printf("]");
+			// printf("[%d][%c%c]", n, str[i], str[i + 1]);
 			i++;
 			n++;
 		}
 		else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
 		{
-			printf("[%d]", n);
-			printf("[");
-			printf("%c", str[i]);
-			printf("]");
+			// printf("[%d][%c]", n, str[i]);
 			n++;
 		}
 		else
 		{
-			printf("[%d]", n);
-			printf("[");
+			// printf("[%d][", n);
 			while (str[i] != c && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
 			{
-				printf("%c", str[i]);
+				// printf("%c", str[i]);
 				i++;
 			}
-			printf("]");
+			// printf("]");
 			n++;
 			if (str[i] == '|' || str[i] == '>' || str[i] == '<')
 			{
-				printf("\n");
-				printf("[%d]", n);
-				printf("[");
-				printf("%c", str[i]);
-				printf("]");
+				// printf("\n");
+				// printf("[%d][%c]", n, str[i]);
 				n++;
 			}
 		}
 		if (str[i] != '\0')
 			i++;
-		printf("\n");
+		// printf("\n");
 	}
 	printf("words : %d\n", n);
 	return (n);
