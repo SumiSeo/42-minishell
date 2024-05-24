@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/24 15:03:42 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:23:24 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,20 +169,19 @@ static char	*stringdup(char const *str, char c)
 		{
 			len++;
 		}
-		// printf("boucle : %d\n", len);
 	}
-	printf("longueur : %d\n", len);
+	// printf("len: %d\n", len);
 	// while (src[len] != c && src[len] != '\0')
 	// 	len++;
-	// dest = (char *)malloc(sizeof(char) * (len + 1));
-	// if (dest == NULL)
-	// 	return (NULL);
-	// while (src[i] != '\0' && i < len)
-	// {
-	// 	dest[i] = src[i];
-	// 	i++;
-	// }
-	// dest[i] = '\0';
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (str[i] != '\0' && i < len)
+	{
+		dest[i] = str[i];
+		i++;
+	}
+	dest[i] = '\0';
 	return (dest);
 }
 
@@ -191,10 +190,11 @@ static char	*findstring(char const *str, int *ptr_i_string, char c)
 	int		i;
 	char	*dest;
 
+	// dest = NULL;
 	i = *ptr_i_string;
 	while (str[i] != '\0' && str[i] == c)
 		i++;
-	printf("position : %d\n", i);
+	// printf("pos: %c %d ", str[i], i);
 	if (str[i] != '\0')
 		dest = stringdup(str + i, c);
 	if (str[i] == '"' || str[i] == 39)
@@ -252,6 +252,8 @@ char	**ft_split(char const *s, char c)
 	{
 		// printf("%d\n", *ptr_i_string);
 		array[i_array] = findstring(s, ptr_i_string, c);
+		printf("[%d]", i_array);
+		printf("[%s]\n", array[i_array]);
 		// if (array[i_array] == NULL)
 		// 	freearray(array, wordsnbr);
 		i_array++;
