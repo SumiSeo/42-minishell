@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/23 18:27:02 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/24 15:03:42 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,18 +135,94 @@ static int	countwords(char const *str, char c)
 	return (n);
 }
 
-static char	*findstring(char const *s, int *ptr_i_string, char c)
+static char	*stringdup(char const *str, char c)
+{
+	char	*dest;
+	int		len;
+	int		i;
+
+	dest = NULL;
+	len = 0;
+	i = 0;
+	if (str[len] == '"' || str[len] == 39)
+	{
+		len++;
+		while (str[len] != '\0' && str[len] != '"' && str[len] != 39)
+			len++;
+		len++;
+	}
+	else if (str[i] == '>' && str[i + 1] == '>')
+	{
+		len = 2;
+	}
+	else if (str[i] == '<' && str[i + 1] == '<')
+	{
+		len = 2;
+	}
+	else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
+	{
+		len = 1;
+	}
+	else
+	{
+		while (str[len] != c && str[len] != '\0' && str[len] != '"' && str[len] != 39 && str[len] != '|' && str[len] != '>')
+		{
+			len++;
+		}
+		// printf("boucle : %d\n", len);
+	}
+	printf("longueur : %d\n", len);
+	// while (src[len] != c && src[len] != '\0')
+	// 	len++;
+	// dest = (char *)malloc(sizeof(char) * (len + 1));
+	// if (dest == NULL)
+	// 	return (NULL);
+	// while (src[i] != '\0' && i < len)
+	// {
+	// 	dest[i] = src[i];
+	// 	i++;
+	// }
+	// dest[i] = '\0';
+	return (dest);
+}
+
+static char	*findstring(char const *str, int *ptr_i_string, char c)
 {
 	int		i;
 	char	*dest;
 
 	i = *ptr_i_string;
-	while (s[i] != '\0' && s[i] == c)
+	while (str[i] != '\0' && str[i] == c)
 		i++;
-	if (s[i] != '\0')
-		dest = stringdup(s + i, c);
-	while (s[i] != c && s[i] != '\0')
+	printf("position : %d\n", i);
+	if (str[i] != '\0')
+		dest = stringdup(str + i, c);
+	if (str[i] == '"' || str[i] == 39)
+	{
 		i++;
+		while (str[i] != '\0' && str[i] != '"' && str[i] != 39)
+			i++;
+		i++;
+	}
+	else if (str[i] == '>' && str[i + 1] == '>')
+	{
+		i = i + 2;
+	}
+	else if (str[i] == '<' && str[i + 1] == '<')
+	{
+		i = i + 2;
+	}
+	else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
+	{
+		i = i + 1;
+	}
+	else
+	{
+		while (str[i] != c && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
+		{
+			i++;
+		}
+	}
 	*ptr_i_string = i;
 	return (dest);
 }
@@ -171,14 +247,15 @@ char	**ft_split(char const *s, char c)
 	array = (char **)malloc(sizeof(char *) * (wordsnbr + 1));
 	if (array == NULL)
 		return (NULL);
-	array[i_array] = findstring(s, ptr_i_string, c);
-	// while (i_array < wordsnbr)
-	// {
-	// 	array[i_array] = findstring(s, ptr_i_string, c);
-	// 	if (array[i_array] == NULL)
-	// 		freearray(array, wordsnbr);
-	// 	i_array++;
-	// }
+	// array[i_array] = findstring(s, ptr_i_string, c);
+	while (i_array < wordsnbr)
+	{
+		// printf("%d\n", *ptr_i_string);
+		array[i_array] = findstring(s, ptr_i_string, c);
+		// if (array[i_array] == NULL)
+		// 	freearray(array, wordsnbr);
+		i_array++;
+	}
 	// array[i_array] = NULL;
 	return (array);
 }
