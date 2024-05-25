@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 17:28:01 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/25 18:31:51 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,42 +94,31 @@ int	count_words(t_lexer *lexer)
 // void	parsing(t_lexer *lexer, t_parser **parser)
 void	parsing(t_lexer *lexer)
 {
-	int i;
+	int	i;
 	int	k;
 
-	// while (lexer)
-	// {
+	while (lexer)
+	{
 		i = 0;
 		k = 0;
+		if (lexer->str[0] == '<')
+		{
+			
+		}
 		i = count_words(lexer);
 		printf("%d\n", i);
-		// push_parser(parser, i, lexer);
-		
 		while (k < i)
 		{
 			printf("[%s]\n", lexer->str);
 			lexer = lexer->next;
 			k++;
 		}
-		// printf("[%d]\n", i);
-		// if (!lexer)
-			// break ;
-	// }
+		if (!lexer)
+			break ;
 		printf("[%s]\n", lexer->str);
 		if (lexer->str[0] == '|')
 			lexer = lexer->next;
-		i = 0;
-		k = 0;
-		i = count_words(lexer);
-		printf("%d\n", i);
-		// // push_parser(parser, i, lexer);
-		
-		while (k < i)
-		{
-			printf("[%s]\n", lexer->str);
-			lexer = lexer->next;
-			k++;
-		}
+	}
 }
 
 
