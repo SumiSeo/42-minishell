@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 17:00:26 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:28:01 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	push_parser(t_parser **p, int i, t_lexer *lexer)
 	last = *p;
 	element = malloc(sizeof(t_lexer));
 	element->str = (char **)malloc(sizeof(char *) * (i + 1));
-	// ft_strlcpy(element->str, str, len + 1);
 	while (lexer && lexer->str[0] != '|')
 	{
 		len = ft_strlen(lexer->str);
@@ -92,23 +91,45 @@ int	count_words(t_lexer *lexer)
 	return (i);
 }
 
-void	parsing(t_lexer *lexer, t_parser **parser)
-// void	parsing(t_lexer *lexer)
+// void	parsing(t_lexer *lexer, t_parser **parser)
+void	parsing(t_lexer *lexer)
 {
 	int i;
+	int	k;
 
-	i = 0;
 	// while (lexer)
 	// {
+		i = 0;
+		k = 0;
 		i = count_words(lexer);
-		// printf("%d\n", i);
-		push_parser(parser, i, lexer);
+		printf("%d\n", i);
+		// push_parser(parser, i, lexer);
 		
+		while (k < i)
+		{
+			printf("[%s]\n", lexer->str);
+			lexer = lexer->next;
+			k++;
+		}
 		// printf("[%d]\n", i);
 		// if (!lexer)
 			// break ;
-		// lexer = lexer->next;
 	// }
+		printf("[%s]\n", lexer->str);
+		if (lexer->str[0] == '|')
+			lexer = lexer->next;
+		i = 0;
+		k = 0;
+		i = count_words(lexer);
+		printf("%d\n", i);
+		// // push_parser(parser, i, lexer);
+		
+		while (k < i)
+		{
+			printf("[%s]\n", lexer->str);
+			lexer = lexer->next;
+			k++;
+		}
 }
 
 
@@ -140,10 +161,15 @@ int	main(void)
 		create_list(input_string, ' ', &lexer);
 		display(lexer);
 		// test(&parser);
-		parsing(lexer, &parser);
-		display_array(parser->str);
-		// parsing(lexer);
+		// parsing(lexer, &parser);
+		// display_array(parser->str);
+		parsing(lexer);
 		freestack(&lexer);
+
+
+
+
+
 		// piped = process_string(input_string, parsed_args, parsed_args_piped);
 		// display_array(parsed_args);
 		// if (own_cmd_handler(parsed_args))
