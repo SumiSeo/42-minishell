@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 13:10:10 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:21:28 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	check_input(char const *str)
 	return (0);
 }
 
-void	push(t_list **p, const char *str, int len)
+void	push(t_lexer **p, const char *str, int len)
 {
-	t_list	*element;
-	t_list	*last;
+	t_lexer	*element;
+	t_lexer	*last;
 
 	last = *p;
-	element = malloc(sizeof(t_list));
+	element = malloc(sizeof(t_lexer));
 	element->str = malloc(len + 1);
 	ft_strlcpy(element->str, str, len + 1);
 	element->next = NULL;
@@ -96,7 +96,7 @@ int	get_len(char const *str, char c)
 	return (len);
 }
 
-void	create_list(char const *str, char c, t_list **lexer)
+void	create_list(char const *str, char c, t_lexer **lexer)
 {
 	int	i;
 	int	len;
@@ -114,6 +114,8 @@ void	create_list(char const *str, char c, t_list **lexer)
 		i = i + len;
 	}
 }
+
+
 
 // static char	*stringdup(char const *src, char c)
 // {

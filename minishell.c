@@ -6,13 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 13:02:33 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:00:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-void	display(t_list *begin)
+void	display(t_lexer *begin)
 {
 	while (begin)
 	{
@@ -21,9 +21,9 @@ void	display(t_list *begin)
 	}
 }
 
-void	freestack(t_list	**stack_a)
+void	freestack(t_lexer	**stack_a)
 {
-	t_list	*nextnode;
+	t_lexer	*nextnode;
 
 	while (*stack_a)
 	{
@@ -33,6 +33,87 @@ void	freestack(t_list	**stack_a)
 	}
 }
 
+void	display_array(char **array)
+{
+	int			i;
+
+	i = 0;
+	while (array[i])
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
+}
+
+
+void	push_parser(t_parser **p, int i, t_lexer *lexer)
+{
+	t_parser	*element;
+	t_parser	*last;
+	int			j;
+	int			len;
+
+	j = 0;
+	last = *p;
+	element = malloc(sizeof(t_lexer));
+	element->str = (char **)malloc(sizeof(char *) * (i + 1));
+	// ft_strlcpy(element->str, str, len + 1);
+	while (lexer && lexer->str[0] != '|')
+	{
+		len = ft_strlen(lexer->str);
+		// printf("[%s]\n", lexer->str);
+		element->str[j] = (char *)malloc(sizeof(char) * (len + 1));
+		ft_strlcpy(element->str[j], lexer->str, len + 1);
+		j++;
+		lexer = lexer->next;	
+	}
+	element->next = NULL;
+	if (*p == NULL)
+	{
+		*p = element;
+		return ;
+	}
+	while (last->next != NULL)
+		last = last->next;
+	last->next = element;
+	element->prev = last;
+}
+
+int	count_words(t_lexer *lexer)
+{
+	int	i;
+
+	i = 0;
+	while (lexer && lexer->str[0] != '|')
+	{
+		i++;
+		lexer = lexer->next;	
+	}
+	return (i);
+}
+
+void	parsing(t_lexer *lexer, t_parser **parser)
+// void	parsing(t_lexer *lexer)
+{
+	int i;
+
+	i = 0;
+	// while (lexer)
+	// {
+		i = count_words(lexer);
+		// printf("%d\n", i);
+		push_parser(parser, i, lexer);
+		
+		// printf("[%d]\n", i);
+		// if (!lexer)
+			// break ;
+		// lexer = lexer->next;
+	// }
+}
+
+
+
+
 int	main(void)
 {
 	char	input_string[MAXCOM];
@@ -40,9 +121,12 @@ int	main(void)
 	// char	*parsed_args_piped[MAXLIST];
 	int		exe_flag;
 	int		piped;
-	t_list	*lexer;
+	t_lexer	*lexer;
+	t_parser *parser;
 
+	// parser->str = (char **)malloc(sizeof(char *) * (3 + 1));
 	lexer = NULL;
+	parser = NULL;
 	piped = 0;
 	exe_flag = 0;
 	while (1)
@@ -55,6 +139,10 @@ int	main(void)
 		// printf("%lu\n", strlen(input_string));
 		create_list(input_string, ' ', &lexer);
 		display(lexer);
+		// test(&parser);
+		parsing(lexer, &parser);
+		display_array(parser->str);
+		// parsing(lexer);
 		freestack(&lexer);
 		// piped = process_string(input_string, parsed_args, parsed_args_piped);
 		// display_array(parsed_args);
