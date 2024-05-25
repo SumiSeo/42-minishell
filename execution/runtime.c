@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 16:45:45 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 18:40:21 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,19 @@ void	runtime_shell(char **simple_cmds, char **pipe_cmds)
 	}
 }
 
-void	exec_shell(char **simple_cmds)
+void	exec_shell(char **simple_cmds, char *path, char **env)
 {
-	// There is no piipe in this cmds
 	printf("EXEC SHELL CALLED\n");
-	int i = 0;
-	while (simple_cmds[i])
-	{
-		printf("each args %s\n", simple_cmds[i]);
-		i++;
-	}
-	// int id = fork();
-	// if(id == )
+
+	int j;
+
+	j = 0;
+
+	int fork_id = fork();
+	if (fork_id < 0)
+		exit_program("Fork failed");
+	else if (fork_id == 0)
+		parse_path(simple_cmds[0], path, env);
+	else
+		wait(NULL);
 }

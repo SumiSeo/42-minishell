@@ -10,7 +10,8 @@ d_execution_builtin.c\
 e_execution_system.c\
 execution/pipe_init.c\
 execution/pipe_utils.c\
-execution/runtime.c
+execution/runtime.c\
+execution/exec_utils.c
 
 INCLUDES = libft/
 OBJDIR = obj
