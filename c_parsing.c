@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/24 15:31:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/25 13:10:10 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,200 +48,71 @@ int	check_input(char const *str)
 	return (0);
 }
 
-static int	countwords(char const *str, char c)
+void	push(t_list **p, const char *str, int len)
 {
-	int	i;
-	int	n;
-	int	quoted;
+	t_list	*element;
+	t_list	*last;
 
-	quoted = 0;
-	i = 0;
-	n = 0;
-	while (str[i] != '\0')
+	last = *p;
+	element = malloc(sizeof(t_list));
+	element->str = malloc(len + 1);
+	ft_strlcpy(element->str, str, len + 1);
+	element->next = NULL;
+	if (*p == NULL)
 	{
-		while (str[i] == c && str[i] != '\0')
-			i++;
-		if (str[i] == '\0')
-			break ;
-		if (str[i] == '"' || str[i] == 39)
-		{
-			// printf("[%d][%c", n, str[i]);
-			i++;
-			while (str[i] != '\0' && str[i] != '"' && str[i] != 39)
-			{
-				// printf("%c", str[i]);
-				i++;
-			}
-			// printf("%c]", str[i]);
-			n++;
-		}
-		else if (str[i] == '>' && str[i + 1] == '>')
-		{
-			// printf("[%d][%c%c]", n, str[i], str[i + 1]);
-			i++;
-			n++;
-		}
-		else if (str[i] == '<' && str[i + 1] == '<')
-		{
-			// printf("[%d][%c%c]", n, str[i], str[i + 1]);
-			i++;
-			n++;
-		}
-		else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
-		{
-			// printf("[%d][%c]", n, str[i]);
-			n++;
-		}
-		else
-		{
-			// printf("[%d][", n);
-			while (str[i] != c && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
-			{
-				// printf("%c", str[i]);
-				i++;
-			}
-			// printf("]");
-			n++;
-			if (str[i] == '|' || str[i] == '>' || str[i] == '<')
-			{
-				// printf("\n");
-				// printf("[%d][%c]", n, str[i]);
-				n++;
-			}
-		}
-		if (str[i] != '\0')
-			i++;
-		// printf("\n");
+		*p = element;
+		return ;
 	}
-	printf("words : %d\n", n);
-	return (n);
+	while (last->next != NULL)
+		last = last->next;
+	last->next = element;
+	element->prev = last;
 }
 
-static char	*stringdup(char const *str, char c)
+int	get_len(char const *str, char c)
 {
-	char	*dest;
 	int		len;
-	int		i;
 
-	dest = NULL;
 	len = 0;
-	i = 0;
-	if (str[len] == '"' || str[len] == 39)
+	if (str[0] == '"' || str[0] == 39)
 	{
 		len++;
 		while (str[len] != '\0' && str[len] != '"' && str[len] != 39)
 			len++;
 		len++;
 	}
-	else if (str[i] == '>' && str[i + 1] == '>')
-	{
+	else if (str[0] == '>' && str[1] == '>')
 		len = 2;
-	}
-	else if (str[i] == '<' && str[i + 1] == '<')
-	{
+	else if (str[0] == '<' && str[1] == '<')
 		len = 2;
-	}
-	else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
-	{
+	else if (str[0] == '|' || str[0] == '>' || str[0] == '<')
 		len = 1;
-	}
 	else
 	{
 		while (str[len] != c && str[len] != '\0' && str[len] != '"' && str[len] != 39 && str[len] != '|' && str[len] != '>')
-		{
 			len++;
-		}
 	}
 	// printf("len: %d\n", len);
-	// while (src[len] != c && src[len] != '\0')
-	// 	len++;
-	dest = (char *)malloc(sizeof(char) * (len + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (str[i] != '\0' && i < len)
-	{
-		dest[i] = str[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (len);
 }
 
-static char	*findstring(char const *str, int *ptr_i_string, char c)
+void	create_list(char const *str, char c, t_list **lexer)
 {
-	int		i;
-	char	*dest;
+	int	i;
+	int	len;
 
-	// dest = NULL;
-	i = *ptr_i_string;
-	while (str[i] != '\0' && str[i] == c)
-		i++;
-	// printf("pos: %c %d ", str[i], i);
-	if (str[i] != '\0')
-		dest = stringdup(str + i, c);
-	if (str[i] == '"' || str[i] == 39)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		i++;
-		while (str[i] != '\0' && str[i] != '"' && str[i] != 39)
+		len = 0;
+		while (str[i] == c && str[i] != '\0')
 			i++;
-		i++;
+		if (str[i] == '\0')
+			break ;
+		len = get_len(str + i, c);
+		push(lexer, str + i, len);
+		i = i + len;
 	}
-	else if (str[i] == '>' && str[i + 1] == '>')
-	{
-		i = i + 2;
-	}
-	else if (str[i] == '<' && str[i + 1] == '<')
-	{
-		i = i + 2;
-	}
-	else if (str[i] == '|' || str[i] == '>' || str[i] == '<')
-	{
-		i = i + 1;
-	}
-	else
-	{
-		while (str[i] != c && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
-		{
-			i++;
-		}
-	}
-	*ptr_i_string = i;
-	return (dest);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	// printf("%s\n", s);
-	// printf("%c\n", c);
-	char	**array;
-	// array = NULL;
-	int		wordsnbr;
-	int		i_string;
-	int		i_array;
-	int		*ptr_i_string;
-
-	// if (s == 0)
-		// return (0);
-	i_array = 0;
-	i_string = 0;
-	ptr_i_string = &i_string;
-	wordsnbr = countwords(s, c);
-	array = (char **)malloc(sizeof(char *) * (wordsnbr + 1));
-	if (array == NULL)
-		return (NULL);
-	// array[i_array] = findstring(s, ptr_i_string, c);
-	while (i_array < wordsnbr)
-	{
-		// printf("%d\n", *ptr_i_string);
-		array[i_array] = findstring(s, ptr_i_string, c);
-		printf("[%d]", i_array);
-		printf("[%s]\n", array[i_array]);
-		// if (array[i_array] == NULL)
-		// 	freearray(array, wordsnbr);
-		i_array++;
-	}
-	// array[i_array] = NULL;
-	return (array);
 }
 
 // static char	*stringdup(char const *src, char c)

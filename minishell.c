@@ -6,21 +6,30 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/24 14:41:19 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/25 13:02:33 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-void	display_array(char **array)
+void	display(t_list *begin)
 {
-	int			i;
-
-	i = 0;
-	while (array[i])
+	while (begin)
 	{
-		printf("%s\n", array[i]);
-		i++;
+		printf("[%s]\n", begin->str);
+		begin = begin->next;
+	}
+}
+
+void	freestack(t_list	**stack_a)
+{
+	t_list	*nextnode;
+
+	while (*stack_a)
+	{
+		nextnode = (*stack_a)->next;
+		free(*stack_a);
+		(*stack_a) = nextnode;
 	}
 }
 
@@ -31,7 +40,9 @@ int	main(void)
 	// char	*parsed_args_piped[MAXLIST];
 	int		exe_flag;
 	int		piped;
+	t_list	*lexer;
 
+	lexer = NULL;
 	piped = 0;
 	exe_flag = 0;
 	while (1)
@@ -42,7 +53,9 @@ int	main(void)
 		// if (check_input(input_string))
 		// 	continue ;
 		// printf("%lu\n", strlen(input_string));
-		ft_split(input_string, ' ');
+		create_list(input_string, ' ', &lexer);
+		display(lexer);
+		freestack(&lexer);
 		// piped = process_string(input_string, parsed_args, parsed_args_piped);
 		// display_array(parsed_args);
 		// if (own_cmd_handler(parsed_args))
