@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_current_directory.c                              :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 16:50:26 by sumseo           ###   ########.fr       */
+/*   Created: 2023/11/08 14:54:34 by sumseo            #+#    #+#             */
+/*   Updated: 2023/11/10 09:38:13 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "libft.h"
 
-void	print_dir(void)
+int	ft_isdigit(int c)
 {
-	char	cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;31m\nSuminishell😛💻 [%s]\033[0m\n", cwd);
+	if (c >= '0' && c <= '9')
+		return (2048);
+	return (0);
 }
+
+/*
+int	main(void){
+	char test ='A';
+
+	printf("original function -> %d\n", isdigit(test));
+	printf("my function -> %d\n", ft_isdigit(test));
+
+}
+*/

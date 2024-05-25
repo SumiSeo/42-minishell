@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_current_directory.c                              :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 16:50:26 by sumseo           ###   ########.fr       */
+/*   Created: 2023/11/21 10:48:34 by sumseo            #+#    #+#             */
+/*   Updated: 2023/11/21 11:24:50 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "libft.h"
 
-void	print_dir(void)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	char	cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;31m\nSuminishell😛💻 [%s]\033[0m\n", cwd);
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 }

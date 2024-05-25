@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 15:20:59 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:35:11 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,18 @@ int	main(int argc, char **argv, char **env)
 	char *parsed_args[MAXLIST];
 	char *parsed_args_piped[MAXLIST];
 	char **copy;
+	int piped;
 
 	(void)argv;
 	copy = env;
+	while (*copy)
+	{
+		if (ft_strncmp(*copy, "PATH=", 5) == 0)
+			break ;
+		copy++;
+	}
 
+	piped = 0;
 	if (argc > 1)
 		exit_program("Minishell doe not take arguments.");
 	while (1)
@@ -30,10 +38,12 @@ int	main(int argc, char **argv, char **env)
 		print_dir();
 		if (take_input(input_string))
 			continue ;
-		process_string(input_string, parsed_args, parsed_args_piped);
+		piped = process_string(input_string, parsed_args, parsed_args_piped);
 
-		// execute_cmds(parsed_args, env);
-		execute_pipeline(parsed_args_piped, *copy + 5, env);
+		if (piped == 1)
+			runtime_shell(parsed_args, parsed_args_piped);
+		else
+			exec_shell(parsed_args);
 	}
 	return (0);
 }

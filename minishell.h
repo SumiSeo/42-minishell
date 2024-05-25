@@ -6,13 +6,14 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/24 20:58:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:35:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -58,9 +59,11 @@ void		exec_args_piped(char **parsed, char **parsedpipe);
 int			own_cmd_handler(char **parsed);
 int			count_pipeline(char **argv);
 void		create_pipe(char *cmd, char **env, int total, int i);
-void		execute_pipeline(char **parsed_args, char **path, char **env);
+void		execute_pipeline(char **parsed_args, char *path, char **env);
 void		execute_cmds(char **parsed_args, char **env);
 void		create_first_pipe(char *cmd, char **env);
 void		create_last_pipe(char *cmd, char **env);
+void		runtime_shell(char **simple_cmds, char **pipe_cmds);
+void		exec_shell(char **simple_cmds);
 
 #endif

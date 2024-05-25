@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 15:20:09 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 15:55:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	create_pipe(char *cmd, char **env, int total, int i)
 	}
 }
 
-void	execute_pipeline(char **argv, char **path, char **env)
+void	execute_pipeline(char **argv, char *path, char **env)
 {
 	int i = 0;
 

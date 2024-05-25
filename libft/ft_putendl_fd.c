@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_current_directory.c                              :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 16:50:26 by sumseo           ###   ########.fr       */
+/*   Created: 2023/11/18 14:23:14 by sumseo            #+#    #+#             */
+/*   Updated: 2023/11/18 14:41:01 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "libft.h"
 
-void	print_dir(void)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char	cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;31m\nSuminishell😛💻 [%s]\033[0m\n", cwd);
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
+/*
+int	main(void)
+{
+	char *s = "Sumi is working on saturday";
+	ft_putendl_fd(s,1);
+}*/
