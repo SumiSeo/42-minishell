@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/23 23:43:53 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/24 20:58:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,37 @@
 # define MAXCOM 1000 // max number of letters to be supported
 # define MAXLIST 100 // max number of commands to be supported
 
-// error handler
-void	exit_program(char *s);
-void	create_prompt(char **env);
+// struct
+typedef struct s_pipe
+{
+	int		pipefd[2];
+	int		total_pipe;
+	char	**cmd;
+	char	*path;
+	int		fdi;
+	int		fdo;
+	int		i;
+	int		prev;
+	char	*limiter;
 
-int		take_input(char *str);
-void	print_dir(void);
-int		process_string(char *str, char **parsed, char **parsedpipe);
-void	exec_args(char **parsed);
-void	exec_args_piped(char **parsed, char **parsedpipe);
-int		own_cmd_handler(char **parsed);
-int		count_pipeline(char **argv);
-void	create_pipe(char *cmd, char **env, int total, int i);
-void	create_pipeline(char **argv, char *path, char **env);
-void	create_first_pipe(char *cmd, char **env);
-void	create_last_pipe(char *cmd, char **env);
+}			t_pipe;
+
+// error handler
+void		exit_program(char *s);
+void		create_prompt(char **env);
+
+// minishell
+int			take_input(char *str);
+void		print_dir(void);
+int			process_string(char *str, char **parsed, char **parsedpipe);
+void		exec_args(char **parsed);
+void		exec_args_piped(char **parsed, char **parsedpipe);
+int			own_cmd_handler(char **parsed);
+int			count_pipeline(char **argv);
+void		create_pipe(char *cmd, char **env, int total, int i);
+void		execute_pipeline(char **parsed_args, char **path, char **env);
+void		execute_cmds(char **parsed_args, char **env);
+void		create_first_pipe(char *cmd, char **env);
+void		create_last_pipe(char *cmd, char **env);
 
 #endif

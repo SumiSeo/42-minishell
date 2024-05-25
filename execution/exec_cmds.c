@@ -1,21 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_current_directory.c                              :+:      :+:    :+:   */
+/*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 15:18:16 by sumseo           ###   ########.fr       */
+/*   Created: 2024/05/24 20:55:05 by sumseo            #+#    #+#             */
+/*   Updated: 2024/05/24 20:57:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-void	print_dir(void)
+void	execute_cmds(char **parsed_args, char **env)
 {
-	char	cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;31m\nSuminishell😛💻 [%s]\033[0m\n", cwd);
 }

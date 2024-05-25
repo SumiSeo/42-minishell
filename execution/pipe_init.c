@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/23 23:56:13 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 15:20:09 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	create_pipe(char *cmd, char **env, int total, int i)
 	int	id;
 	int	pipe_fd[2];
 
-	(void)env;
-	(void)cmd;
 	if (i == 0)
 		create_first_pipe(cmd, env);
 	else if (i + 1 == total)
@@ -26,11 +24,12 @@ void	create_pipe(char *cmd, char **env, int total, int i)
 	else
 	{
 		if (pipe(pipe_fd) == -1)
-			perror("ERROR:");
+			exit_program("Pipe creation failed");
 		id = fork();
 		if (id == 0)
 		{
 			// child element
+			printf("I am child process\n");
 		}
 		else
 		{
@@ -41,7 +40,7 @@ void	create_pipe(char *cmd, char **env, int total, int i)
 	}
 }
 
-void	create_pipeline(char **argv, char *path, char **env)
+void	execute_pipeline(char **argv, char **path, char **env)
 {
 	int i = 0;
 
