@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 16:48:50 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 12:11:40 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	exec_args(char **parsed);
 void	exec_args_piped(char **parsed, char **parsedpipe);
 int		own_cmd_handler(char **parsed);
 
-void	create_list(char const *str, char c, t_lexer **lexer);
+void	create_list(char const *str, t_lexer **lexer);
 int		check_input(char const *str);
 // void	parsing(t_lexer *lexer, t_parser **parser);
 // void	parsing(t_lexer *lexer);

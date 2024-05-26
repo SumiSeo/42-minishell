@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 18:31:51 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 12:48:05 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,33 @@ void	push_parser(t_parser **p, int i, t_lexer *lexer)
 
 int	count_words(t_lexer *lexer)
 {
-	int	i;
+	int		len;
 
-	i = 0;
-	while (lexer && lexer->str[0] != '|')
+	len = 0;
+	if (lexer->str[0] == '"' || lexer->str[0] == 39)
 	{
-		i++;
-		lexer = lexer->next;	
+		len++;
+		while (lexer->str[0] != '\0' && lexer->str[0] != '"' && lexer->str[0] != 39)
+			len++;
+		len++;
 	}
-	return (i);
+	else if (lexer->str[0] == '>' && lexer->str[0] == '>')
+		len = 2;
+	else if (lexer->str[0] == '<' && lexer->str[0] == '<')
+		len = 2;
+	else if (lexer->str[0] == '|' || lexer->str[0] == '>' || lexer->str[0] == '<')
+		len = 1;
+	else
+	{
+		while (lexer->str[0] != ' ' && lexer->str[0] != '\0' && lexer->str[0] != '"' && lexer->str[0] != 39 && lexer->str[0] != '|' && lexer->str[0] != '>')
+			len++;
+	}
+	// printf("len: %d\n", len);
+	return (len);
 }
 
 // void	parsing(t_lexer *lexer, t_parser **parser)
-void	parsing(t_lexer *lexer)
+void	create_parser(t_lexer *lexer)
 {
 	int	i;
 	int	k;
@@ -101,10 +115,6 @@ void	parsing(t_lexer *lexer)
 	{
 		i = 0;
 		k = 0;
-		if (lexer->str[0] == '<')
-		{
-			
-		}
 		i = count_words(lexer);
 		printf("%d\n", i);
 		while (k < i)
@@ -144,15 +154,15 @@ int	main(void)
 		print_dir();
 		if (take_input(input_string))
 			continue ;
-		// if (check_input(input_string))
-		// 	continue ;
+		if (check_input(input_string))
+			continue ;
 		// printf("%lu\n", strlen(input_string));
-		create_list(input_string, ' ', &lexer);
+		create_list(input_string, &lexer);
 		display(lexer);
 		// test(&parser);
 		// parsing(lexer, &parser);
 		// display_array(parser->str);
-		parsing(lexer);
+		// create_parser(lexer);
 		freestack(&lexer);
 
 

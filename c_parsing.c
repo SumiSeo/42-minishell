@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 16:21:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 12:59:53 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_input(char const *str)
 	double_quotes = 0;
 	single_quotes = 0;
 	i = 0;
-	if ((str[i] < 97 || str[i] > 122))
+	if (!(str[i] >= 97 && str[i] <= 122) && str[i] != '>' && str[i] != '<')
 	{
 		printf("Error : Not lowercase character\n");
 		return (1);
@@ -69,7 +69,7 @@ void	push(t_lexer **p, const char *str, int len)
 	element->prev = last;
 }
 
-int	get_len(char const *str, char c)
+int	get_len(char const *str)
 {
 	int		len;
 
@@ -89,14 +89,14 @@ int	get_len(char const *str, char c)
 		len = 1;
 	else
 	{
-		while (str[len] != c && str[len] != '\0' && str[len] != '"' && str[len] != 39 && str[len] != '|' && str[len] != '>')
+		while (str[len] != ' ' && str[len] != '\0' && str[len] != '"' && str[len] != 39 && str[len] != '|' && str[len] != '>')
 			len++;
 	}
 	// printf("len: %d\n", len);
 	return (len);
 }
 
-void	create_list(char const *str, char c, t_lexer **lexer)
+void	create_list(char const *str, t_lexer **lexer)
 {
 	int	i;
 	int	len;
@@ -105,11 +105,11 @@ void	create_list(char const *str, char c, t_lexer **lexer)
 	while (str[i] != '\0')
 	{
 		len = 0;
-		while (str[i] == c && str[i] != '\0')
+		while (str[i] == ' ' && str[i] != '\0')
 			i++;
 		if (str[i] == '\0')
 			break ;
-		len = get_len(str + i, c);
+		len = get_len(str + i);
 		push(lexer, str + i, len);
 		i = i + len;
 	}
