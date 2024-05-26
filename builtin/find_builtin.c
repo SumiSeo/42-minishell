@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:21:10 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:02:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	is_builtin(char **cmds)
 	else if (is_pwd(cmds[0]))
 		func_pwd(cmds);
 	else if (is_cd(cmds[0]))
-	{
-		printf("cd");
-	}
+		func_cd(cmds);
 	else if (is_env(cmds[0]))
 	{
 		printf("env");

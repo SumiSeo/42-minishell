@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:09:42 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:38:35 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:39:51 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,5 @@ void	func_pwd(char **cmds)
 	}
 
 	else
-	{
 		printf("pwd: too many arguments\n");
-	}
 }

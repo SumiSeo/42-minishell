@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:34:58 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:40:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ int			is_export(char *str);
 int			is_unset(char *str);
 void		func_echo(char **cmds);
 void		func_pwd(char **cmds);
+void		func_cd(char **cmds);
 #endif
