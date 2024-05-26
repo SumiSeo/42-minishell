@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 12:11:40 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 16:26:39 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct t_parser
 	char			**str;
 	char			*infile;
 	char			*outfile;
+	int				index;
 	struct t_parser	*next;
 	struct t_parser	*prev;
 }	t_parser;
