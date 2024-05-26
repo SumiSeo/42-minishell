@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/26 17:27:50 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:38:20 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@ void	print_dir(void)
 	char	cwd[1024];
 
 	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;33m\nSuminishell😛💻 [%s]\033[0m\n", cwd);
+	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m\n", cwd);
 }

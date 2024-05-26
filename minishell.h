@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:20:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:34:58 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			process_string(char *str, char **parsed, char **parsedpipe);
 void		exec_args(char **parsed);
 void		exec_args_piped(char **parsed, char **parsedpipe);
 int			own_cmd_handler(char **parsed);
-int			count_pipeline(char **argv);
+int			count_arr_length(char **argv);
 void		create_pipe(char *cmd, char **env, int total, int i);
 void		execute_pipeline(char **parsed_args, char *path, char **env);
 void		execute_cmds(char **parsed_args, char **env);

@@ -6,13 +6,13 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/24 20:00:30 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:34:43 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_pipeline(char **argv)
+int	count_arr_length(char **argv)
 {
 	int	i;
 

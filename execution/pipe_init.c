@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 15:55:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:35:20 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_pipeline(char **argv, char *path, char **env)
 	int i = 0;
 
 	(void)path;
-	int total_pipe = count_pipeline(argv);
+	int total_pipe = count_arr_length(argv);
 
 	while (argv[i])
 	{
