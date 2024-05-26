@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 20:31:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:05:45 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ int	is_exit(char *str)
 		else
 			return (0);
 	}
-	return (1);
+	if (str[i] == '\0' && echo[i] == '\0')
+		return (1);
+	return (0);
 }

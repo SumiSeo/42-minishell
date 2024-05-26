@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 21:00:22 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:01:02 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		piped = process_string(input_string, parsed_args, parsed_args_piped);
 		if (is_builtin(parsed_args))
-			return (1);
+			continue ;
 		else
 		{
 			if (piped == 1)
