@@ -6,12 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/26 12:59:53 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 13:01:46 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
+// only handle special characters mentionned in the subject
 int	check_input(char const *str)
 {
 	int	i;
