@@ -11,7 +11,16 @@ e_execution_system.c\
 execution/pipe_init.c\
 execution/pipe_utils.c\
 execution/runtime.c\
-execution/exec_utils.c
+execution/exec_utils.c\
+builtin/echo.c\
+builtin/pwd.c\
+builtin/cd.c\
+builtin/exit.c\
+builtin/export.c\
+builtin/unset.c\
+builtin/env.c\
+builtin/find_builtin.c\
+
 
 INCLUDES = libft/
 OBJDIR = obj

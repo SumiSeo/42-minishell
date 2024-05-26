@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 17:43:24 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 20:30:09 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,14 @@ char		**parse_cmd(char *cmd);
 void		free_cmd_and_path(char *joined_cmd, char *joined_path);
 void		free_array(char **line);
 void		execute_cmd(char **cmds, char **arr, char **env);
-
+int			is_builtin(char **cmds);
+void		execute_builtin(char **cmds);
+int			is_echo(char *str);
+int			is_pwd(char *str);
+int			is_cd(char *str);
+int			is_env(char *str);
+int			is_exit(char *str);
+int			is_export(char *str);
+int			is_unset(char *str);
+void		func_echo(char **cmds);
 #endif

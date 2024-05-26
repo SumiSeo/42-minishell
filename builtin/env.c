@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_current_directory.c                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 12:02:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 20:48:27 by sumseo           ###   ########.fr       */
+/*   Created: 2024/05/25 19:11:21 by sumseo            #+#    #+#             */
+/*   Updated: 2024/05/25 20:31:09 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-void	print_dir(void)
+int	is_env(char *str)
 {
-	char	cwd[1024];
+	char *echo;
+	int i;
 
-	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;33m\nSuminishell😛💻 [%s]\033[0m\n", cwd);
+	i = 0;
+	echo = "env";
+	while (str[i] && echo[i])
+	{
+		if (str[i] == echo[i])
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }

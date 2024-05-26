@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/25 17:31:07 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/25 21:00:22 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ int	main(int argc, char **argv, char **env)
 		if (take_input(input_string))
 			continue ;
 		piped = process_string(input_string, parsed_args, parsed_args_piped);
-
-		// find built in func
-		if (piped == 1)
-			runtime_shell(parsed_args, parsed_args_piped);
+		if (is_builtin(parsed_args))
+			return (1);
 		else
-			exec_shell(parsed_args, *copy, env);
+		{
+			if (piped == 1)
+				runtime_shell(parsed_args, parsed_args_piped);
+			else
+				exec_shell(parsed_args, *copy, env);
+		}
 	}
 	return (0);
 }
