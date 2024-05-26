@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 18:24:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:31:30 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	display_parser(t_parser *begin)
 	{
 		// printf("here\n");
 		display_array(begin->str);
-		printf("[%s]\n", begin->infile);
+		if (begin->infile)
+			printf("[%s]\n", begin->infile);
 		begin = begin->next;
 	}
 }
@@ -65,29 +66,6 @@ void	freestack(t_lexer	**stack_a)
 	}
 }
 
-// void	push_parser(t_parser **p, int i, t_lexer *lexer)
-// {
-// 	t_parser	*element;
-// 	t_parser	*last;
-// 	int			j;
-// 	int			len;
-
-// 	j = 0;
-// 	last = *p;
-// 	element = malloc(sizeof(t_lexer));
-
-// 	element->next = NULL;
-// 	if (*p == NULL)
-// 	{
-// 		*p = element;
-// 		return ;
-// 	}
-// 	while (last->next != NULL)
-// 		last = last->next;
-// 	last->next = element;
-// 	element->prev = last;
-// }
-
 int	count_lexer(t_lexer *lexer)
 {
 	int		len;
@@ -111,8 +89,6 @@ int	count_words(t_lexer *lexer)
 		len++;
 		lexer = lexer->next;
 	}
-	// if (lexer && lexer->str[0] == '|')
-	// 		len++;
 	return (len);
 }
 
@@ -137,51 +113,26 @@ void	push_parser(t_parser **p, int i)
 }
 
 void	create_parser(t_lexer *lexer, t_parser **parser)
-// void	create_parser(t_lexer *lexer)
 {
 	int	i;
 	int	k;
 	int	index;
-	// int	len;
-	// int	j;
 
 	index = 0;
-	// j = 0;
 	while (lexer)
 	{
 		index++;
 		i = 0;
 		k = 0;
 		i = count_words(lexer);
-		// (*parser)->str = (char **)malloc(sizeof(char *) * (i + 1));
-		// while (lexer && lexer->str[0] != '|' && lexer->str[0] != '>' && lexer->str[0] != '<')
-		// {
-		// 	len = ft_strlen(lexer->str);
-		// 	(*parser)->str[j] = (char *)malloc(sizeof(char) * (len + 1));
-		// 	ft_strlcpy((*parser)->str[j], lexer->str, len + 1);
-		// 	j++;
-		// 	lexer = lexer->next;
-		// }
 		push_parser(parser, index);
-		// if (lexer->str[0] == '>' || lexer->str[0] == '<')
-		// 	i = 2;
-		// else
-		// 	i = count_words(lexer);
-		// if (lexer->str[0] == '>' || lexer->str[0] == '<')
-		// 	i = 2;
-		// else
-			// push_parser(parser, i, lexer);
-		// printf("%d\n", i);
 		while (k < i)
 		{
-			// printf("[%s]\n", lexer->str);
 			lexer = lexer->next;
 			k++;
 		}
 		if (lexer && lexer->str[0] == '|')
 			lexer = lexer->next;
-		// if (!lexer)
-			// break ;
 	}
 }
 
@@ -194,76 +145,34 @@ void	store_lexer(t_lexer *lexer, t_parser *parser)
 
 	len = 0;
 	j = 0;
-	// printf("here\n");
-	// printf("----loop [%s]\n", lexer->str);
-	// // printf("paser index %d ", (*parser)->index);
-	// // printf("[%s]\n", lexer->str);
 	while (lexer && lexer->str[0] != '|')
 	{
 		i = 0;
 		k = 0;
-		// printf("[%s]\n", lexer->str);
-		// i = count_lexer(lexer);
-	// 	printf("paser index %d ", (*parser)->index);
 		if (lexer->str[0] == '>' || lexer->str[0] == '<')
-		{
-			// printf("one\n");
 			i = 2;
-		}
 		else
-		{
-			// printf("two\n");
 			i = count_lexer(lexer);
-		}
 		if (lexer->str[0] == '>' || lexer->str[0] == '<')
 		{
 			lexer = lexer->next;
 			len = ft_strlen(lexer->str);
-			// (*parser)->infile = (char *)malloc(sizeof(char) * (len + 1));
-			// ft_strlcpy((*parser)->infile, lexer->str, len + 1);
-			
 			parser->infile = (char *)malloc(sizeof(char) * (len + 1));
 			ft_strlcpy(parser->infile, lexer->str, len + 1);
-
-			// printf("[%s]\n", lexer->str);
 			lexer = lexer->next;
-			// printf("---end [%s]\n", lexer->str);
-			// printf("[%s]\n", (*parser)->infile);
-			// printf("[%s]\n", parser->infile);
 		}
 		else
 		{
-			// (*parser)->str = (char **)malloc(sizeof(char *) * (i + 1));
 			parser->str = (char **)malloc(sizeof(char *) * (i + 1));
 			while (lexer && lexer->str[0] != '|' && lexer->str[0] != '>' && lexer->str[0] != '<')
 			{
 				len = ft_strlen(lexer->str);
-				// (*parser)->str[j] = (char *)malloc(sizeof(char) * (len + 1));
 				parser->str[j] = (char *)malloc(sizeof(char) * (len + 1));
-				// ft_strlcpy((*parser)->str[j], lexer->str, len + 1);
 				ft_strlcpy(parser->str[j], lexer->str, len + 1);
-				// printf("[%s]\n", lexer->str);
 				j++;
 				lexer = lexer->next;
 			}
-			// display_array((*parser)->str);
-			// display_array(parser->str);
-			// printf("---end [%s]\n", lexer->str);
-
-
 		}
-		// printf("[%s]\n", (*parser)->str[0]);
-	// 	printf("words %d\n", i);
-		// while (k < i)
-		// {
-			// printf("[%s]\n", lexer->str);
-			// lexer = lexer->next;
-			// k++;
-		// }
-	// 	if (lexer && lexer->str[0] == '|')
-	// 		lexer = lexer->next;
-	// 	if (*parser)
-	// 		*parser = (*parser)->next;
 	}
 }
 
@@ -279,11 +188,9 @@ void	allocate_parser(t_lexer *lexer, t_parser **parser)
 		i = 0;
 		k = 0;
 		i = count_words(lexer);
-		// printf("%d\n", i);
 		store_lexer(lexer, last);
 		while (k < i)
 		{
-			// printf("[%s]\n", lexer->str);
 			lexer = lexer->next;
 			k++;
 		}
@@ -319,13 +226,10 @@ int	main(void)
 		// printf("%lu\n", strlen(input_string));
 		create_list(input_string, &lexer);
 		display_list(lexer);
-		// test(&parser);
+		printf("-----\n");
 		create_parser(lexer, &parser);
 		allocate_parser(lexer, &parser);
-		// display_list_num(parser);
 		display_parser(parser);
-
-		// create_parser(lexer);
 		freestack(&lexer);
 
 
