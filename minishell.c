@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:01:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:27:19 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		copy++;
 	}
-
 	piped = 0;
 	if (argc > 1)
 		exit_program("Minishell doe not take arguments.");

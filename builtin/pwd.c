@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:09:42 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:06:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:28:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,20 @@ int	is_pwd(char *str)
 
 void	func_pwd(char **cmds)
 {
-	int nextline_flag;
-	nextline_flag = 0;
-
+	char cwd[1024];
 	int i = 1;
-	if (cmds[1] && cmds[1][0] == '-' && cmds[1][1] == 'n')
+	if (cmds[0])
 	{
-		nextline_flag = 1;
-		i = 2;
+		getcwd(cwd, sizeof(cwd));
+		printf("%s", cwd);
 	}
 
-	while (cmds[i])
+	else
 	{
-		printf("%s", cmds[i]);
-		if (cmds[i + 1])
-			printf(" ");
-		i++;
+		while (cmds[i])
+		{
+			printf("pwd: too many arguments\n");
+			i++;
+		}
 	}
-	if (!nextline_flag)
-		printf("\n");
 }
