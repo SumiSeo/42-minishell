@@ -6,6 +6,7 @@ SRCS = minishell.c handler/error_controler.c\
 a_current_directory.c\
 b_store_input.c\
 c_parsing.c\
+c_utils.c\
 d_execution_builtin.c\
 e_execution_system.c\
 execution/pipe_init.c\

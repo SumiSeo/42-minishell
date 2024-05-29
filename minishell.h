@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 18:47:41 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/29 18:43:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,37 @@ typedef struct s_pipe
 	char	*limiter;
 
 }			t_pipe;
+
+typedef struct t_lexer
+{
+	char			*str;
+	int				num;
+	int				index;
+	struct t_lexer	*next;
+	struct t_lexer	*prev;
+}	t_lexer;
+
+typedef struct t_parser
+{
+	char			**str;
+	char			*infile;
+	char			*outfile;
+	char			*token_infile;
+	char			*token_outfile;
+	int				index;
+	int				fd_infile;
+	int				fd_outfile;
+	char			*path;
+	char			*builtin;
+	int				num_redirections;
+	struct t_parser	*next;
+	struct t_parser	*prev;
+}	t_parser;
+
+// typedef struct s_lexer
+// {
+// 	int				position;
+// }	t_lexer;
 
 // error handler
 void		exit_program(char *s);
@@ -85,5 +116,14 @@ void		func_echo(char **cmds);
 void		func_pwd(char **cmds);
 void		func_cd(char **cmds);
 void		func_relative_cd(int path_int);
+
+void	create_list(char const *str, t_lexer **lexer);
+int		check_input(char const *str);
+// void	parsing(t_lexer *lexer, t_parser **parser);
+// void	parsing(t_lexer *lexer);
+
+
+size_t	ft_strlen(const char *string);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 #endif
