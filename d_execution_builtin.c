@@ -3,33 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   d_execution_builtin.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:16:55 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/20 13:17:05 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:50:24 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-// Help command builtin 
+// Help command builtin
 void	open_help(void)
 {
 	puts("\n***WELCOME TO MY SHELL HELP***"
-		"\nCopyright @ Suprotik Dey"
-		"\n-Use the shell at your own risk..."
-		"\nList of Commands supported:"
-		"\n>cd"
-		"\n>ls"
-		"\n>exit"
-		"\n>all other general commands available in UNIX shell"
-		"\n>pipe handling"
-		"\n>improper space handling");
-
+			"\nCopyright @ Suprotik Dey"
+			"\n-Use the shell at your own risk..."
+			"\nList of Commands supported:"
+			"\n>cd"
+			"\n>ls"
+			"\n>exit"
+			"\n>all other general commands available in UNIX shell"
+			"\n>pipe handling"
+			"\n>improper space handling");
 	return ;
 }
 
-// Function to execute builtin commands 
+// Function to execute builtin commands
 int	own_cmd_handler(char **parsed)
 {
 	int		no_of_own_cmds;
@@ -45,7 +44,6 @@ int	own_cmd_handler(char **parsed)
 	list_of_own_cmds[1] = "cd";
 	list_of_own_cmds[2] = "help";
 	list_of_own_cmds[3] = "hello";
-
 	while (i < no_of_own_cmds)
 	{
 		if (strcmp(parsed[0], list_of_own_cmds[i]) == 0)

@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   d_execution.c                                      :+:      :+:    :+:   */
+/*   e_execution_system.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:11:46 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/20 12:58:24 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/23 18:59:35 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-// Function where the system command is executed 
-void	exec_args(char	**parsed)
+// Function where the system command is executed
+// only one command (ex) : ls
+void	exec_args(char **parsed)
 {
 	pid_t	pid;
 
+	printf("only one command");
 	pid = fork();
 	if (pid == -1)
 	{
@@ -26,9 +28,7 @@ void	exec_args(char	**parsed)
 	else if (pid == 0)
 	{
 		if (execvp(parsed[0], parsed) < 0)
-		{
 			printf("\nCould not execute command..");
-		}
 		exit(0);
 	}
 	else
@@ -38,7 +38,8 @@ void	exec_args(char	**parsed)
 	}
 }
 
-// Function where the piped system commands is executed 
+// Function where the piped system commands is executed
+// only two commands (ex) : ls | cat
 void	exec_args_piped(char **parsed, char **parsedpipe)
 {
 	int		pipefd[2];
