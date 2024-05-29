@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 18:46:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:52:10 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ void	func_cd(char **cmds)
 }
 
 void	func_relative_cd(int path_int)
+{
+	if (path_int == 1)
+		chdir("..");
+	else if (path_int == 2)
+		chdir(".");
+	else if (path_int == 3)
+		chdir("/home");
+}
+
+void	func_absolute_cd(int path_int)
 {
 	if (path_int == 1)
 		chdir("..");
