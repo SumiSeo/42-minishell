@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 15:20:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:31:32 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ typedef struct t_parser
 	char			*token_infile;
 	char			*token_outfile;
 	int				index;
+	int				fd_infile;
+	int				fd_outfile;
+	char			*path;
+	char			*builtin;
 	int				num_redirections;
 	struct t_parser	*next;
 	struct t_parser	*prev;

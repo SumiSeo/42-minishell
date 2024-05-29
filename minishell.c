@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 16:29:51 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:34:28 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	display_parser(t_parser *begin)
 		printf("\n");
 		printf("outfile : %s\n", begin->token_outfile);
 		printf("outfile : %s\n", begin->outfile);
+		printf("builtin : %s\n", begin->builtin);
+		printf("fd_infile : %d\n", begin->fd_infile);
+		printf("fd_outfile : %d\n", begin->fd_outfile);
 		begin = begin->next;
 		i++;
 	}
@@ -125,6 +128,9 @@ void	push_parser(t_parser **p, int i)
 	element->outfile = NULL;
 	element->token_infile = NULL;
 	element->token_outfile = NULL;
+	element->builtin = NULL;
+	element->fd_infile = 0;
+	element->fd_outfile = 0;
 	element->infile = NULL;
 	element->next = NULL;
 	if (*p == NULL)
@@ -137,8 +143,6 @@ void	push_parser(t_parser **p, int i)
 	last->next = element;
 	element->prev = last;
 }
-
-
 
 void	store_lexer(t_lexer *lexer, t_parser *parser)
 {
