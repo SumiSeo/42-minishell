@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 17:34:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/29 18:43:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,8 @@ int	main(void)
 	lexer = NULL;
 	parser = NULL;
 	piped = 0;
-	exe_flag = 0;
+	if (argc > 1)
+		exit_program("Minishell doe not take arguments.");
 	while (1)
 	{
 		print_dir();
@@ -291,37 +292,16 @@ int	main(void)
 		// 	exec_args(parsed_args);
 		// if (exe_flag == 2)
 		// 	exec_args_piped(parsed_args, parsed_args_piped);
+		piped = process_string(input_string, parsed_args, parsed_args_piped);
+		if (is_builtin(parsed_args))
+			continue ;
+		else
+		{
+			if (piped == 1)
+				runtime_shell(parsed_args, parsed_args_piped);
+			else
+				exec_shell(parsed_args, *copy, env);
+		}
 	}
 	return (0);
 }
-
-// print shell line
-
-// take input
-
-// process
-
-// execflag returns zero if there is no command
-// or it is a builtin command,
-// 1 if it is a simple command
-// 2 if it is including a pipe.
-
-// execute
-
-// void	create_prompt(char **env)
-// {
-// 	char	*prompt;
-
-// 	(void)env;
-// 	while (42)
-// 	{
-// 		prompt = readline(prompt);
-// 	}
-// }
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	if (argc != 1 || argv[1])
-// 		exit_program("The program does not take arugments");
-
-// 	create_prompt(envp);
-// }

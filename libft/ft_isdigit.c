@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_controler.c                                  :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:15:05 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/20 12:24:25 by ftanon           ###   ########.fr       */
+/*   Created: 2023/11/08 14:54:34 by sumseo            #+#    #+#             */
+/*   Updated: 2023/11/10 09:38:13 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "libft.h"
 
-void	exit_program(char *s)
+int	ft_isdigit(int c)
 {
-	perror(s);
-	exit(EXIT_FAILURE);
+	if (c >= '0' && c <= '9')
+		return (2048);
+	return (0);
 }
+
+/*
+int	main(void){
+	char test ='A';
+
+	printf("original function -> %d\n", isdigit(test));
+	printf("my function -> %d\n", ft_isdigit(test));
+
+}
+*/
