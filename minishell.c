@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 19:10:00 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:39:23 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,9 @@ void	create_parser(t_lexer *lexer, t_parser **parser)
 int	main(int argc, char **argv, char **envp)
 {
 	char input_string[MAXCOM];
-	int piped;
+	int builtin_check;
+
+	builtin_check = 0;
 	t_lexer *lexer;
 	t_parser *parser;
 	t_envp *env;
@@ -258,11 +260,10 @@ int	main(int argc, char **argv, char **envp)
 	lexer = NULL;
 	parser = NULL;
 	env = NULL;
-	piped = 0;
 	if (argc > 1)
-		exit_program("Minishell doe not take arguments.");
+		exit_program("Minishell do not take arguments.");
 	if (argv[1] != NULL)
-		exit_program("Minishell doe not take arguments.");
+		exit_program("Minishell do not take arguments.");
 	store_env(envp, &env);
 
 	while (1)
@@ -279,14 +280,15 @@ int	main(int argc, char **argv, char **envp)
 		allocate_parser(lexer, parser);
 		display_parser(parser);
 
-		if (!is_builtin(parser))
-			continue ;
-		else
+		if (is_builtin(parser))
+			builtin_check = 1;
+		if (!builtin_check)
+		{ // if (piped == 1)
+			// 	runtime_shell(&parser);
+			// else
+			// 	exec_shell(&parser, copy);
 			exec_shell(parser, env);
-		// if (piped == 1)
-		// 	runtime_shell(&parser);
-		// else
-		// 	exec_shell(&parser, copy);
+		}
 
 		freestack(&lexer);
 		free_parser(&parser);

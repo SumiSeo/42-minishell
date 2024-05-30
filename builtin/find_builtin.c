@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 18:04:17 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:21:23 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,9 @@ int	is_builtin(t_parser *cmds)
 	// {
 	// 	printf("export");
 	// }
+	else
+	{
+		return (0);
+	}
 	return (1);
 }
