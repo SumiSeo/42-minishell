@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 18:43:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:37:08 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@
 // struct
 typedef struct s_pipe
 {
-	int		pipefd[2];
-	int		total_pipe;
-	char	**cmd;
-	char	*path;
-	int		fdi;
-	int		fdo;
-	int		i;
-	int		prev;
-	char	*limiter;
+	int				pipefd[2];
+	int				total_pipe;
+	char			**cmd;
+	char			*path;
+	int				fdi;
+	int				fdo;
+	int				i;
+	int				prev;
+	char			*limiter;
 
-}			t_pipe;
+}					t_pipe;
 
 typedef struct t_lexer
 {
@@ -53,7 +53,7 @@ typedef struct t_lexer
 	int				index;
 	struct t_lexer	*next;
 	struct t_lexer	*prev;
-}	t_lexer;
+}					t_lexer;
 
 typedef struct t_parser
 {
@@ -70,7 +70,7 @@ typedef struct t_parser
 	int				num_redirections;
 	struct t_parser	*next;
 	struct t_parser	*prev;
-}	t_parser;
+}					t_parser;
 
 // typedef struct s_lexer
 // {
@@ -78,52 +78,53 @@ typedef struct t_parser
 // }	t_lexer;
 
 // error handler
-void		exit_program(char *s);
-void		create_prompt(char **env);
+void				exit_program(char *s);
+void				create_prompt(char **env);
 
 // minishell
-int			take_input(char *str);
-void		print_dir(void);
-int			process_string(char *str, char **parsed, char **parsedpipe);
-void		exec_args(char **parsed);
-void		exec_args_piped(char **parsed, char **parsedpipe);
-int			own_cmd_handler(char **parsed);
-int			count_arr_length(char **argv);
-void		create_pipe(char *cmd, char **env, int total, int i);
-void		execute_pipeline(char **parsed_args, char *path, char **env);
-void		execute_cmds(char **parsed_args, char **env);
-void		create_first_pipe(char *cmd, char **env);
-void		create_last_pipe(char *cmd, char **env);
+int					take_input(char *str);
+void				print_dir(void);
+int					process_string(char *str, char **parsed, char **parsedpipe);
+void				exec_args(char **parsed);
+void				exec_args_piped(char **parsed, char **parsedpipe);
+int					own_cmd_handler(char **parsed);
+int					count_arr_length(char **argv);
+void				create_pipe(char *cmd, char **env, int total, int i);
+void				execute_pipeline(char **parsed_args, char *path,
+						char **env);
+void				execute_cmds(char **parsed_args, char **env);
+void				create_first_pipe(char *cmd, char **env);
+void				create_last_pipe(char *cmd, char **env);
 
 // execution
-void		runtime_shell(char **simple_cmds, char **pipe_cmds);
-void		exec_shell(char **simple_cmds, char *path, char **env);
-void		parse_path(char *first_cmd, char *path, char **env);
-char		**parse_cmd(char *cmd);
-void		free_cmd_and_path(char *joined_cmd, char *joined_path);
-void		free_array(char **line);
-void		execute_cmd(char **cmds, char **arr, char **env);
-int			is_builtin(char **cmds);
-void		execute_builtin(char **cmds);
-int			is_echo(char *str);
-int			is_pwd(char *str);
-int			is_cd(char *str);
-int			is_env(char *str);
-int			is_exit(char *str);
-int			is_export(char *str);
-int			is_unset(char *str);
-void		func_echo(char **cmds);
-void		func_pwd(char **cmds);
-void		func_cd(char **cmds);
-void		func_relative_cd(int path_int);
+void				runtime_shell(t_parser **cmds_list);
+void				exec_shell(t_parser **cmds_list, char **env);
+void				parse_path(char *first_cmd, char *path);
+char				**parse_cmd(char *cmd);
+void				free_cmd_and_path(char *joined_cmd, char *joined_path);
+void				free_array(char **line);
+void				execute_cmd(char **cmds, char **arr);
+int					is_builtin(t_parser *cmds);
+void				execute_builtin(char **cmds);
+int					is_echo(char *str);
+int					is_pwd(char *str);
+int					is_cd(char *str);
+int					is_env(char *str);
+int					is_exit(char *str);
+int					is_export(char *str);
+int					is_unset(char *str);
+void				func_echo(t_parser *cmds);
+void				func_pwd(t_parser *cmds);
+void				func_cd(t_parser *cmds);
+void				func_relative_cd(int path_int);
+void				func_exit(t_parser *cmds);
 
-void	create_list(char const *str, t_lexer **lexer);
-int		check_input(char const *str);
+void				create_list(char const *str, t_lexer **lexer);
+int					check_input(char const *str);
 // void	parsing(t_lexer *lexer, t_parser **parser);
 // void	parsing(t_lexer *lexer);
 
-
-size_t	ft_strlen(const char *string);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t				ft_strlen(const char *string);
+size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
 #endif

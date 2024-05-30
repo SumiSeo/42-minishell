@@ -6,13 +6,13 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 16:38:26 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:42:28 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	parse_path(char *first_cmd, char *path, char **env)
+void	parse_path(char *first_cmd, char *path)
 {
 	char	**arr;
 	char	**cmds;
@@ -21,7 +21,7 @@ void	parse_path(char *first_cmd, char *path, char **env)
 	cmds = parse_cmd(first_cmd);
 	if (cmds != NULL && cmds[0] != NULL)
 	{
-		execute_cmd(cmds, arr, env);
+		// execute_cmd(cmds, arr);
 		free(cmds);
 		free_array(cmds);
 	}
@@ -61,14 +61,15 @@ void	free_array(char **line)
 	free(line);
 }
 
-void	execute_cmd(char **cmds, char **arr, char **env)
+void	execute_cmd(char **cmds, char **arr)
 {
 	int i;
 	char *joined_path;
 	char *joined_cmd;
 
 	i = 0;
-	if (env[0] == (void *)0 && access(cmds[0], X_OK | F_OK) != 0)
+	// cmds[0]should be replaced by env;
+	if (cmds[0] == (void *)0 && access(cmds[0], X_OK | F_OK) != 0)
 	{
 		ft_putstr_fd("Command not found\n", 2);
 		exit(EXIT_FAILURE);
@@ -76,14 +77,15 @@ void	execute_cmd(char **cmds, char **arr, char **env)
 	else if (access(cmds[0], X_OK | F_OK) == 0)
 	{
 		free_array(arr);
-		execve(cmds[0], cmds, env);
+		// execve(cmds[0], cmds, env);
 	}
 	while (arr[i])
 	{
 		joined_cmd = ft_strjoin("/", cmds[0]);
 		joined_path = ft_strjoin(arr[i], joined_cmd);
 		if (access(joined_path, X_OK | F_OK) == 0)
-			execve(joined_path, cmds, env);
+			// execve(joined_path, cmds, env);
+			printf("TEST");
 		free_cmd_and_path(joined_cmd, joined_path);
 		i++;
 	}

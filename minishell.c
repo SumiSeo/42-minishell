@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 18:43:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:36:11 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	display_list(t_lexer *begin)
 
 void	display_array(char **array)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -42,12 +42,12 @@ void	display_parser(t_parser *begin)
 	{
 		printf("\n");
 		printf("Commande %d\n", i);
-		printf("infile : %s\n", begin->token_infile);
+		printf("token infile : %s\n", begin->token_infile);
 		printf("infile : %s\n", begin->infile);
 		printf("commande : ");
 		display_array(begin->str);
 		printf("\n");
-		printf("outfile : %s\n", begin->token_outfile);
+		printf("token outfile : %s\n", begin->token_outfile);
 		printf("outfile : %s\n", begin->outfile);
 		printf("builtin : %s\n", begin->builtin);
 		printf("fd_infile : %d\n", begin->fd_infile);
@@ -66,7 +66,7 @@ void	display_list_num(t_parser *begin)
 	}
 }
 
-void	freestack(t_lexer	**stack_a)
+void	freestack(t_lexer **stack_a)
 {
 	t_lexer	*nextnode;
 
@@ -78,7 +78,7 @@ void	freestack(t_lexer	**stack_a)
 	}
 }
 
-void	free_parser(t_parser	**stack_a)
+void	free_parser(t_parser **stack_a)
 {
 	t_parser	*nextnode;
 
@@ -92,10 +92,11 @@ void	free_parser(t_parser	**stack_a)
 
 int	count_lexer(t_lexer *lexer)
 {
-	int		len;
+	int	len;
 
 	len = 0;
-	while (lexer && lexer->str[0] != '|' && lexer->str[0] != '>' && lexer->str[0] != '<')
+	while (lexer && lexer->str[0] != '|' && lexer->str[0] != '>'
+		&& lexer->str[0] != '<')
 	{
 		len++;
 		lexer = lexer->next;
@@ -105,7 +106,7 @@ int	count_lexer(t_lexer *lexer)
 
 int	count_words(t_lexer *lexer)
 {
-	int		len;
+	int	len;
 
 	len = 0;
 	while (lexer && lexer->str[0] != '|')
@@ -148,7 +149,7 @@ void	store_lexer(t_lexer *lexer, t_parser *parser)
 {
 	int	i;
 	int	k;
-	int j;
+	int	j;
 	int	len;
 
 	len = 0;
@@ -186,7 +187,8 @@ void	store_lexer(t_lexer *lexer, t_parser *parser)
 		else
 		{
 			parser->str = (char **)malloc(sizeof(char *) * (i + 1));
-			while (lexer && lexer->str[0] != '|' && lexer->str[0] != '>' && lexer->str[0] != '<')
+			while (lexer && lexer->str[0] != '|' && lexer->str[0] != '>'
+				&& lexer->str[0] != '<')
 			{
 				len = ft_strlen(lexer->str);
 				parser->str[j] = (char *)malloc(sizeof(char) * (len + 1));
@@ -245,14 +247,17 @@ void	create_parser(t_lexer *lexer, t_parser **parser)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
-	char	input_string[MAXCOM];
-	// char	*parsed_args[MAXLIST];
-	// char	*parsed_args_piped[MAXLIST];
-	int		exe_flag;
-	int		piped;
-	t_lexer	*lexer;
+	char input_string[MAXCOM];
+	// char *parsed_args[MAXLIST];
+	// char *parsed_args_piped[MAXLIST];
+	char **copy;
+	copy = env;
+	(void)env;
+	(void)argv;
+	int piped;
+	t_lexer *lexer;
 	t_parser *parser;
 
 	// parser->str = (char **)malloc(sizeof(char *) * (3 + 1));
@@ -268,19 +273,12 @@ int	main(void)
 			continue ;
 		if (check_input(input_string))
 			continue ;
-		// printf("%lu\n", strlen(input_string));
 		create_list(input_string, &lexer);
-		display_list(lexer);
+		// display_list(lexer);
 		printf("-----\n");
 		create_parser(lexer, &parser);
 		allocate_parser(lexer, parser);
 		display_parser(parser);
-		freestack(&lexer);
-		free_parser(&parser);
-
-
-
-
 
 		// piped = process_string(input_string, parsed_args, parsed_args_piped);
 		// display_array(parsed_args);
@@ -291,17 +289,22 @@ int	main(void)
 		// if (exe_flag == 1)
 		// 	exec_args(parsed_args);
 		// if (exe_flag == 2)
-		// 	exec_args_piped(parsed_args, parsed_args_piped);
-		piped = process_string(input_string, parsed_args, parsed_args_piped);
-		if (is_builtin(parsed_args))
+
+		// exec_args_piped(parsed_args, parsed_args_piped);
+		// piped = process_string(input_string, parsed_args, parsed_args_piped);
+		// printf("parser %c\n", *parser->str[2]);
+
+		if (!is_builtin(parser))
 			continue ;
-		else
-		{
-			if (piped == 1)
-				runtime_shell(parsed_args, parsed_args_piped);
-			else
-				exec_shell(parsed_args, *copy, env);
-		}
+		// else
+		// {
+		// 	if (piped == 1)
+		// 		runtime_shell(&parser);
+		// 	else
+		// 		exec_shell(&parser, copy);
+		// }
+		freestack(&lexer);
+		free_parser(&parser);
 	}
 	return (0);
 }
