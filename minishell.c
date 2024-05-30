@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 12:16:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:11:04 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	main(void)
 		printf("-----\n");
 		create_parsed_list(lexer, &parser);
 		store_command(lexer, parser);
+		check_infile(parser);
+		check_outfile(parser);
 		display_parser(parser);
 		free_tokenised_list(&lexer);
 		free_parsed_list(&parser);

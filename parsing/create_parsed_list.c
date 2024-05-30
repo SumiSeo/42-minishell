@@ -1,40 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   create_parsed_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 12:12:05 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:11:24 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	display_parser(t_parser *begin)
-{
-	int	i;
-
-	i = 0;
-	while (begin)
-	{
-		printf("\n");
-		printf("Commande %d\n", i);
-		printf("infile : %s\n", begin->token_infile);
-		printf("infile : %s\n", begin->infile);
-		printf("commande : ");
-		display_array(begin->str);
-		printf("\n");
-		printf("outfile : %s\n", begin->token_outfile);
-		printf("outfile : %s\n", begin->outfile);
-		printf("builtin : %s\n", begin->builtin);
-		printf("fd_infile : %d\n", begin->fd_infile);
-		printf("fd_outfile : %d\n", begin->fd_outfile);
-		begin = begin->next;
-		i++;
-	}
-}
 
 int	count_words_operator(t_lexer *lexer)
 {
@@ -74,9 +50,12 @@ void	push_parser(t_parser **p, int i)
 	element->outfile = NULL;
 	element->token_infile = NULL;
 	element->token_outfile = NULL;
+	element->infile_exist = 0;
+	element->infile_access = 0;
+	element->outfile_exist = 0;
+	element->outfile_access = 0;
+	element->has_here_doc = 0;
 	element->builtin = NULL;
-	element->fd_infile = 0;
-	element->fd_outfile = 0;
 	element->infile = NULL;
 	element->next = NULL;
 	if (*p == NULL)
@@ -190,3 +169,155 @@ void	create_parsed_list(t_lexer *lexer, t_parser **parser)
 			lexer = lexer->next;
 	}
 }
+
+int	infile_exist(char *string)
+{
+	if (access(string, F_OK) == -1)
+	{
+		perror(string);
+		return (0);
+	}
+	return (1);
+}
+
+int	infile_rights(char *string)
+{
+	if (access(string, R_OK) == -1)
+	{
+		perror(string);
+		return (0);
+	}
+	return (1);
+}
+
+void	check_infile(t_parser *parser)
+{
+	while(parser)
+	{
+		if (parser->infile != NULL && ft_strlen(parser->token_infile) == 1)
+		{
+			parser->infile_exist = infile_exist(parser->infile);
+			if (parser->infile_exist == 1)
+				parser->infile_access = infile_rights(parser->infile);
+		}
+		parser = parser->next;
+	}
+}
+
+int	outfile_exist(char *string)
+{
+	if (access(string, F_OK) == -1)
+	{
+		perror(string);
+		return (0);
+	}
+	return (1);
+}
+
+void	check_outfile(t_parser *parser)
+{
+	while(parser)
+	{
+		if (parser->outfile != NULL)
+		{
+			parser->outfile_exist = outfile_exist(parser->outfile);
+			if (parser->outfile_exist == 1 && access(parser->outfile, W_OK) == -1)
+				parser->outfile_access = 0;
+			else
+				parser->outfile_access = 1;
+		}
+		parser = parser->next;
+	}
+}
+
+void	display_parser(t_parser *begin)
+{
+	int	i;
+
+	i = 0;
+	while (begin)
+	{
+		printf("\n");
+		printf("Commande %d\n", i);
+		printf("infile_token : %s\n", begin->token_infile);
+		printf("infile : %s\n", begin->infile);
+		printf("infile exist : %d\n", begin->infile_exist);
+		printf("infile access : %d\n", begin->infile_access);
+		printf("commande : ");
+		display_array(begin->str);
+		printf("\n");
+		printf("outfile_token : %s\n", begin->token_outfile);
+		printf("outfile : %s\n", begin->outfile);
+		printf("outfile exist : %d\n", begin->outfile_exist);
+		printf("outfile access : %d\n", begin->outfile_access);
+		printf("builtin : %s\n", begin->builtin);
+		begin = begin->next;
+		i++;
+	}
+}
+
+////////////////////////////////////////////// OPEN INFILE
+
+// void	receive_input(char *argv)
+// {
+// 	char	*string;
+// 	int		fd1;
+
+// 	fd1 = open("temp", O_CREAT | O_WRONLY, 0644);
+// 	while (1)
+// 	{
+// 		string = get_next_line(0);
+// 		printf("%zu\n", ft_strlen(string));
+// 		if (string == NULL
+// 			|| ft_strncmp(string, argv, ft_strlen(string) - 1) == 0)
+// 			break ;
+// 		ft_putstr_fd(string, fd1);
+// 		free(string);
+// 	}
+// }
+
+// int	open_infile(t_parser *parser)
+// {
+// 	int	fd1;
+
+// 	if (parser->infile != NULL && ft_strlen(parser->token_infile) == 2)
+// 	{
+// 		receive_input(parser->infile);
+// 		fd1 = open("temp", O_CREAT | O_RDONLY, 0644);
+// 	}
+// 	else
+// 	{
+// 		if (parser->infile_exist == 0)
+// 			fd1 = open(parser->infile, O_CREAT, 0644);
+// 		else if (parser->infile_exist == 1 && parser->infile_access == 0)
+// 			fd1 = open("temp", O_CREAT | O_RDONLY, 0644);
+// 		else
+// 			fd1 = open(parser->infile, O_RDONLY);
+// 	}
+// 	return (fd1);
+// }
+
+// void		open_all_infile(t_parser *parser)
+// {
+// 	while(parser)
+// 	{
+// 		if (parser->infile != NULL)
+// 			parser->fd_infile = open_infile(parser);
+// 		parser = parser->next;
+// 	}
+// }
+
+// void		open_all_outfile(t_parser *parser)
+// {
+// 	while(parser)
+// 	{
+// 		if (parser->outfile != NULL)
+// 		{
+// 			if (ft_strlen(parser->token_outfile) == 2)
+// 				parser->fd_outfile = open(parser->outfile, O_CREAT | O_APPEND | O_WRONLY, 0644);
+// 			else
+// 				parser->fd_outfile = open(parser->outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+// 		}
+// 		parser = parser->next;
+// 	}
+// }

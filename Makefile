@@ -26,6 +26,7 @@ lexical_analysis/free_tokenised_list.c\
 parsing/create_parsed_list.c\
 parsing/free_parsed_list.c\
 utils_display/display.c\
+get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 
 
 INCLUDES = libft/

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 12:14:52 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:12:30 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,12 @@ typedef struct t_parser
 	char			*outfile;
 	char			*token_infile;
 	char			*token_outfile;
+	int				infile_exist;
+	int				outfile_exist;
+	int				has_here_doc;
+	int				infile_access;
+	int				outfile_access;
 	int				index;
-	int				fd_infile;
-	int				fd_outfile;
 	char			*path;
 	char			*builtin;
 	int				num_redirections;
@@ -128,10 +131,16 @@ void	create_parsed_list(t_lexer *lexer, t_parser **parser);
 void	free_parsed_list(t_parser	**stack_a);
 void	display_parser(t_parser *begin);
 void	store_command(t_lexer *lexer, t_parser *parser);
+void	check_outfile(t_parser *parser);
+void	check_infile(t_parser *parser);
+
 
 // display
 
 void	display_list(t_lexer *begin);
 void	display_array(char **array);
+
+// gnl
+char	*get_next_line(int fd);
 
 #endif
