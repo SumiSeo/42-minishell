@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 18:43:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 12:14:52 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,21 @@ void		func_pwd(char **cmds);
 void		func_cd(char **cmds);
 void		func_relative_cd(int path_int);
 
-void	create_list(char const *str, t_lexer **lexer);
+// lexical analysis
+
 int		check_input(char const *str);
-// void	parsing(t_lexer *lexer, t_parser **parser);
-// void	parsing(t_lexer *lexer);
+void	create_tokenized_list(char const *str, t_lexer **lexer);
+void	free_tokenised_list(t_lexer	**stack_a);
 
+// parsing
+void	create_parsed_list(t_lexer *lexer, t_parser **parser);
+void	free_parsed_list(t_parser	**stack_a);
+void	display_parser(t_parser *begin);
+void	store_command(t_lexer *lexer, t_parser *parser);
 
-size_t	ft_strlen(const char *string);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+// display
+
+void	display_list(t_lexer *begin);
+void	display_array(char **array);
 
 #endif

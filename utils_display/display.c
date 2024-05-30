@@ -1,42 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_utils.c                                          :+:      :+:    :+:   */
+/*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 13:04:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 13:05:04 by ftanon           ###   ########.fr       */
+/*   Created: 2024/05/30 12:01:15 by ftanon            #+#    #+#             */
+/*   Updated: 2024/05/30 12:01:27 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-size_t	ft_strlen(const char *string)
+void	display_list(t_lexer *begin)
 {
-	int	i;
-
-	i = 0;
-	while (string[i] != '\0')
+	while (begin)
 	{
-		i++;
+		printf("[%s]\n", begin->str);
+		begin = begin->next;
 	}
-	return (i);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+void	display_array(char **array)
 {
-	size_t	i;
+	int			i;
 
-	if (size > 0)
+	i = 0;
+	while (array[i])
 	{
-		i = 0;
-		while (i < size -1 && src[i] != '\0')
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
+		printf("%s ", array[i]);
+		i++;
 	}
-	return (ft_strlen(src));
 }

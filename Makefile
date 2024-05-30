@@ -6,7 +6,6 @@ SRCS = minishell.c handler/error_controler.c\
 a_current_directory.c\
 b_store_input.c\
 c_parsing.c\
-c_utils.c\
 d_execution_builtin.c\
 e_execution_system.c\
 execution/pipe_init.c\
@@ -21,6 +20,12 @@ builtin/export.c\
 builtin/unset.c\
 builtin/env.c\
 builtin/find_builtin.c\
+lexical_analysis/check_input.c\
+lexical_analysis/create_tokenized_list.c\
+lexical_analysis/free_tokenised_list.c\
+parsing/create_parsed_list.c\
+parsing/free_parsed_list.c\
+utils_display/display.c\
 
 
 INCLUDES = libft/
