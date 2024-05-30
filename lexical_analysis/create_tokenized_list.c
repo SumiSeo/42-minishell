@@ -6,11 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 12:12:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:08:01 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
 
 void	push_lexer(t_lexer **p, const char *str, int len)
 {
@@ -76,5 +78,14 @@ void	create_tokenized_list(char const *str, t_lexer **lexer)
 		len = get_len(str + i);
 		push_lexer(lexer, str + i, len);
 		i = i + len;
+	}
+}
+
+void	display_lexer(t_lexer *begin)
+{
+	while (begin)
+	{
+		printf("[%s]\n", begin->str);
+		begin = begin->next;
 	}
 }

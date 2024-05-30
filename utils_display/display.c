@@ -6,18 +6,21 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 12:01:15 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 12:01:27 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:08:04 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	display_list(t_lexer *begin)
+void	display_str(char **array)
 {
-	while (begin)
+	int			i;
+
+	i = 0;
+	while (array[i])
 	{
-		printf("[%s]\n", begin->str);
-		begin = begin->next;
+		printf("%s ", array[i]);
+		i++;
 	}
 }
 
@@ -28,7 +31,7 @@ void	display_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		printf("%s ", array[i]);
+		printf("%s\n", array[i]);
 		i++;
 	}
 }

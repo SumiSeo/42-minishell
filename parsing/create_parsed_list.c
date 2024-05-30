@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 17:11:24 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:44:39 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	display_parser(t_parser *begin)
 		printf("infile exist : %d\n", begin->infile_exist);
 		printf("infile access : %d\n", begin->infile_access);
 		printf("commande : ");
-		display_array(begin->str);
+		display_str(begin->str);
 		printf("\n");
 		printf("outfile_token : %s\n", begin->token_outfile);
 		printf("outfile : %s\n", begin->outfile);

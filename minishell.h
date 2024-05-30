@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 17:12:30 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:11:58 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,23 @@ typedef struct s_pipe
 
 }			t_pipe;
 
-typedef struct t_lexer
+typedef struct s_lexer
 {
 	char			*str;
 	int				num;
 	int				index;
-	struct t_lexer	*next;
-	struct t_lexer	*prev;
+	struct s_lexer	*next;
+	struct s_lexer	*prev;
 }	t_lexer;
 
-typedef struct t_parser
+typedef struct s_envp
+{
+	char			*str;
+	struct s_envp	*next;
+	struct s_envp	*prev;
+}	t_envp;
+
+typedef struct s_parser
 {
 	char			**str;
 	char			*infile;
@@ -71,8 +78,8 @@ typedef struct t_parser
 	char			*path;
 	char			*builtin;
 	int				num_redirections;
-	struct t_parser	*next;
-	struct t_parser	*prev;
+	struct s_parser	*next;
+	struct s_parser	*prev;
 }	t_parser;
 
 // typedef struct s_lexer
@@ -135,10 +142,15 @@ void	check_outfile(t_parser *parser);
 void	check_infile(t_parser *parser);
 
 
+// store env
+void	store_env(char **envp, t_envp **env);
+
 // display
 
-void	display_list(t_lexer *begin);
+void	display_str(char **array);
+void	display_lexer(t_lexer *begin);
 void	display_array(char **array);
+void	display_env(t_envp *begin);
 
 // gnl
 char	*get_next_line(int fd);
