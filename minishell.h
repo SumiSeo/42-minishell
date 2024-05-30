@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 17:37:08 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:32:26 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ typedef struct t_parser
 	struct t_parser	*prev;
 }					t_parser;
 
-// typedef struct s_lexer
-// {
-// 	int				position;
-// }	t_lexer;
+typedef struct s_envp
+{
+	char			*str;
+	struct s_envp	*next;
+	struct s_envp	*prev;
+}					t_envp;
 
 // error handler
 void				exit_program(char *s);
@@ -97,9 +99,9 @@ void				create_first_pipe(char *cmd, char **env);
 void				create_last_pipe(char *cmd, char **env);
 
 // execution
-void				runtime_shell(t_parser **cmds_list);
-void				exec_shell(t_parser **cmds_list, char **env);
-void				parse_path(char *first_cmd, char *path);
+void				runtime_shell(t_parser *cmds_list);
+void				exec_shell(t_parser *cmds_list, t_envp *env);
+void				parse_path(char *first_cmd, t_envp *env);
 char				**parse_cmd(char *cmd);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
@@ -118,9 +120,10 @@ void				func_pwd(t_parser *cmds);
 void				func_cd(t_parser *cmds);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parser *cmds);
-
 void				create_list(char const *str, t_lexer **lexer);
 int					check_input(char const *str);
+void				store_env(char **envp, t_envp **env);
+
 // void	parsing(t_lexer *lexer, t_parser **parser);
 // void	parsing(t_lexer *lexer);
 

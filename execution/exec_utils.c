@@ -6,26 +6,27 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 14:42:28 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:34:29 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	parse_path(char *first_cmd, char *path)
+void	parse_path(char *first_cmd, t_envp *env)
 {
-	char	**arr;
-	char	**cmds;
-
-	arr = ft_split(path, ':');
-	cmds = parse_cmd(first_cmd);
-	if (cmds != NULL && cmds[0] != NULL)
-	{
-		// execute_cmd(cmds, arr);
-		free(cmds);
-		free_array(cmds);
-	}
-	free_array(arr);
+	// char	**arr;
+	// char	**cmds;
+	(void)first_cmd;
+	(void)env;
+	// arr = ft_split(first_cmd->path, ':');
+	// cmds = parse_cmd(first_cmd);
+	// if (cmds != NULL && cmds[0] != NULL)
+	// {
+	// 	// execute_cmd(cmds, arr);
+	// 	free(cmds);
+	// 	free_array(cmds);
+	// }
+	// free_array(arr);
 }
 
 char	**parse_cmd(char *cmd)

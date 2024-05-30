@@ -21,7 +21,7 @@ builtin/export.c\
 builtin/unset.c\
 builtin/env.c\
 builtin/find_builtin.c\
-
+store_env/store_env.c
 
 INCLUDES = libft/
 OBJDIR = obj

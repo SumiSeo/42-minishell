@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 17:36:11 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:10:00 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,25 +247,24 @@ void	create_parser(t_lexer *lexer, t_parser **parser)
 	}
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **envp)
 {
 	char input_string[MAXCOM];
-	// char *parsed_args[MAXLIST];
-	// char *parsed_args_piped[MAXLIST];
-	char **copy;
-	copy = env;
-	(void)env;
-	(void)argv;
 	int piped;
 	t_lexer *lexer;
 	t_parser *parser;
+	t_envp *env;
 
-	// parser->str = (char **)malloc(sizeof(char *) * (3 + 1));
 	lexer = NULL;
 	parser = NULL;
+	env = NULL;
 	piped = 0;
 	if (argc > 1)
 		exit_program("Minishell doe not take arguments.");
+	if (argv[1] != NULL)
+		exit_program("Minishell doe not take arguments.");
+	store_env(envp, &env);
+
 	while (1)
 	{
 		print_dir();
@@ -280,29 +279,15 @@ int	main(int argc, char **argv, char **env)
 		allocate_parser(lexer, parser);
 		display_parser(parser);
 
-		// piped = process_string(input_string, parsed_args, parsed_args_piped);
-		// display_array(parsed_args);
-		// if (own_cmd_handler(parsed_args))
-		// 	exe_flag = 0;
-		// else
-		// 	exe_flag = 1 + piped;
-		// if (exe_flag == 1)
-		// 	exec_args(parsed_args);
-		// if (exe_flag == 2)
-
-		// exec_args_piped(parsed_args, parsed_args_piped);
-		// piped = process_string(input_string, parsed_args, parsed_args_piped);
-		// printf("parser %c\n", *parser->str[2]);
-
 		if (!is_builtin(parser))
 			continue ;
+		else
+			exec_shell(parser, env);
+		// if (piped == 1)
+		// 	runtime_shell(&parser);
 		// else
-		// {
-		// 	if (piped == 1)
-		// 		runtime_shell(&parser);
-		// 	else
-		// 		exec_shell(&parser, copy);
-		// }
+		// 	exec_shell(&parser, copy);
+
 		freestack(&lexer);
 		free_parser(&parser);
 	}
