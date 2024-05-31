@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 18:56:48 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/31 20:37:41 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void				func_env(t_envp *env);
 void				func_export(t_parser *parser, t_envp *env);
 int					print_echo(t_parser *cmds, int i, int nextline_flag);
 char				*ft_var_strdup(const char *s1);
+void				func_unset(t_parser *parser, t_envp *env);
 
 // env
 void				store_env(char **envp, t_envp **env);
