@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 17:19:06 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:08:33 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_envp
 typedef struct s_env
 {
 	char			**str;
+	int				has_pipe;	
 }	t_env;
 
 typedef struct s_parser
@@ -148,9 +149,11 @@ void	check_outfile(t_parser *parser);
 void	check_infile(t_parser *parser);
 void	search_command(t_parser *parser, t_env *path);
 void	store_path(t_envp *env, t_env *path);
+void	count_nb_pipe(t_lexer *lexer, t_env *path);
 
 // store env
 void	store_env(char **envp, t_envp **env);
+void	display_path(t_env *begin);
 
 // display
 

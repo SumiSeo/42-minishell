@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/31 17:28:22 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:14:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	count_words_pipe(t_lexer *lexer)
 	}
 	return (len);
 }
+
+
 
 void	push_parser(t_parser **p, int i)
 {
@@ -125,6 +127,8 @@ void	split_command(t_lexer *lexer, t_parser *parser)
 		}
 	}
 }
+
+
 
 void	store_command(t_lexer *lexer, t_parser *parser)
 {
@@ -255,7 +259,7 @@ char	*find_path(char *paths_array, char **array_argv)
 	path = ft_strjoin(joined, array_argv[0]);
 	if (access(path, R_OK) == 0)
 	{
-		printf("%s\n", path);
+		// printf("%s\n", path);
 		return (path);
 	}
 	free(joined);
@@ -273,13 +277,11 @@ void	search_command(t_parser *parser, t_env *path)
 	{
 		if (ft_strncmp(parser->str[0], "/", 1) == 0)
 		{
-			printf("case /\n");
 			parser->path = parser->str[0];
 		}
 		else if (is_builtin_function(arr, parser->str[0]))
 		{
 			parser->builtin = parser->str[0];
-			printf("case builtin\n");
 		}
 		else
 		{
@@ -291,7 +293,6 @@ void	search_command(t_parser *parser, t_env *path)
 				// printf("%s\n", parser->path);
 				i++;
 			}
-			printf("case search\n");
 		}
 		parser = parser->next;
 	}
@@ -306,14 +307,14 @@ void	display_parser(t_parser *begin)
 	{
 		printf("\n");
 		printf("Commande %d\n", i);
-		printf("infile_token : %s\n", begin->token_infile);
+		printf("infile token : %s\n", begin->token_infile);
 		printf("infile : %s\n", begin->infile);
 		printf("infile exist : %d\n", begin->infile_exist);
 		printf("infile access : %d\n", begin->infile_access);
 		printf("commande : ");
 		display_str(begin->str);
 		printf("\n");
-		printf("outfile_token : %s\n", begin->token_outfile);
+		printf("outfile token : %s\n", begin->token_outfile);
 		printf("outfile : %s\n", begin->outfile);
 		printf("outfile exist : %d\n", begin->outfile_exist);
 		printf("outfile access : %d\n", begin->outfile_access);

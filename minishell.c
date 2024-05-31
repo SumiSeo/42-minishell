@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 17:24:55 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:12:33 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,20 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		if (check_input(input_string))
 			continue ;
-		// printf("%lu\n", strlen(input_string));
 		store_path(env, path);
-		// display_array(path->str);
 		create_tokenized_list(input_string, &lexer);
-		display_lexer(lexer);
-		printf("-----\n");
+		count_nb_pipe(lexer, path);
 		create_parsed_list(lexer, &parser);
 		store_command(lexer, parser);
-		// display_array(parser->paths_array);
 		check_infile(parser);
 		check_outfile(parser);
 		search_command(parser, path);
-
+		printf("-----\n");
+		display_path(path);
+		printf("-----\n");
+		display_lexer(lexer);
+		printf("-----\n");
 		display_parser(parser);
-		// display_env(env);
 		free_tokenised_list(&lexer);
 		free_parsed_list(&parser);
 
