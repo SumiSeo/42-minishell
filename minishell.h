@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 18:11:58 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:19:06 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ typedef struct s_envp
 	struct s_envp	*prev;
 }	t_envp;
 
+typedef struct s_env
+{
+	char			**str;
+}	t_env;
+
 typedef struct s_parser
 {
 	char			**str;
@@ -78,6 +83,7 @@ typedef struct s_parser
 	char			*path;
 	char			*builtin;
 	int				num_redirections;
+	char			**paths_array;
 	struct s_parser	*next;
 	struct s_parser	*prev;
 }	t_parser;
@@ -140,7 +146,8 @@ void	display_parser(t_parser *begin);
 void	store_command(t_lexer *lexer, t_parser *parser);
 void	check_outfile(t_parser *parser);
 void	check_infile(t_parser *parser);
-
+void	search_command(t_parser *parser, t_env *path);
+void	store_path(t_envp *env, t_env *path);
 
 // store env
 void	store_env(char **envp, t_envp **env);

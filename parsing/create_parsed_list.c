@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 17:44:39 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:28:22 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	push_parser(t_parser **p, int i)
 	element->token_outfile = NULL;
 	element->infile_exist = 0;
 	element->infile_access = 0;
+	element->path = NULL;
+	element->builtin = NULL;
 	element->outfile_exist = 0;
 	element->outfile_access = 0;
 	element->has_here_doc = 0;
@@ -230,6 +232,71 @@ void	check_outfile(t_parser *parser)
 	}
 }
 
+int		is_builtin_function(char **array, char *str)
+{
+	int			i;
+
+	i = 0;
+	while (array[i])
+	{
+		if (ft_strncmp(str, array[i], ft_strlen(str)) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*find_path(char *paths_array, char **array_argv)
+{
+	char		*joined;
+	char		*path;
+
+	joined = ft_strjoin(paths_array, "/");
+	path = ft_strjoin(joined, array_argv[0]);
+	if (access(path, R_OK) == 0)
+	{
+		printf("%s\n", path);
+		return (path);
+	}
+	free(joined);
+	free(path);
+	return (NULL);
+}
+
+void	search_command(t_parser *parser, t_env *path)
+{
+	char	*arr[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
+	int		i;
+
+	i = 0;
+	while (parser)
+	{
+		if (ft_strncmp(parser->str[0], "/", 1) == 0)
+		{
+			printf("case /\n");
+			parser->path = parser->str[0];
+		}
+		else if (is_builtin_function(arr, parser->str[0]))
+		{
+			parser->builtin = parser->str[0];
+			printf("case builtin\n");
+		}
+		else
+		{
+			while (path->str[i])
+			{
+				parser->path = find_path(path->str[i], parser->str);
+				if (parser->path != NULL)
+					break;
+				// printf("%s\n", parser->path);
+				i++;
+			}
+			printf("case search\n");
+		}
+		parser = parser->next;
+	}
+}
+
 void	display_parser(t_parser *begin)
 {
 	int	i;
@@ -251,6 +318,7 @@ void	display_parser(t_parser *begin)
 		printf("outfile exist : %d\n", begin->outfile_exist);
 		printf("outfile access : %d\n", begin->outfile_access);
 		printf("builtin : %s\n", begin->builtin);
+		printf("path : %s\n", begin->path);
 		begin = begin->next;
 		i++;
 	}

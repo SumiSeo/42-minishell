@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 18:10:15 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:06:59 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,18 @@ void	store_env(char **envp, t_envp **env)
 		len = ft_strlen(envp[i]);
 		push_env(env, envp[i], len);
 		i++;
+	}
+}
+
+void	store_path(t_envp *env, t_env *path)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->str, "PATH", 4) == 0)
+		{
+			path->str = ft_split(env->str + 5, ':');
+			break ;
+		}
+		env = env->next;
 	}
 }

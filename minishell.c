@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 18:13:16 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:24:55 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	main(int argc, char **argv, char **envp)
 	t_lexer		*lexer;
 	t_parser	*parser;
 	t_envp		*env;
+	t_env		*path;
 
+
+	path =  malloc(sizeof(t_env));
 	// parser->str = (char **)malloc(sizeof(char *) * (3 + 1));
 	lexer = NULL;
 	parser = NULL;
@@ -42,15 +45,20 @@ int	main(int argc, char **argv, char **envp)
 		if (check_input(input_string))
 			continue ;
 		// printf("%lu\n", strlen(input_string));
+		store_path(env, path);
+		// display_array(path->str);
 		create_tokenized_list(input_string, &lexer);
 		display_lexer(lexer);
 		printf("-----\n");
 		create_parsed_list(lexer, &parser);
 		store_command(lexer, parser);
+		// display_array(parser->paths_array);
 		check_infile(parser);
 		check_outfile(parser);
+		search_command(parser, path);
+
 		display_parser(parser);
-		display_env(env);
+		// display_env(env);
 		free_tokenised_list(&lexer);
 		free_parsed_list(&parser);
 
