@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 19:06:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/31 19:20:24 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	display_env(t_envp *begin)
 {
 	while (begin)
 	{
-		printf("[%s]\n", begin->str);
+		printf("%s\n", begin->str);
 		begin = begin->next;
 	}
 }

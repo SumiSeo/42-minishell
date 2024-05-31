@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 20:39:27 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:11:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	exec_shell(t_parser *cmds_list, t_envp *env)
 	else if (fork_id == 0)
 	{
 		parse_path(cmds_list->str[0], env);
-		printf("Command check%s\n", cmds_list->str[0]);
 	}
 	else
 		wait(NULL);

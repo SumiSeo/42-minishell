@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 20:39:23 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/31 16:17:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	display_parser(t_parser *begin)
 		printf("Commande %d\n", i);
 		printf("token infile : %s\n", begin->token_infile);
 		printf("infile : %s\n", begin->infile);
-		printf("commande : ");
+		printf("path : %s\n", begin->path);
 		display_array(begin->str);
 		printf("\n");
 		printf("token outfile : %s\n", begin->token_outfile);
@@ -280,7 +280,7 @@ int	main(int argc, char **argv, char **envp)
 		allocate_parser(lexer, parser);
 		display_parser(parser);
 
-		if (is_builtin(parser))
+		if (is_builtin(parser, env))
 			builtin_check = 1;
 		if (!builtin_check)
 		{ // if (piped == 1)

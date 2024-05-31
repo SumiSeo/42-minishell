@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 19:32:26 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:56:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,17 @@ char				**parse_cmd(char *cmd);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
 void				execute_cmd(char **cmds, char **arr);
-int					is_builtin(t_parser *cmds);
+void				create_list(char const *str, t_lexer **lexer);
+int					check_input(char const *str);
+
+// void	parsing(t_lexer *lexer, t_parser **parser);
+// void	parsing(t_lexer *lexer);
+
+size_t				ft_strlen(const char *string);
+size_t				ft_strlcpy(char *dst, const char *src, size_t size);
+
+// built-in
+int					is_builtin(t_parser *cmds, t_envp *env);
 void				execute_builtin(char **cmds);
 int					is_echo(char *str);
 int					is_pwd(char *str);
@@ -117,17 +127,18 @@ int					is_export(char *str);
 int					is_unset(char *str);
 void				func_echo(t_parser *cmds);
 void				func_pwd(t_parser *cmds);
+void				display_env(t_envp *begin);
 void				func_cd(t_parser *cmds);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parser *cmds);
-void				create_list(char const *str, t_lexer **lexer);
-int					check_input(char const *str);
+void				func_env(t_envp *env);
+void				func_export(t_parser *parser, t_envp *env);
+int					print_echo(t_parser *cmds, int i, int nextline_flag);
+char				*ft_var_strdup(const char *s1);
+
+// env
 void				store_env(char **envp, t_envp **env);
-
-// void	parsing(t_lexer *lexer, t_parser **parser);
-// void	parsing(t_lexer *lexer);
-
-size_t				ft_strlen(const char *string);
-size_t				ft_strlcpy(char *dst, const char *src, size_t size);
+void				push_env(t_envp **p, const char *str, int len);
+void				display_env(t_envp *begin);
 
 #endif
