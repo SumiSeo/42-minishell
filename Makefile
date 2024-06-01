@@ -21,11 +21,17 @@ builtin/unset.c\
 builtin/env.c\
 builtin/find_builtin.c\
 lexical_analysis/check_input.c\
-lexical_analysis/create_tokenized_list.c\
-lexical_analysis/free_tokenised_list.c\
-parsing/create_parsed_list.c\
-parsing/free_parsed_list.c\
-store_env/store_env.c\
+lexical_analysis/create_token_list.c\
+lexical_analysis/count_nb_pipe.c\
+lexical_analysis/free_token_list.c\
+parsing/create_parse_list.c\
+parsing/check_infile.c\
+parsing/check_outfile.c\
+parsing/free_parse_list.c\
+parsing/search_command.c\
+parsing/store_command.c\
+store_env/store_env_list.c\
+store_env/store_path.c\
 utils_display/display.c\
 get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 

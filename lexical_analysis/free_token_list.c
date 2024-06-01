@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.c                                          :+:      :+:    :+:   */
+/*   free_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 12:01:15 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 13:03:45 by ftanon           ###   ########.fr       */
+/*   Created: 2024/05/30 11:49:56 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 16:05:45 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	display_array(char **array)
+void	free_token_list(t_token	**tok_list)
 {
-	int			i;
+	t_token	*nextnode;
 
-	i = 0;
-	while (array[i])
+	while (*tok_list)
 	{
-		printf("%s\n", array[i]);
-		i++;
+		nextnode = (*tok_list)->next;
+		free(*tok_list);
+		(*tok_list) = nextnode;
 	}
 }

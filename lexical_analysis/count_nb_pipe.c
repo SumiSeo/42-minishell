@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tockenised_list.c                             :+:      :+:    :+:   */
+/*   count_nb_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 11:49:56 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 11:49:58 by ftanon           ###   ########.fr       */
+/*   Created: 2024/06/01 15:43:16 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 15:49:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_tokenised_list(t_lexer	**stack_a)
+void	count_nb_pipe(t_token *tok_list, t_data *data)
 {
-	t_lexer	*nextnode;
+	int		nb;
 
-	while (*stack_a)
+	data->has_pipe = 0;
+	nb = 0;
+	while (tok_list)
 	{
-		nextnode = (*stack_a)->next;
-		free(*stack_a);
-		(*stack_a) = nextnode;
+		if (tok_list->str[0] == '|')
+			nb++;
+		tok_list = tok_list->next;
 	}
+	data->has_pipe = nb;
 }

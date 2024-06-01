@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 18:08:33 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:00:29 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define MAXCOM 1000 // max number of letters to be supported
 # define MAXLIST 100 // max number of commands to be supported
 
-// struct
+/////////////////////////////////////////////////////////////////////////
+
 typedef struct s_pipe
 {
 	int		pipefd[2];
@@ -46,53 +47,48 @@ typedef struct s_pipe
 
 }			t_pipe;
 
-typedef struct s_lexer
+typedef struct s_token
 {
 	char			*str;
 	int				num;
 	int				index;
-	struct s_lexer	*next;
-	struct s_lexer	*prev;
-}	t_lexer;
-
-typedef struct s_envp
-{
-	char			*str;
-	struct s_envp	*next;
-	struct s_envp	*prev;
-}	t_envp;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
 
 typedef struct s_env
 {
-	char			**str;
-	int				has_pipe;	
+	char			*str;
+	struct s_env	*next;
+	struct s_env	*prev;
 }	t_env;
 
-typedef struct s_parser
+typedef struct s_data
 {
 	char			**str;
-	char			*infile;
-	char			*outfile;
-	char			*token_infile;
-	char			*token_outfile;
-	int				infile_exist;
-	int				outfile_exist;
-	int				has_here_doc;
-	int				infile_access;
-	int				outfile_access;
-	int				index;
-	char			*path;
-	char			*builtin;
-	int				num_redirections;
-	char			**paths_array;
-	struct s_parser	*next;
-	struct s_parser	*prev;
-}	t_parser;
+	int				has_pipe;	
+}	t_data;
 
-// typedef struct s_lexer
-// {
-// 	int				position;
-// }	t_lexer;
+typedef struct s_parse
+{
+	int				index;
+	char			*infile_name;
+	char			*infile_token;
+	int				infile_exist;
+	int				infile_access;
+	char			**str;
+	char			*outfile_name;
+	char			*outfile_token;
+	int				outfile_exist;
+	int				outfile_access;
+	char			*path;
+	int				builtin;
+	int				num_redirections;
+	struct s_parse	*next;
+	struct s_parse	*prev;
+}	t_parse;
+
+/////////////////////////////////////////////////////////////////////////
 
 // error handler
 void		exit_program(char *s);
@@ -134,35 +130,33 @@ void		func_pwd(char **cmds);
 void		func_cd(char **cmds);
 void		func_relative_cd(int path_int);
 
-// lexical analysis
+// 1. lexical analysis
+int			check_input(char const *str);
+void		create_token_list(char const *str, t_token **tok_list);
+void		free_token_list(t_token	**stack_a);
+void		display_token_list(t_token *begin);
 
-int		check_input(char const *str);
-void	create_tokenized_list(char const *str, t_lexer **lexer);
-void	free_tokenised_list(t_lexer	**stack_a);
+// 2. parsing
+void		create_parse_list(t_token *tok_list, t_parse **par_list);
+void		free_parse_list(t_parse	**stack_a);
+void		display_parse_list(t_parse *begin);
+void		store_command(t_token *tok_list, t_parse *par_list);
+void		check_outfile(t_parse *par_list);
+void		check_infile(t_parse *par_list);
+void		search_command(t_parse *par_list, t_data *data);
 
-// parsing
-void	create_parsed_list(t_lexer *lexer, t_parser **parser);
-void	free_parsed_list(t_parser	**stack_a);
-void	display_parser(t_parser *begin);
-void	store_command(t_lexer *lexer, t_parser *parser);
-void	check_outfile(t_parser *parser);
-void	check_infile(t_parser *parser);
-void	search_command(t_parser *parser, t_env *path);
-void	store_path(t_envp *env, t_env *path);
-void	count_nb_pipe(t_lexer *lexer, t_env *path);
+void		count_nb_pipe(t_token *tok_list, t_data *data);
 
-// store env
-void	store_env(char **envp, t_envp **env);
-void	display_path(t_env *begin);
+// 3. store env
+void		store_env_list(char **envp, t_env **env_list);
+void		display_env_list(t_env *env_list);
+void		store_path(t_env *env_list, t_data *data);
+void		display_path(t_data *data);
 
 // display
-
-void	display_str(char **array);
-void	display_lexer(t_lexer *begin);
-void	display_array(char **array);
-void	display_env(t_envp *begin);
+void		display_array(char **array);
 
 // gnl
-char	*get_next_line(int fd);
+char		*get_next_line(int fd);
 
 #endif

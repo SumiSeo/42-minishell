@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 18:20:18 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:05:15 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,22 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	input_string[MAXCOM];
-	// char	*parsed_args[MAXLIST];
-	// char	*parsed_args_piped[MAXLIST];
+	char			input_string[MAXCOM];
+	t_token			*tok_list;
+	t_parse			*par_list;
+	t_env			*env_list;
+	t_data			*data;
 	// int		exe_flag;
-	int		piped;
-	t_lexer		*lexer;
-	t_parser	*parser;
-	t_envp		*env;
-	t_env		*path;
 
-
-	path =  malloc(sizeof(t_env));
-	// parser->str = (char **)malloc(sizeof(char *) * (3 + 1));
-	lexer = NULL;
-	parser = NULL;
-	env = NULL;
-	piped = 0;
+	data = malloc(sizeof(t_data));
+	tok_list = NULL;
+	par_list = NULL;
+	env_list = NULL;
 	if (argc > 1)
 		exit_program("Minishell doe not take arguments.");
 	if (argv[1] != NULL)
 		exit_program("Minishell doe not take arguments.");
-	store_env(envp, &env);
-
+	store_env_list(envp, &env_list);
 	while (1)
 	{
 		// print_dir();
@@ -44,22 +37,24 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		if (check_input(input_string))
 			continue ;
-		store_path(env, path);
-		create_tokenized_list(input_string, &lexer);
-		count_nb_pipe(lexer, path);
-		create_parsed_list(lexer, &parser);
-		store_command(lexer, parser);
-		check_infile(parser);
-		check_outfile(parser);
-		search_command(parser, path);
+		store_path(env_list, data);
+		create_token_list(input_string, &tok_list);
+		count_nb_pipe(tok_list, data);
+		create_parse_list(tok_list, &par_list);
+		store_command(tok_list, par_list);
+		check_infile(par_list);
+		check_outfile(par_list);
+		search_command(par_list, data);
+		// printf
 		printf("-----\n");
-		display_path(path);
+		display_path(data);
 		printf("-----\n");
-		display_lexer(lexer);
+		display_token_list(tok_list);
 		printf("-----\n");
-		display_parser(parser);
-		free_tokenised_list(&lexer);
-		free_parsed_list(&parser);
+		display_parse_list(par_list);
+		// free
+		free_token_list(&tok_list);
+		free_parse_list(&par_list);
 
 	// 	// piped = process_string(input_string, parsed_args, parsed_args_piped);
 	// 	// display_array(parsed_args);

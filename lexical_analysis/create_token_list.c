@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_tokenized_list.c                            :+:      :+:    :+:   */
+/*   create_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/30 18:08:01 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 15:49:19 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-
-void	push_lexer(t_lexer **p, const char *str, int len)
+void	push_token_list(t_token **tok_list, const char *str, int len)
 {
-	t_lexer	*element;
-	t_lexer	*last;
+	t_token	*element;
+	t_token	*last;
 
-	last = *p;
-	element = malloc(sizeof(t_lexer));
+	last = *tok_list;
+	element = malloc(sizeof(t_token));
 	element->str = malloc(len + 1);
 	ft_strlcpy(element->str, str, len + 1);
 	element->next = NULL;
-	if (*p == NULL)
+	if (*tok_list == NULL)
 	{
-		*p = element;
+		*tok_list = element;
 		return ;
 	}
 	while (last->next != NULL)
@@ -62,7 +60,7 @@ int	get_len(char const *str)
 	return (len);
 }
 
-void	create_tokenized_list(char const *str, t_lexer **lexer)
+void	create_token_list(char const *str, t_token **tok_list)
 {
 	int	i;
 	int	len;
@@ -76,16 +74,16 @@ void	create_tokenized_list(char const *str, t_lexer **lexer)
 		if (str[i] == '\0')
 			break ;
 		len = get_len(str + i);
-		push_lexer(lexer, str + i, len);
+		push_token_list(tok_list, str + i, len);
 		i = i + len;
 	}
 }
 
-void	display_lexer(t_lexer *begin)
+void	display_token_list(t_token *tok_list)
 {
-	while (begin)
+	while (tok_list)
 	{
-		printf("[%s]\n", begin->str);
-		begin = begin->next;
+		printf("[%s]\n", tok_list->str);
+		tok_list = tok_list->next;
 	}
 }

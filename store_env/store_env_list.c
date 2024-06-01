@@ -1,45 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   store_env.c                                        :+:      :+:    :+:   */
+/*   store_env_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/31 18:10:41 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:09:43 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	display_env(t_envp *begin)
+void	push_env_list(t_env **env_list, const char *str, int len)
 {
-	while (begin)
-	{
-		printf("[%s]\n", begin->str);
-		begin = begin->next;
-	}
-}
+	t_env	*element;
+	t_env	*last;
 
-void	display_path(t_env *begin)
-{
-	display_array(begin->str);
-	printf("nb pipes : %d\n", begin->has_pipe);
-}
-
-void	push_env(t_envp **p, const char *str, int len)
-{
-	t_envp	*element;
-	t_envp	*last;
-
-	last = *p;
-	element = malloc(sizeof(t_envp));
+	last = *env_list;
+	element = malloc(sizeof(t_env));
 	element->str = malloc(len + 1);
 	ft_strlcpy(element->str, str, len + 1);
 	element->next = NULL;
-	if (*p == NULL)
+	if (*env_list == NULL)
 	{
-		*p = element;
+		*env_list = element;
 		return ;
 	}
 	while (last->next != NULL)
@@ -48,7 +33,7 @@ void	push_env(t_envp **p, const char *str, int len)
 	element->prev = last;
 }
 
-void	store_env(char **envp, t_envp **env)
+void	store_env_list(char **envp, t_env **env_list)
 {
 	int			i;
 	int			len;
@@ -57,35 +42,16 @@ void	store_env(char **envp, t_envp **env)
 	while (envp[i])
 	{
 		len = ft_strlen(envp[i]);
-		push_env(env, envp[i], len);
+		push_env_list(env_list, envp[i], len);
 		i++;
 	}
 }
 
-void	store_path(t_envp *env, t_env *path)
+void	display_env_list(t_env *env_list)
 {
-	while (env)
+	while (env_list)
 	{
-		if (ft_strncmp(env->str, "PATH", 4) == 0)
-		{
-			path->str = ft_split(env->str + 5, ':');
-			break ;
-		}
-		env = env->next;
+		printf("[%s]\n", env_list->str);
+		env_list = env_list->next;
 	}
-}
-
-void	count_nb_pipe(t_lexer *lexer, t_env *path)
-{
-	int		nb;
-
-	path->has_pipe = 0;
-	nb = 0;
-	while (lexer)
-	{
-		if (lexer->str[0] == '|')
-			nb++;
-		lexer = lexer->next;
-	}
-	path->has_pipe = nb;
 }
