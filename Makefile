@@ -20,7 +20,7 @@ builtin/export.c\
 builtin/unset.c\
 builtin/env.c\
 builtin/find_builtin.c\
-store_env/store_env.c
+store_env/store_env.c\
 lexical_analysis/check_input.c\
 lexical_analysis/create_token_list.c\
 lexical_analysis/count_nb_pipe.c\
