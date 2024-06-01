@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_utils.c                                          :+:      :+:    :+:   */
+/*   free_parse_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 13:04:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/05/25 13:05:04 by ftanon           ###   ########.fr       */
+/*   Created: 2024/05/30 11:47:54 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 16:05:58 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-size_t	ft_strlen(const char *string)
+void	free_parse_list(t_parse	**par_list)
 {
-	int	i;
+	t_parse	*nextnode;
 
-	i = 0;
-	while (string[i] != '\0')
+	while (*par_list)
 	{
-		i++;
+		nextnode = (*par_list)->next;
+		free(*par_list);
+		(*par_list) = nextnode;
 	}
-	return (i);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	if (size > 0)
-	{
-		i = 0;
-		while (i < size -1 && src[i] != '\0')
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (ft_strlen(src));
 }

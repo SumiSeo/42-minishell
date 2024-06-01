@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/29 18:43:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 17:20:19 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define MAXCOM 1000 // max number of letters to be supported
 # define MAXLIST 100 // max number of commands to be supported
 
-// struct
+/////////////////////////////////////////////////////////////////////////
+
 typedef struct s_pipe
 {
 	int		pipefd[2];
@@ -46,43 +47,56 @@ typedef struct s_pipe
 
 }			t_pipe;
 
-typedef struct t_lexer
+typedef struct s_token
 {
 	char			*str;
 	int				num;
 	int				index;
-	struct t_lexer	*next;
-	struct t_lexer	*prev;
-}	t_lexer;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
 
-typedef struct t_parser
+typedef struct s_env
 {
-	char			**str;
-	char			*infile;
-	char			*outfile;
-	char			*token_infile;
-	char			*token_outfile;
-	int				index;
-	int				fd_infile;
-	int				fd_outfile;
-	char			*path;
-	char			*builtin;
-	int				num_redirections;
-	struct t_parser	*next;
-	struct t_parser	*prev;
-}	t_parser;
+	char			*env_var;
+	struct s_env	*next;
+	struct s_env	*prev;
+}	t_env;
 
-// typedef struct s_lexer
-// {
-// 	int				position;
-// }	t_lexer;
+typedef struct s_data
+{
+	char			**all_paths;
+	int				has_pipe;	
+	char			*input_string;
+}	t_data;
+
+typedef struct s_parse
+{
+	int				index;
+	char			*infile_name;
+	char			*infile_token;
+	int				infile_exist;
+	int				infile_access;
+	char			**cmd_array;
+	char			*outfile_name;
+	char			*outfile_token;
+	int				outfile_exist;
+	int				outfile_access;
+	char			*path;
+	int				builtin;
+	int				num_redirections;
+	struct s_parse	*next;
+	struct s_parse	*prev;
+}	t_parse;
+
+/////////////////////////////////////////////////////////////////////////
 
 // error handler
 void		exit_program(char *s);
 void		create_prompt(char **env);
 
 // minishell
-int			take_input(char *str);
+int			take_input(t_data *data);
 void		print_dir(void);
 int			process_string(char *str, char **parsed, char **parsedpipe);
 void		exec_args(char **parsed);
@@ -117,13 +131,33 @@ void		func_pwd(char **cmds);
 void		func_cd(char **cmds);
 void		func_relative_cd(int path_int);
 
-void	create_list(char const *str, t_lexer **lexer);
-int		check_input(char const *str);
-// void	parsing(t_lexer *lexer, t_parser **parser);
-// void	parsing(t_lexer *lexer);
+// 1. lexical analysis
+int			check_input(char const *str);
+void		create_token_list(char const *str, t_token **tok_list);
+void		free_token_list(t_token	**tok_list);
+void		display_token_list(t_token *tok_list);
 
+// 2. parsing
+void		create_parse_list(t_token *tok_list, t_parse **par_list);
+void		free_parse_list(t_parse	**par_list);
+void		display_parse_list(t_parse *par_list);
+void		store_command(t_token *tok_list, t_parse *par_list);
+void		check_outfile(t_parse *par_list);
+void		check_infile(t_parse *par_list);
+void		search_command(t_parse *par_list, t_data *data);
 
-size_t	ft_strlen(const char *string);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+void		count_nb_pipe(t_token *tok_list, t_data *data);
+
+// 3. store env
+void		store_env_list(char **envp, t_env **env_list);
+void		display_env_list(t_env *env_list);
+void		store_path(t_env *env_list, t_data *data);
+void		display_path(t_data *data);
+
+// display
+void		display_array(char **array);
+
+// gnl
+char		*get_next_line(int fd);
 
 #endif

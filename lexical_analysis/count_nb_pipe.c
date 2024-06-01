@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_store_input.c                                    :+:      :+:    :+:   */
+/*   count_nb_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:59:39 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 17:16:53 by ftanon           ###   ########.fr       */
+/*   Created: 2024/06/01 15:43:16 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 16:21:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-// Function to take input
-int	take_input(t_data *data)
+void	count_nb_pipe(t_token *tok_list, t_data *data)
 {
-	char	*buf;
-	int		len;
+	int		nb;
 
-	buf = readline("💪");
-	len = ft_strlen(buf);
-	if (len != 0)
+	data->has_pipe = 0;
+	nb = 0;
+	while (tok_list)
 	{
-		data->input_string = (char *)malloc(sizeof(char) * (len + 1));
-		add_history(buf);
-		ft_strlcpy(data->input_string, buf, len + 1);
-		return (0);
+		if (tok_list->str[0] == '|')
+			nb++;
+		tok_list = tok_list->next;
 	}
-	else
-		return (1);
+	data->has_pipe = nb;
 }
