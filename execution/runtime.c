@@ -6,13 +6,13 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 15:11:42 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:09:57 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	runtime_shell(t_parser *cmds_list)
+void	runtime_shell(t_parse *cmds_list)
 {
 	(void)cmds_list;
 	;
@@ -22,7 +22,7 @@ void	runtime_shell(t_parser *cmds_list)
 	// if i do all check, execute command
 }
 
-void	exec_shell(t_parser *cmds_list, t_envp *env)
+void	exec_shell(t_parse *cmds_list, t_env *env)
 {
 	int j;
 
@@ -33,7 +33,7 @@ void	exec_shell(t_parser *cmds_list, t_envp *env)
 		exit_program("Fork failed");
 	else if (fork_id == 0)
 	{
-		parse_path(cmds_list->str[0], env);
+		parse_path(cmds_list->cmd_array[0], env);
 	}
 	else
 		wait(NULL);

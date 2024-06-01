@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:21 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:05:54 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:14:14 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int	is_env(char *str)
 
 void	func_env(t_env *env)
 {
-	display_env(env);
+	display_env_list(env);
 }
