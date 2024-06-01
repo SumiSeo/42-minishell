@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 16:34:00 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 17:16:05 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_data
 {
 	char			**all_paths;
 	int				has_pipe;	
+	char			*input_string;
 }	t_data;
 
 typedef struct s_parse
@@ -95,7 +96,7 @@ void		exit_program(char *s);
 void		create_prompt(char **env);
 
 // minishell
-int			take_input(char *str);
+int			take_input(t_data *data);
 void		print_dir(void);
 int			process_string(char *str, char **parsed, char **parsedpipe);
 void		exec_args(char **parsed);

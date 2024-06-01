@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 16:05:15 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 17:19:16 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char			input_string[MAXCOM];
 	t_token			*tok_list;
 	t_parse			*par_list;
 	t_env			*env_list;
@@ -33,12 +32,12 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		// print_dir();
-		if (take_input(input_string))
+		if (take_input(data))
 			continue ;
-		if (check_input(input_string))
+		if (check_input(data->input_string))
 			continue ;
 		store_path(env_list, data);
-		create_token_list(input_string, &tok_list);
+		create_token_list(data->input_string, &tok_list);
 		count_nb_pipe(tok_list, data);
 		create_parse_list(tok_list, &par_list);
 		store_command(tok_list, par_list);
@@ -55,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		// free
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
+		free(data);
 
 	// 	// piped = process_string(input_string, parsed_args, parsed_args_piped);
 	// 	// display_array(parsed_args);
