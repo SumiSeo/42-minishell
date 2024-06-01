@@ -6,42 +6,28 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 18:51:14 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:05:06 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_builtin(char **cmds)
+int	is_builtin(t_parse *cmds, t_env *env)
 {
-	if (is_echo(cmds[0]) == 1)
+	if (is_echo(cmds->cmd_array[0]) == 1)
 		func_echo(cmds);
-	else if (is_pwd(cmds[0]))
+	else if (is_pwd(cmds->cmd_array[0]) == 1)
 		func_pwd(cmds);
-	else if (is_cd(cmds[0]))
-		// create a fucntion to if is string path or relative apth
-		// and then return integer to distinguish them
+	else if (is_cd(cmds->cmd_array[0]) == 1)
 		func_cd(cmds);
-	else if (is_env(cmds[0]))
-	{
-		printf("env");
-	}
-	else if (is_exit(cmds[0]))
-	{
-		printf("exit");
-	}
-	else if (is_pwd(cmds[0]))
-	{
-		printf("pwd");
-	}
-	else if (is_unset(cmds[0]))
-	{
-		printf("unset");
-	}
-	else if (is_export(cmds[0]))
-	{
-		printf("export");
-	}
+	else if (is_env(cmds->cmd_array[0]) == 1)
+		func_env(env);
+	else if (is_exit(cmds->cmd_array[0]) == 1)
+		func_exit(cmds);
+	else if (is_unset(cmds->cmd_array[0]))
+		func_unset(cmds, env);
+	else if (is_export(cmds->cmd_array[0]))
+		func_export(cmds, env);
 	else
 		return (0);
 	return (1);
