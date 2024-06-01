@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:21 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 15:31:59 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:05:54 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_env(char *str)
 	return (0);
 }
 
-void	func_env(t_envp *env)
+void	func_env(t_env *env)
 {
 	display_env(env);
 }

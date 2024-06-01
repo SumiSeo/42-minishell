@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 19:43:19 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:06:13 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_export(char *str)
 	return (0);
 }
 
-void	func_export(t_parser *cmds, t_envp *env)
+void	func_export(t_parse *cmds, t_env *env)
 {
 	char *variable;
 	char *value;
@@ -39,14 +39,14 @@ void	func_export(t_parser *cmds, t_envp *env)
 	int len;
 	// int i = 0;
 
-	if (!cmds->str[1])
+	if (!cmds->cmd_array[1])
 	{
 		// list of exports ? need to check!
 		printf("Export arguments dont exits");
 		return ;
 	}
-	variable = ft_strdup(cmds->str[1]);
-	value = ft_strdup(cmds->str[2]);
+	variable = ft_strdup(cmds->cmd_array[1]);
+	value = ft_strdup(cmds->cmd_array[2]);
 
 	if (variable[0] != '\0' && value[0] != '\0')
 	{

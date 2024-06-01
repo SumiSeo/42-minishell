@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 18:31:36 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:05:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	is_echo(char *str)
 	return (0);
 }
 
-int	print_echo(t_parser *cmds, int i, int nextline_flag)
+int	print_echo(t_parse *cmds, int i, int nextline_flag)
 {
-	while (cmds->str[i])
+	while (cmds->cmd_array[i])
 	{
-		printf("%s", cmds->str[i]);
-		if ((cmds)->str[i])
+		printf("%s", cmds->cmd_array[i]);
+		if ((cmds)->cmd_array[i])
 			printf(" ");
 		i++;
 	}
@@ -48,21 +48,22 @@ int	print_echo(t_parser *cmds, int i, int nextline_flag)
 	else
 		return (1);
 }
-void	func_echo(t_parser *cmds)
+void	func_echo(t_parse *cmds)
 {
 	int	nextline_flag;
 	int	i;
 
 	nextline_flag = 0;
 	i = 1;
-	if (cmds->str[1] && cmds->str[1][0] == '-' && cmds->str[1][1] == 'n')
+	if (cmds->cmd_array[1] && cmds->cmd_array[1][0] == '-'
+		&& cmds->cmd_array[1][1] == 'n')
 	{
 		nextline_flag = 1;
 		i++;
 	}
 	else if (print_echo(cmds, i, nextline_flag) == 2)
 		return ;
-	if (cmds->str[2][0] == '-' && cmds->str[2][1] == 'n')
+	if (cmds->cmd_array[2][0] == '-' && cmds->cmd_array[2][1] == 'n')
 		i++;
 	else
 		i = 2;

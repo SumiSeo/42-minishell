@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 20:38:37 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:05:10 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	is_exit(char *str)
 	return (0);
 }
 
-void	func_exit(t_parser *cmds)
+void	func_exit(t_parse *cmds)
 {
-	if (cmds->str[1])
+	if (cmds->cmd_array[1])
 	{
 		printf("Too many arugments on exit command\n");
 		return ;
