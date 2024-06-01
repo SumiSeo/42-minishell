@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:09:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:32:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	store_path(t_env *env_list, t_data *data)
 {
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->str, "PATH", 4) == 0)
+		if (ft_strncmp(env_list->env_var, "PATH", 4) == 0)
 		{
-			data->str = ft_split(env_list->str + 5, ':');
+			data->all_paths = ft_split(env_list->env_var + 5, ':');
 			break ;
 		}
 		env_list = env_list->next;
@@ -27,6 +27,6 @@ void	store_path(t_env *env_list, t_data *data)
 
 void	display_path(t_data *data)
 {
-	display_array(data->str);
+	display_array(data->all_paths);
 	printf("nb pipes : %d\n", data->has_pipe);
 }

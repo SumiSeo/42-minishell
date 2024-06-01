@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:09:13 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:34:23 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_words_operator(t_token *tok_list)
 	return (len);
 }
 
-int	count_words_pipe(t_token *tok_list)
+int	count_words_pipe_search(t_token *tok_list)
 {
 	int		len;
 
@@ -42,7 +42,7 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	k;
-	int j;
+	int	j;
 	int	len;
 
 	len = 0;
@@ -79,16 +79,16 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 		}
 		else
 		{
-			par_list->str = (char **)malloc(sizeof(char *) * (i + 1));
+			par_list->cmd_array = (char **)malloc(sizeof(char *) * (i + 1));
 			while (tok_list && tok_list->str[0] != '|' && tok_list->str[0] != '>' && tok_list->str[0] != '<')
 			{
 				len = ft_strlen(tok_list->str);
-				par_list->str[j] = (char *)malloc(sizeof(char) * (len + 1));
-				ft_strlcpy(par_list->str[j], tok_list->str, len + 1);
+				par_list->cmd_array[j] = (char *)malloc(sizeof(char) * (len + 1));
+				ft_strlcpy(par_list->cmd_array[j], tok_list->str, len + 1);
 				j++;
 				tok_list = tok_list->next;
 			}
-			par_list->str[j] = NULL;
+			par_list->cmd_array[j] = NULL;
 		}
 	}
 }
@@ -102,7 +102,7 @@ void	store_command(t_token *tok_list, t_parse *par_list)
 	{
 		i = 0;
 		k = 0;
-		i = count_words_pipe(tok_list);
+		i = count_words_pipe_search(tok_list);
 		split_command(tok_list, par_list);
 		while (k < i)
 		{

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 16:00:29 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:34:00 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	char			*str;
+	char			*env_var;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
 
 typedef struct s_data
 {
-	char			**str;
+	char			**all_paths;
 	int				has_pipe;	
 }	t_data;
 
@@ -76,7 +76,7 @@ typedef struct s_parse
 	char			*infile_token;
 	int				infile_exist;
 	int				infile_access;
-	char			**str;
+	char			**cmd_array;
 	char			*outfile_name;
 	char			*outfile_token;
 	int				outfile_exist;
@@ -133,13 +133,13 @@ void		func_relative_cd(int path_int);
 // 1. lexical analysis
 int			check_input(char const *str);
 void		create_token_list(char const *str, t_token **tok_list);
-void		free_token_list(t_token	**stack_a);
-void		display_token_list(t_token *begin);
+void		free_token_list(t_token	**tok_list);
+void		display_token_list(t_token *tok_list);
 
 // 2. parsing
 void		create_parse_list(t_token *tok_list, t_parse **par_list);
-void		free_parse_list(t_parse	**stack_a);
-void		display_parse_list(t_parse *begin);
+void		free_parse_list(t_parse	**par_list);
+void		display_parse_list(t_parse *par_list);
 void		store_command(t_token *tok_list, t_parse *par_list);
 void		check_outfile(t_parse *par_list);
 void		check_infile(t_parse *par_list);

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:12:23 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:34:11 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ void	display_parse_list(t_parse *par_list)
 	while (par_list)
 	{
 		printf("\n");
-		printf("Commande %d\n", i);
+		printf("Command %d\n", i);
 		printf("infile token : %s\n", par_list->infile_token);
 		printf("infile name : %s\n", par_list->infile_name);
 		printf("infile exist : %d\n", par_list->infile_exist);
 		printf("infile access : %d\n", par_list->infile_access);
-		printf("commande : ");
-		display_parser_array(par_list->str);
+		printf("command_array : ");
+		display_parser_array(par_list->cmd_array);
 		printf("\n");
 		printf("outfile token : %s\n", par_list->outfile_token);
 		printf("outfile : %s\n", par_list->outfile_name);

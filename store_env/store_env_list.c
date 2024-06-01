@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:09:43 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:32:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	push_env_list(t_env **env_list, const char *str, int len)
 
 	last = *env_list;
 	element = malloc(sizeof(t_env));
-	element->str = malloc(len + 1);
-	ft_strlcpy(element->str, str, len + 1);
+	element->env_var = malloc(len + 1);
+	ft_strlcpy(element->env_var, str, len + 1);
 	element->next = NULL;
 	if (*env_list == NULL)
 	{
@@ -51,7 +51,7 @@ void	display_env_list(t_env *env_list)
 {
 	while (env_list)
 	{
-		printf("[%s]\n", env_list->str);
+		printf("[%s]\n", env_list->env_var);
 		env_list = env_list->next;
 	}
 }
