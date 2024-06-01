@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/31 20:37:41 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:03:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define MAXCOM 1000 // max number of letters to be supported
 # define MAXLIST 100 // max number of commands to be supported
 
-// struct
+/////////////////////////////////////////////////////////////////////////
+
 typedef struct s_pipe
 {
 	int				pipefd[2];
@@ -46,45 +47,56 @@ typedef struct s_pipe
 
 }					t_pipe;
 
-typedef struct t_lexer
+typedef struct s_token
 {
 	char			*str;
 	int				num;
 	int				index;
-	struct t_lexer	*next;
-	struct t_lexer	*prev;
-}					t_lexer;
+	struct s_token	*next;
+	struct s_token	*prev;
+}					t_token;
 
-typedef struct t_parser
+typedef struct s_env
 {
-	char			**str;
-	char			*infile;
-	char			*outfile;
-	char			*token_infile;
-	char			*token_outfile;
+	char			*env_var;
+	struct s_env	*next;
+	struct s_env	*prev;
+}					t_env;
+
+typedef struct s_data
+{
+	char			**all_paths;
+	int				has_pipe;
+	char			*input_string;
+}					t_data;
+
+typedef struct s_parse
+{
 	int				index;
-	int				fd_infile;
-	int				fd_outfile;
+	char			*infile_name;
+	char			*infile_token;
+	int				infile_exist;
+	int				infile_access;
+	char			**cmd_array;
+	char			*outfile_name;
+	char			*outfile_token;
+	int				outfile_exist;
+	int				outfile_access;
 	char			*path;
-	char			*builtin;
+	int				builtin;
 	int				num_redirections;
-	struct t_parser	*next;
-	struct t_parser	*prev;
-}					t_parser;
+	struct s_parse	*next;
+	struct s_parse	*prev;
+}					t_parse;
 
-typedef struct s_envp
-{
-	char			*str;
-	struct s_envp	*next;
-	struct s_envp	*prev;
-}					t_envp;
+/////////////////////////////////////////////////////////////////////////
 
 // error handler
 void				exit_program(char *s);
 void				create_prompt(char **env);
 
 // minishell
-int					take_input(char *str);
+int					take_input(t_data *data);
 void				print_dir(void);
 int					process_string(char *str, char **parsed, char **parsedpipe);
 void				exec_args(char **parsed);
@@ -99,14 +111,14 @@ void				create_first_pipe(char *cmd, char **env);
 void				create_last_pipe(char *cmd, char **env);
 
 // execution
-void				runtime_shell(t_parser *cmds_list);
-void				exec_shell(t_parser *cmds_list, t_envp *env);
-void				parse_path(char *first_cmd, t_envp *env);
+void				runtime_shell(t_parse *cmds_list);
+void				exec_shell(t_parse *cmds_list, t_env *env);
+void				parse_path(char *first_cmd, t_env *env);
 char				**parse_cmd(char *cmd);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
 void				execute_cmd(char **cmds, char **arr);
-void				create_list(char const *str, t_lexer **lexer);
+void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
 // void	parsing(t_lexer *lexer, t_parser **parser);
@@ -116,7 +128,7 @@ size_t				ft_strlen(const char *string);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
 // built-in
-int					is_builtin(t_parser *cmds, t_envp *env);
+int					is_builtin(t_parse *cmds, t_env *env);
 void				execute_builtin(char **cmds);
 int					is_echo(char *str);
 int					is_pwd(char *str);
@@ -125,21 +137,49 @@ int					is_env(char *str);
 int					is_exit(char *str);
 int					is_export(char *str);
 int					is_unset(char *str);
-void				func_echo(t_parser *cmds);
-void				func_pwd(t_parser *cmds);
-void				display_env(t_envp *begin);
-void				func_cd(t_parser *cmds);
+void				func_echo(t_parse *cmds);
+void				func_pwd(t_parse *cmds);
+void				display_env(t_env *begin);
+void				func_cd(t_parse *cmds);
 void				func_relative_cd(int path_int);
-void				func_exit(t_parser *cmds);
-void				func_env(t_envp *env);
-void				func_export(t_parser *parser, t_envp *env);
-int					print_echo(t_parser *cmds, int i, int nextline_flag);
+void				func_exit(t_parse *cmds);
+void				func_env(t_env *env);
+void				func_export(t_parse *parser, t_env *env);
+int					print_echo(t_parse *cmds, int i, int nextline_flag);
 char				*ft_var_strdup(const char *s1);
-void				func_unset(t_parser *parser, t_envp *env);
+void				func_unset(t_parse *parser, t_env *env);
 
 // env
-void				store_env(char **envp, t_envp **env);
-void				push_env(t_envp **p, const char *str, int len);
-void				display_env(t_envp *begin);
+void				store_env(char **envp, t_env **env);
+void				push_env(t_env **p, const char *str, int len);
+void				display_env(t_env *begin);
+// 1. lexical analysis
+int					check_input(char const *str);
+void				create_token_list(char const *str, t_token **tok_list);
+void				free_token_list(t_token **tok_list);
+void				display_token_list(t_token *tok_list);
+
+// 2. parsing
+void				create_parse_list(t_token *tok_list, t_parse **par_list);
+void				free_parse_list(t_parse **par_list);
+void				display_parse_list(t_parse *par_list);
+void				store_command(t_token *tok_list, t_parse *par_list);
+void				check_outfile(t_parse *par_list);
+void				check_infile(t_parse *par_list);
+void				search_command(t_parse *par_list, t_data *data);
+
+void				count_nb_pipe(t_token *tok_list, t_data *data);
+
+// 3. store env
+void				store_env_list(char **envp, t_env **env_list);
+void				display_env_list(t_env *env_list);
+void				store_path(t_env *env_list, t_data *data);
+void				display_path(t_data *data);
+
+// display
+void				display_array(char **array);
+
+// gnl
+char				*get_next_line(int fd);
 
 #endif

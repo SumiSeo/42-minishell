@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_store_input.c                                    :+:      :+:    :+:   */
+/*   store_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:59:39 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 17:16:53 by ftanon           ###   ########.fr       */
+/*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 16:32:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-// Function to take input
-int	take_input(t_data *data)
+void	store_path(t_env *env_list, t_data *data)
 {
-	char	*buf;
-	int		len;
-
-	buf = readline("💪");
-	len = ft_strlen(buf);
-	if (len != 0)
+	while (env_list)
 	{
-		data->input_string = (char *)malloc(sizeof(char) * (len + 1));
-		add_history(buf);
-		ft_strlcpy(data->input_string, buf, len + 1);
-		return (0);
+		if (ft_strncmp(env_list->env_var, "PATH", 4) == 0)
+		{
+			data->all_paths = ft_split(env_list->env_var + 5, ':');
+			break ;
+		}
+		env_list = env_list->next;
 	}
-	else
-		return (1);
+}
+
+void	display_path(t_data *data)
+{
+	display_array(data->all_paths);
+	printf("nb pipes : %d\n", data->has_pipe);
 }

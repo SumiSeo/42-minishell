@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_store_input.c                                    :+:      :+:    :+:   */
+/*   free_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:59:39 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 17:16:53 by ftanon           ###   ########.fr       */
+/*   Created: 2024/05/30 11:49:56 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 16:21:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-// Function to take input
-int	take_input(t_data *data)
+void	free_token_list(t_token	**tok_list)
 {
-	char	*buf;
-	int		len;
+	t_token	*nextnode;
 
-	buf = readline("💪");
-	len = ft_strlen(buf);
-	if (len != 0)
+	while (*tok_list)
 	{
-		data->input_string = (char *)malloc(sizeof(char) * (len + 1));
-		add_history(buf);
-		ft_strlcpy(data->input_string, buf, len + 1);
-		return (0);
+		nextnode = (*tok_list)->next;
+		free(*tok_list);
+		(*tok_list) = nextnode;
 	}
-	else
-		return (1);
 }

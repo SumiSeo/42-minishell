@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_store_input.c                                    :+:      :+:    :+:   */
+/*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:59:39 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 17:16:53 by ftanon           ###   ########.fr       */
+/*   Created: 2024/05/30 12:01:15 by ftanon            #+#    #+#             */
+/*   Updated: 2024/06/01 16:22:52 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
-// Function to take input
-int	take_input(t_data *data)
+void	display_array(char **array)
 {
-	char	*buf;
-	int		len;
+	int			i;
 
-	buf = readline("💪");
-	len = ft_strlen(buf);
-	if (len != 0)
+	i = 0;
+	while (array[i])
 	{
-		data->input_string = (char *)malloc(sizeof(char) * (len + 1));
-		add_history(buf);
-		ft_strlcpy(data->input_string, buf, len + 1);
-		return (0);
+		printf("%s\n", array[i]);
+		i++;
 	}
-	else
-		return (1);
 }
