@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:34:11 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/01 16:37:44 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	display_parse_list(t_parse *par_list)
 		display_parser_array(par_list->cmd_array);
 		printf("\n");
 		printf("outfile token : %s\n", par_list->outfile_token);
-		printf("outfile : %s\n", par_list->outfile_name);
+		printf("outfile name : %s\n", par_list->outfile_name);
 		printf("outfile exist : %d\n", par_list->outfile_exist);
 		printf("outfile access : %d\n", par_list->outfile_access);
 		printf("builtin : %d\n", par_list->builtin);
