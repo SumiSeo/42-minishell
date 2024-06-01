@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:01:33 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:23:43 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token			*tok_list;
-	t_parse			*par_list;
-	t_env			*env_list;
-	t_data			*data;
-	// int		exe_flag;
+	t_token *tok_list;
+	t_parse *par_list;
+	t_env *env_list;
+	t_data *data;
+	int builtin_check;
 
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;
@@ -51,31 +51,17 @@ int	main(int argc, char **argv, char **envp)
 		display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
+
+		if (is_builtin(par_list, env_list))
+			builtin_check = 1;
+		if (!builtin_check)
+		{
+			exec_shell(par_list, env_list);
+		}
 		// free
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 		free(data);
-
-	// 	// piped = process_string(input_string, parsed_args, parsed_args_piped);
-	// 	// display_array(parsed_args);
-	// 	// if (own_cmd_handler(parsed_args))
-	// 	// 	exe_flag = 0;
-	// 	// else
-	// 	// 	exe_flag = 1 + piped;
-	// 	// if (exe_flag == 1)
-	// 	// 	exec_args(parsed_args);
-	// 	// if (exe_flag == 2)
-	// 	// 	exec_args_piped(parsed_args, parsed_args_piped);
-	// 	// piped = process_string(input_string, parsed_args, parsed_args_piped);
-	// 	// if (is_builtin(parsed_args))
-	// 	// 	continue ;
-	// 	// else
-	// 	// {
-	// 	// 	if (piped == 1)
-	// 	// 		runtime_shell(parsed_args, parsed_args_piped);
-	// 	// 	else
-	// 	// 		exec_shell(parsed_args, *copy, env);
-	// 	// }
 	}
 	return (0);
 }
