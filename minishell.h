@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:03:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:15:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ int					is_export(char *str);
 int					is_unset(char *str);
 void				func_echo(t_parse *cmds);
 void				func_pwd(t_parse *cmds);
-void				display_env(t_env *begin);
 void				func_cd(t_parse *cmds);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
@@ -149,10 +148,6 @@ int					print_echo(t_parse *cmds, int i, int nextline_flag);
 char				*ft_var_strdup(const char *s1);
 void				func_unset(t_parse *parser, t_env *env);
 
-// env
-void				store_env(char **envp, t_env **env);
-void				push_env(t_env **p, const char *str, int len);
-void				display_env(t_env *begin);
 // 1. lexical analysis
 int					check_input(char const *str);
 void				create_token_list(char const *str, t_token **tok_list);
@@ -175,6 +170,7 @@ void				store_env_list(char **envp, t_env **env_list);
 void				display_env_list(t_env *env_list);
 void				store_path(t_env *env_list, t_data *data);
 void				display_path(t_data *data);
+void				push_env_list(t_env **env_list, const char *str, int len);
 
 // display
 void				display_array(char **array);

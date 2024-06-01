@@ -6,13 +6,13 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/30 19:34:29 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:10:11 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	parse_path(char *first_cmd, t_envp *env)
+void	parse_path(char *first_cmd, t_env *env)
 {
 	// char	**arr;
 	// char	**cmds;

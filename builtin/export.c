@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:06:13 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:14:43 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	func_export(t_parse *cmds, t_env *env)
 	{
 		new_var = ft_strjoin(variable, value);
 		len = ft_strlen(new_var);
-		push_env(&env, new_var, len);
+		push_env_list(&env, new_var, len);
 	}
 	else
 		return ;
