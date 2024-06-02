@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:21:24 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:26:14 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,26 @@ void	push_token_list(t_token **tok_list, const char *str, int len)
 
 	last = *tok_list;
 	element = malloc(sizeof(t_token));
-	element->str = malloc(len + 1);
-	ft_strlcpy(element->str, str, len + 1);
+	if (str[0] == '"' || str[0] == 39)
+	{
+		len = len -2;
+		element->word = malloc(len + 1);
+		element->operator = NULL;
+		str++;
+		ft_strlcpy(element->word, str, len + 1);
+	}
+	else if (str[0] == '>' || str[1] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
+	{
+		element->operator = malloc(len + 1);
+		element->word = NULL;
+		ft_strlcpy(element->operator, str, len + 1);
+	}
+	else
+	{
+		element->word = malloc(len + 1);
+		element->operator = NULL;
+		ft_strlcpy(element->word, str, len + 1);
+	}
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{
@@ -83,7 +101,10 @@ void	display_token_list(t_token *tok_list)
 {
 	while (tok_list)
 	{
-		printf("[%s]\n", tok_list->str);
+		if (tok_list->word)
+			printf("[%s]\n", tok_list->word);
+		if (tok_list->operator)
+			printf("%s\n", tok_list->operator);
 		tok_list = tok_list->next;
 	}
 }
