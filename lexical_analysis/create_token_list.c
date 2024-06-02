@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/02 17:26:14 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:39:06 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,17 @@ int	get_len(char const *str)
 	int		len;
 
 	len = 0;
-	if (str[0] == '"' || str[0] == 39)
+	if (str[0] == '"')
 	{
 		len++;
-		while (str[len] != '\0' && str[len] != '"' && str[len] != 39)
+		while (str[len] != '\0' && str[len] != '"')
+			len++;
+		len++;
+	}
+	else if (str[0] == 39)
+	{
+		len++;
+		while (str[len] != '\0' && str[len] != 39)
 			len++;
 		len++;
 	}
