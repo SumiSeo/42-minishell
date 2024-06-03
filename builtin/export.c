@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:14:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 17:53:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,55 @@ int	is_export(char *str)
 	return (0);
 }
 
+void	export_without_args(t_env *env)
+{
+	t_env	*env_copy;
+	t_env	*current;
+	char	*tmp;
+	int		swapped;
+
+	current = env;
+	env_copy = NULL;
+	while (current)
+	{
+		push_env_list(&env_copy, current->env_var, ft_strlen(current->env_var));
+		current = current->next;
+	}
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		current = env_copy;
+		while (current && current->next != NULL)
+		{
+			if (ft_strncmp(current->env_var, current->next->env_var, 1) > 0)
+			{
+				tmp = current->env_var;
+				current->env_var = current->next->env_var;
+				current->next->env_var = tmp;
+				swapped = 1;
+			}
+			current = current->next;
+		}
+	}
+	current = env_copy;
+	while (current)
+	{
+		printf("export %s\n", current->env_var);
+		current = current->next;
+	}
+}
+
 void	func_export(t_parse *cmds, t_env *env)
 {
 	char *variable;
 	char *value;
 	char *new_var;
 	int len;
-	// int i = 0;
 
 	if (!cmds->cmd_array[1])
 	{
-		// list of exports ? need to check!
-		printf("Export arguments dont exits");
+		export_without_args(env);
 		return ;
 	}
 	variable = ft_strdup(cmds->cmd_array[1]);
