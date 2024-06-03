@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 19:27:52 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:32:07 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -148,6 +149,7 @@ void				func_export(t_parse *parser, t_env *env);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 char				*ft_var_strdup(const char *s1);
 void				func_unset(t_parse *parser, t_env *env);
+void				func_absolute_cd(char *dir);
 
 //  lexical analysis
 int					check_input(char const *str);
