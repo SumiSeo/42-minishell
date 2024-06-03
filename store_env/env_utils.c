@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:20:22 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 19:26:24 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:15:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 void	delete_one_env(t_env **env_list, char *variable)
 {
 	t_env	*current;
+	char	*variable_and;
 
+	variable_and = ft_strjoin(variable, "=");
 	current = *env_list;
 	while (current != NULL)
 	{
-		if (ft_strnstr(current->env_var, variable, ft_strlen(variable)))
+		if (ft_strnstr(current->env_var, variable_and,
+				ft_strlen(current->env_var)))
 		{
-			printf("Current env_var  : %s\n", current->env_var);
 			free(current->env_var);
 			current->prev->next = current->next;
 		}
