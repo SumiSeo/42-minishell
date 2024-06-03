@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 18:35:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:07:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,13 @@ int	check_variable(t_parse *cmds, t_env *env, char *variable, char *value)
 	}
 	return (result);
 }
-// void	replace_env_value(t_env *env, char *variable, char *value)
-// {
-// 	printf("It already exists \n");
-// }
 
 void	func_export(t_parse *cmds, t_env *env)
 {
-	char *variable;
-	char *value;
-	char *new_var;
-	int len;
+	char	*variable;
+	char	*value;
+	char	*new_var;
+	int		len;
 
 	if (!cmds->cmd_array[1])
 	{
