@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 18:47:50 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:53:45 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,22 @@ void	parse(t_data *data)
 	// int len;
 	// i = 0;
 	// len = 0;
-	
-	// len = ft_strlen(data->input_string);
-	// 	while (data->input_string[i] == '"')
-	// 		i++;
-		
-	// 	while ()
-		printf("[%s]\n", data->input_string);
+	int	start;
+	int end;
+
+	start = 0;
+	end = ft_strlen(data->input_string);
+	if (data->input_string[0] == '"' && data->input_string[1] == '"')
+	{
+		start = start + 2;
+		end = end - 2;
+	}
+	while (start < end)
+	{
+		printf("%c", data->input_string[start]);
+		start++;
+	}
+	printf("\n");
 }
 
 int	main(int argc, char **argv, char **envp)
