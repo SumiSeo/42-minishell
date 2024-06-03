@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/02 18:17:19 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/03 15:55:32 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parse *par_list;
 	t_env *env_list;
 	t_data *data;
-	// int builtin_check;
+	int builtin_check;
 
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;
@@ -47,16 +47,19 @@ int	main(int argc, char **argv, char **envp)
 		printf("-----\n");
 		display_path(data);
 		printf("-----\n");
-		display_token_list(tok_list);
+		// display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
-		// if (is_builtin(par_list, env_list))
-		// 	builtin_check = 1;
-		// if (!builtin_check)
-		// {
-		// 	exec_shell(par_list, env_list);
-		// }
-		// free
+		printf("------------------------\n");
+		printf("------------------------\n");
+		printf("------------------------\n");
+		printf("-----TRUE MINISHELL-----\n");
+		if (is_builtin(par_list, env_list))
+			builtin_check = 1;
+		if (!builtin_check)
+		{
+			exec_shell(par_list, env_list);
+		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}
