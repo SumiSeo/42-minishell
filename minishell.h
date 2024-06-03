@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 18:48:17 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:27:52 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void				count_nb_pipe(t_token *tok_list, t_data *data);
 void				store_env_list(char **envp, t_env **env_list);
 void				store_path(t_env *env_list, t_data *data);
 void				push_env_list(t_env **env_list, const char *str, int len);
-void				delete_one_env(t_env **env_list, char *env_val);
+void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env *env_list, char *env_val,
 						char *variable, char *value);
 

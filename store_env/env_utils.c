@@ -6,38 +6,27 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:20:22 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 19:02:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:26:24 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	delete_one_env(t_env **env_list, char *env_val)
+void	delete_one_env(t_env **env_list, char *variable)
 {
 	t_env	*current;
-	t_env	*prev;
 
 	current = *env_list;
-	prev = NULL;
 	while (current != NULL)
 	{
-		if (current->env_var == env_val)
+		if (ft_strnstr(current->env_var, variable, ft_strlen(variable)))
 		{
-			if (prev == NULL)
-			{
-				*env_list = current->next;
-			}
-			else
-			{
-				prev->next = current->next;
-			}
+			printf("Current env_var  : %s\n", current->env_var);
 			free(current->env_var);
-			free(current);
+			current->prev->next = current->next;
 		}
-		return ;
+		current = current->next;
 	}
-	prev = current;
-	current = current->next;
 }
 
 void	replace_one_env(t_env *env_list, char *env_val, char *variable,
