@@ -6,11 +6,26 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/02 18:17:19 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:47:50 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
+
+void	parse(t_data *data)
+{
+	// int	i;
+	// int len;
+	// i = 0;
+	// len = 0;
+	
+	// len = ft_strlen(data->input_string);
+	// 	while (data->input_string[i] == '"')
+	// 		i++;
+		
+	// 	while ()
+		printf("[%s]\n", data->input_string);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -18,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parse *par_list;
 	t_env *env_list;
 	t_data *data;
+
 	// int builtin_check;
 
 	data = malloc(sizeof(t_data));
@@ -34,22 +50,24 @@ int	main(int argc, char **argv, char **envp)
 		// print_dir();
 		if (take_input(data))
 			continue ;
-		if (check_input(data->input_string))
-			continue ;
-		store_path(env_list, data);
-		create_token_list(data->input_string, &tok_list);
-		count_nb_pipe(tok_list, data);
-		create_parse_list(tok_list, &par_list);
-		store_command(tok_list, par_list);
-		check_infile(par_list);
-		check_outfile(par_list);
-		search_command(par_list, data);
-		printf("-----\n");
-		display_path(data);
-		printf("-----\n");
-		display_token_list(tok_list);
-		printf("-----\n");
-		display_parse_list(par_list);
+		parse(data);
+		// if (check_input(data->input_string))
+		// 	continue ;
+		// store_path(env_list, data);
+		// create_token_list(data->input_string, &tok_list);
+		// count_nb_pipe(tok_list, data);
+		// create_parse_list(tok_list, &par_list);
+		// store_command(tok_list, par_list);
+		// check_infile(par_list);
+		// check_outfile(par_list);
+		// search_command(par_list, data);
+		// printf("-----\n");
+		// display_path(data);
+		// printf("-----\n");
+		// display_token_list(tok_list);
+		// printf("-----\n");
+		// display_parse_list(par_list);
+
 		// if (is_builtin(par_list, env_list))
 		// 	builtin_check = 1;
 		// if (!builtin_check)
@@ -57,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	exec_shell(par_list, env_list);
 		// }
 		// free
+		
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}
