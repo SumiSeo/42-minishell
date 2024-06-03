@@ -2,11 +2,8 @@ NAME = minishell
 
 #SRCS AND OBJS FOR COMPILING
 
-SRCS = minishell.c handler/error_controler.c\
-a_current_directory.c\
-b_store_input.c\
-c_parsing.c\
-d_execution_builtin.c\
+SRCS = minishell.c error_handler/error_controler.c\
+input_handler/input_handler.c\
 e_execution_system.c\
 execution/pipe_init.c\
 execution/pipe_utils.c\
@@ -35,8 +32,6 @@ store_env/store_path.c\
 store_env/env_utils.c\
 utils_display/display.c\
 get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
-
-
 
 INCLUDES = libft/
 OBJDIR = obj

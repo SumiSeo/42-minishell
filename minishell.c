@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 15:55:32 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 21:59:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char **argv, char **envp)
 	t_env *env_list;
 	t_data *data;
 	int builtin_check;
-
+	char **copy;
+	copy = envp;
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;
 	par_list = NULL;
@@ -31,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	store_env_list(envp, &env_list);
 	while (1)
 	{
-		// print_dir();
+		print_dir();
 		if (take_input(data))
 			continue ;
 		if (check_input(data->input_string))
@@ -58,7 +59,11 @@ int	main(int argc, char **argv, char **envp)
 			builtin_check = 1;
 		if (!builtin_check)
 		{
-			exec_shell(par_list, env_list);
+			if (data->has_pipe < 1)
+				exec_shell(par_list, env_list);
+			else
+				// runtime_shell(par_list, env_list, copy);
+				printf("test");
 		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);

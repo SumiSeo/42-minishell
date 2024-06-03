@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:47:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 22:11:04 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <unistd.h>
-
-# define MAXCOM 1000 // max number of letters to be supported
-# define MAXLIST 100 // max number of commands to be supported
-
-/////////////////////////////////////////////////////////////////////////
 
 typedef struct s_pipe
 {
@@ -113,13 +108,16 @@ void				create_first_pipe(char *cmd, char **env);
 void				create_last_pipe(char *cmd, char **env);
 
 // execution
-void				runtime_shell(t_parse *cmds_list);
-void				exec_shell(t_parse *cmds_list, t_env *env);
-void				parse_path(char *first_cmd, t_env *env);
-char				**parse_cmd(char *cmd);
+void				runtime_shell(t_parse *cmds_list, t_env *env_list,
+						char **env_copy);
+void				exec_shell(t_parse *cmds_list, char **env_copy);
+
+// pipex
+void				parse_path(t_parse *cmds, char **env_copy);
+char				**parse_cmd(char *cmds);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
-void				execute_cmd(char **cmds, char **arr);
+void				execute_cmd(t_parse *cmds, char **env_copy);
 void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
@@ -141,10 +139,9 @@ void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
 void				func_env(t_env *env);
 void				func_export(t_parse *parser, t_env *env);
-int					print_echo(t_parse *cmds, int i, int nextline_flag);
-char				*ft_var_strdup(const char *s1);
 void				func_unset(t_parse *parser, t_env *env);
 void				func_absolute_cd(char *dir);
+int					print_echo(t_parse *cmds, int i, int nextline_flag);
 
 //  lexical analysis
 int					check_input(char const *str);
