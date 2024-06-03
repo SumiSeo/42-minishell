@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 19:07:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:56:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,11 @@ int	is_export(char *str)
 	return (0);
 }
 
-void	export_without_args(t_env *env)
+t_env	*sort_env(t_env *env_copy, t_env *current)
 {
-	t_env	*env_copy;
-	t_env	*current;
-	char	*tmp;
 	int		swapped;
+	char	*tmp;
 
-	current = env;
-	env_copy = NULL;
-	while (current)
-	{
-		push_env_list(&env_copy, current->env_var, ft_strlen(current->env_var));
-		current = current->next;
-	}
 	swapped = 1;
 	while (swapped)
 	{
@@ -63,6 +54,22 @@ void	export_without_args(t_env *env)
 		}
 	}
 	current = env_copy;
+	return (current);
+}
+
+void	export_without_args(t_env *env)
+{
+	t_env	*env_copy;
+	t_env	*current;
+
+	current = env;
+	env_copy = NULL;
+	while (current)
+	{
+		push_env_list(&env_copy, current->env_var, ft_strlen(current->env_var));
+		current = current->next;
+	}
+	current = sort_env(env_copy, current);
 	while (current)
 	{
 		printf("export %s\n", current->env_var);
