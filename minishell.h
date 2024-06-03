@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:15:17 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 19:04:51 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ typedef struct s_parse
 
 /////////////////////////////////////////////////////////////////////////
 
+size_t				ft_strlen(const char *string);
+size_t				ft_strlcpy(char *dst, const char *src, size_t size);
+
 // error handler
 void				exit_program(char *s);
 void				create_prompt(char **env);
@@ -121,12 +124,6 @@ void				execute_cmd(char **cmds, char **arr);
 void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
-// void	parsing(t_lexer *lexer, t_parser **parser);
-// void	parsing(t_lexer *lexer);
-
-size_t				ft_strlen(const char *string);
-size_t				ft_strlcpy(char *dst, const char *src, size_t size);
-
 // built-in
 int					is_builtin(t_parse *cmds, t_env *env);
 void				execute_builtin(char **cmds);
@@ -147,14 +144,15 @@ void				func_export(t_parse *parser, t_env *env);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 char				*ft_var_strdup(const char *s1);
 void				func_unset(t_parse *parser, t_env *env);
+void				func_absolute_cd(t_parse *cmds);
 
-// 1. lexical analysis
+// lexical analysis
 int					check_input(char const *str);
 void				create_token_list(char const *str, t_token **tok_list);
 void				free_token_list(t_token **tok_list);
 void				display_token_list(t_token *tok_list);
 
-// 2. parsing
+//  parsing
 void				create_parse_list(t_token *tok_list, t_parse **par_list);
 void				free_parse_list(t_parse **par_list);
 void				display_parse_list(t_parse *par_list);
@@ -165,7 +163,7 @@ void				search_command(t_parse *par_list, t_data *data);
 
 void				count_nb_pipe(t_token *tok_list, t_data *data);
 
-// 3. store env
+//  storing env
 void				store_env_list(char **envp, t_env **env_list);
 void				display_env_list(t_env *env_list);
 void				store_path(t_env *env_list, t_data *data);

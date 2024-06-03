@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:14:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:46:00 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	func_export(t_parse *cmds, t_env *env)
 	char *value;
 	char *new_var;
 	int len;
-	// int i = 0;
 
 	if (!cmds->cmd_array[1])
 	{
