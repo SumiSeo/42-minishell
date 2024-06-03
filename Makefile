@@ -32,8 +32,10 @@ parsing/search_command.c\
 parsing/store_command.c\
 store_env/store_env_list.c\
 store_env/store_path.c\
+store_env/env_utils.c\
 utils_display/display.c\
 get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
+
 
 
 INCLUDES = libft/

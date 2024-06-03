@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/02 17:00:00 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:34:34 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,12 @@ int					print_echo(t_parse *cmds, int i, int nextline_flag);
 char				*ft_var_strdup(const char *s1);
 void				func_unset(t_parse *parser, t_env *env);
 
-// 1. lexical analysis
+//  lexical analysis
 int					check_input(char const *str);
 void				create_token_list(char const *str, t_token **tok_list);
 void				free_token_list(t_token **tok_list);
-void				display_token_list(t_token *tok_list);
 
-// 2. parsing
+//  parsing
 void				create_parse_list(t_token *tok_list, t_parse **par_list);
 void				free_parse_list(t_parse **par_list);
 void				display_parse_list(t_parse *par_list);
@@ -163,18 +162,22 @@ void				store_command(t_token *tok_list, t_parse *par_list);
 void				check_outfile(t_parse *par_list);
 void				check_infile(t_parse *par_list);
 void				search_command(t_parse *par_list, t_data *data);
-
 void				count_nb_pipe(t_token *tok_list, t_data *data);
 
-// 3. store env
+//  env
 void				store_env_list(char **envp, t_env **env_list);
-void				display_env_list(t_env *env_list);
 void				store_path(t_env *env_list, t_data *data);
-void				display_path(t_data *data);
 void				push_env_list(t_env **env_list, const char *str, int len);
+void				delete_one_env(t_env *env_list, char *env_val,
+						const char *str);
+void				replace_one_env(t_env *env_list, char *env_val,
+						char *variable, char *value);
 
 // display
 void				display_array(char **array);
+void				display_path(t_data *data);
+void				display_env_list(t_env *env_list);
+void				display_token_list(t_token *tok_list);
 
 // gnl
 char				*get_next_line(int fd);

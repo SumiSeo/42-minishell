@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 18:19:46 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:35:12 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	export_without_args(t_env *env)
 	}
 }
 
-int	check_variable(t_parse *cmds, t_env *env, char *variable)
+int	check_variable(t_parse *cmds, t_env *env, char *variable, char *value)
 {
 	char	*found_value;
 	int		result;
@@ -83,16 +83,17 @@ int	check_variable(t_parse *cmds, t_env *env, char *variable)
 		if (found_value != NULL)
 		{
 			result = 1;
+			replace_one_env(env, env->env_var, variable, value);
 			break ;
 		}
 		env = env->next;
 	}
 	return (result);
 }
-void	replace_env_value(t_env *env, char *variable, char *value)
-{
-	printf("It already exists \n");
-}
+// void	replace_env_value(t_env *env, char *variable, char *value)
+// {
+// 	printf("It already exists \n");
+// }
 
 void	func_export(t_parse *cmds, t_env *env)
 {
@@ -107,11 +108,11 @@ void	func_export(t_parse *cmds, t_env *env)
 		return ;
 	}
 	variable = ft_strdup(cmds->cmd_array[1]);
-	if (check_variable(cmds, env, variable))
-		replace_env_value(env, variable, value);
+	value = ft_strdup(cmds->cmd_array[2]);
+	if (check_variable(cmds, env, variable, value))
+		return ;
 	else
 	{
-		value = ft_strdup(cmds->cmd_array[2]);
 		if (variable[0] != '\0' && value[0] != '\0')
 		{
 			new_var = ft_strjoin(variable, value);
