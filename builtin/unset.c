@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 19:26:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:50:08 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	is_unset(char *str)
 
 void	func_unset(t_parse *cmds, t_env *env)
 {
-	int i;
-	char *found_value;
+	int		i;
+	char	*found_value;
 
 	i = 0;
 	if (!cmds->cmd_array[1])

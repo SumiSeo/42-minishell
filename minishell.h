@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:32:07 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:47:02 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,6 @@ void				execute_cmd(char **cmds, char **arr);
 void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
-// void	parsing(t_lexer *lexer, t_parser **parser);
-// void	parsing(t_lexer *lexer);
-
-size_t				ft_strlen(const char *string);
-size_t				ft_strlcpy(char *dst, const char *src, size_t size);
-
 // built-in
 int					is_builtin(t_parse *cmds, t_env *env);
 void				execute_builtin(char **cmds);
@@ -142,6 +136,7 @@ int					is_unset(char *str);
 void				func_echo(t_parse *cmds);
 void				func_pwd(t_parse *cmds);
 void				func_cd(t_parse *cmds);
+void				func_path(int path_int, char *path);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
 void				func_env(t_env *env);
@@ -182,5 +177,9 @@ void				display_token_list(t_token *tok_list);
 
 // gnl
 char				*get_next_line(int fd);
+
+// utils
+size_t				ft_strlen(const char *string);
+size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
 #endif

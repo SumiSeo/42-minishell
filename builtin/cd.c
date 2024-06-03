@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:37:11 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:45:00 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ void	func_cd(t_parse *cmds)
 	char	*rel_paths[2];
 	int		path_int;
 	int		i;
-	int		is_relative;
 
-	is_relative = 0;
 	path_int = 0;
 	rel_paths[0] = "..";
 	rel_paths[1] = ".";
@@ -47,21 +45,25 @@ void	func_cd(t_parse *cmds)
 		return ;
 	else
 	{
-		while (i < 4)
+		while (i < 3)
 		{
 			if (strcmp(cmds->cmd_array[1], rel_paths[i]) == 0)
 			{
 				path_int = i + 1;
-				is_relative = 1;
 				break ;
 			}
 			i++;
 		}
 	}
-	if (is_relative)
+	func_path(path_int, cmds->cmd_array[1]);
+}
+
+void	func_path(int path_int, char *path)
+{
+	if (path_int > 0)
 		func_relative_cd(path_int);
 	else
-		func_absolute_cd(cmds->cmd_array[1]);
+		func_absolute_cd(path);
 }
 
 void	func_relative_cd(int path_int)
@@ -78,7 +80,7 @@ void	func_absolute_cd(char *dir)
 
 	dir_info = opendir(dir);
 	if (!dir_info)
-		printf("cd: no such file or directory: %s\n", dir);
+		printf("cd: %s: No such file or directory\n", dir);
 	else
 		chdir(dir);
 }
