@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:23:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:17:19 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parse *par_list;
 	t_env *env_list;
 	t_data *data;
-	int builtin_check;
+	// int builtin_check;
 
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;
@@ -44,24 +44,21 @@ int	main(int argc, char **argv, char **envp)
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
-		// printf
 		printf("-----\n");
 		display_path(data);
 		printf("-----\n");
 		display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
-
-		if (is_builtin(par_list, env_list))
-			builtin_check = 1;
-		if (!builtin_check)
-		{
-			exec_shell(par_list, env_list);
-		}
+		// if (is_builtin(par_list, env_list))
+		// 	builtin_check = 1;
+		// if (!builtin_check)
+		// {
+		// 	exec_shell(par_list, env_list);
+		// }
 		// free
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
-		free(data);
 	}
 	return (0);
 }

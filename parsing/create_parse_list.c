@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:37:44 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:34:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int	count_words_pipe_create(t_token *tok_list)
 	int		len;
 
 	len = 0;
-	while (tok_list && tok_list->str[0] != '|')
+	while (tok_list)
 	{
+		if (tok_list->operator && tok_list->operator[0] == '|')
+			break;
 		len++;
 		tok_list = tok_list->next;
 	}
@@ -74,7 +76,7 @@ void	create_parse_list(t_token *tok_list, t_parse **par_list)
 			tok_list = tok_list->next;
 			k++;
 		}
-		if (tok_list && tok_list->str[0] == '|')
+		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
 			tok_list = tok_list->next;
 	}
 }
