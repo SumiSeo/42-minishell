@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/04 17:54:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:01:12 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token *tok_list;
-	t_parse *par_list;
-	t_env *env_list;
-	t_data *data;
-	int builtin_check;
-	char **copy;
+	t_token	*tok_list;
+	t_parse	*par_list;
+	t_env	*env_list;
+	t_data	*data;
+	int		builtin_check;
+	char	**copy;
+
 	copy = envp;
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;

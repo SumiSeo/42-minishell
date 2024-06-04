@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:35:20 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:04:32 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,11 @@ void	create_pipe(char *cmd, char **env, int total, int i)
 	}
 }
 
-void	execute_pipeline(char **argv, char *path, char **env)
+void	execute_pipeline(t_parse *cmds_list, t_env *env_list, char **env_copy,
+		t_data *data)
 {
-	int i = 0;
-
-	(void)path;
-	int total_pipe = count_arr_length(argv);
-
-	while (argv[i])
-	{
-		printf("PARSED PASSED ARGS %s\n", argv[i]);
-		create_pipe(argv[i], env, total_pipe, i);
-		i++;
-	}
+	(void)cmds_list;
+	(void)env_list;
+	(void)env_copy;
+	(void)data;
 }
