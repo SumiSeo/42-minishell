@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 22:11:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:51:56 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void				func_cd(t_parse *cmds);
 void				func_path(int path_int, char *path);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
-void				func_env(t_env *env);
+void				func_env(t_parse *cmds, t_env *env);
 void				func_export(t_parse *parser, t_env *env);
 void				func_unset(t_parse *parser, t_env *env);
 void				func_absolute_cd(char *dir);
