@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/04 14:51:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:42:44 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void				create_last_pipe(char *cmd, char **env);
 
 // execution
 void				runtime_shell(t_parse *cmds_list, t_env *env_list,
-						char **env_copy);
+						char **env_copy, t_data *data);
 void				exec_shell(t_parse *cmds_list, char **env_copy);
 
 // pipex
