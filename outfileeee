@@ -1,0 +1,27 @@
+total 88
+drwxr-xr-x 15 sumseo 2023_paris  4096 Jun  6 17:19 .
+drwxr-xr-x  8 sumseo 2023_paris   103 May 18 10:48 ..
+drwxr-xr-x  2 sumseo 2023_paris   125 Jun  3 20:47 builtin
+-rw-r--r--  1 sumseo 2023_paris  2215 May 29 18:48 e_execution_system.c
+drwxr-xr-x  2 sumseo 2023_paris    31 May 29 18:48 error_handler
+drwxr-xr-x  2 sumseo 2023_paris   124 Jun  6 16:13 execution
+drwxr-xr-x  2 sumseo 2023_paris    81 Jun  1 17:59 get_next_line
+drwxr-xr-x  8 sumseo 2023_paris   220 Jun  6 16:16 .git
+-rw-r--r--  1 sumseo 2023_paris     8 May 29 18:48 infile
+drwxr-xr-x  2 sumseo 2023_paris    29 Jun  3 20:58 input_handler
+drwxr-xr-x  2 sumseo 2023_paris   102 Jun  3 15:49 lexical_analysis
+drwxr-xr-x  2 sumseo 2023_paris  4096 Jun  3 20:18 libft
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun  6 16:15 Makefile
+-rwxr-xr-x  1 sumseo 2023_paris 48784 Jun  6 17:19 minishell
+-rw-r--r--  1 sumseo 2023_paris  2417 Jun  4 18:01 minishell.c
+-rw-r--r--  1 sumseo 2023_paris  5630 Jun  6 16:14 minishell.h
+drwxr-xr-x 11 sumseo 2023_paris   225 Jun  4 18:04 obj
+-rw-r--r--  1 sumseo 2023_paris     0 Jun  6 16:58 out
+-rw-r--r--  1 sumseo 2023_paris     0 Jun  1 17:59 outfile
+-rw-r--r--  1 sumseo 2023_paris   956 Jun  6 15:33 outfile2
+-rw-r--r--  1 sumseo 2023_paris     0 Jun  6 17:19 outfileeee
+drwxr-xr-x  2 sumseo 2023_paris   150 Jun  3 15:49 parsing
+-rw-r--r--  1 sumseo 2023_paris  2397 May 29 18:48 ReadMe.md
+drwxr-xr-x  2 sumseo 2023_paris    69 Jun  3 18:20 store_env
+drwxr-xr-x  2 sumseo 2023_paris    23 Jun  1 17:59 utils_display
+drwxr-xr-x  2 sumseo 2023_paris    27 May 22 15:35 .vscode
