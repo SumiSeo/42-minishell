@@ -1,7 +1,3 @@
-NAME = minishell
-
-#SRCS AND OBJS FOR COMPILING
-
 SRCS = minishell.c error_handler/error_controler.c\
 input_handler/input_handler.c\
 e_execution_system.c\
@@ -9,7 +5,6 @@ execution/pipe_init.c\
 execution/pipe_utils.c\
 execution/runtime.c\
 execution/exec_utils.c\
-execution/redirect_init.c\
 builtin/echo.c\
 builtin/pwd.c\
 builtin/cd.c\
@@ -33,35 +28,11 @@ store_env/store_path.c\
 store_env/env_utils.c\
 utils_display/display.c\
 get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
-
-INCLUDES = libft/
-OBJDIR = obj
-
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
-
-#FLAGS 
 CC = clang
-CFLAGS = -Wall -Werror -Wextra
-LDFLAGS = -lreadline
-CLIB = -L libft/ -l libft
-DEBUGGER = -g3
-
-all : $(NAME)
-
-$(NAME) : $(OBJS)
-		make -C libft
-		$(CC) $(OBJS) -I $(INCLUDES) -o $(NAME) $(CLIB) $(LDFLAGS) $(DEBUGGER)
-
 $(OBJDIR)/%.o : %.c
-		mkdir -p $(dir $@)
 		$(CC) $(CFLAGS) -c $< -o $@
-
 clean :
-		rm -rf $(OBJDIR)
-
 fclean : clean
-		rm -rf $(NAME)
-
 re : fclean all
-
 .PHONY: all clean fclean re

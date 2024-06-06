@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/04 18:03:50 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/06 16:14:44 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void				exec_args(char **parsed);
 void				exec_args_piped(char **parsed, char **parsedpipe);
 int					own_cmd_handler(char **parsed);
 int					count_arr_length(char **argv);
-void				create_pipe(char *cmd, char **env, int total, int i);
+void				create_pipe(t_parse *cmds_list, t_env *env_list,
+						char **env_copy, t_data *data);
 void				execute_pipeline(t_parse *cmds_list, t_env *env_list,
 						char **env_copy, t_data *data);
 void				execute_cmds(char **parsed_args, char **env);
@@ -143,6 +144,9 @@ void				func_unset(t_parse *parser, t_env *env);
 void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 
+// redirection
+void				execute_redirection(t_parse *cmds_list, t_env *env_list,
+						char **env_copy, t_data *data);
 //  lexical analysis
 int					check_input(char const *str);
 void				create_token_list(char const *str, t_token **tok_list);

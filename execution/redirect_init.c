@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_nb_pipe.c                                    :+:      :+:    :+:   */
+/*   redirect_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 15:43:16 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/06 15:26:58 by sumseo           ###   ########.fr       */
+/*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
+/*   Updated: 2024/06/06 16:14:27 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	count_nb_pipe(t_token *tok_list, t_data *data)
+void	execute_redirection(t_parse *cmds_list, t_env *env_list,
+		char **env_copy, t_data *data)
 {
-	int	nb;
-
-	data->has_pipe = 0;
-	nb = 0;
-	while (tok_list)
-	{
-		if (tok_list->operator&& tok_list->operator[0] == '|')
-			nb++;
-		tok_list = tok_list->next;
-	}
-	data->has_pipe = nb;
+	(void)cmds_list;
+	(void)env_list;
+	(void)env_copy;
+	(void)data;
+	printf("Check redirection\n");
 }
