@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/04 18:01:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:55:56 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	main(int argc, char **argv, char **envp)
 			builtin_check = 1;
 		if (!builtin_check)
 		{
-			if (data->has_pipe < 1 && par_list->infile_exist != 1
-				&& par_list->outfile_exist != 1)
+			if (data->has_pipe < 1 && par_list->infile_token != NULL
+				&& par_list->outfile_token != NULL)
 				exec_shell(par_list, copy);
 			else
 				runtime_shell(par_list, env_list, copy, data);
