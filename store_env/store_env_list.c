@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   store_env_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:32:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/03 17:12:50 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	push_env_list(t_env **env_list, const char *str, int len)
 
 void	store_env_list(char **envp, t_env **env_list)
 {
-	int			i;
-	int			len;
+	int	i;
+	int	len;
 
 	i = 0;
 	while (envp[i])

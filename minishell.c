@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/02 18:17:19 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:55:56 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token *tok_list;
-	t_parse *par_list;
-	t_env *env_list;
-	t_data *data;
-	// int builtin_check;
+	t_token	*tok_list;
+	t_parse	*par_list;
+	t_env	*env_list;
+	t_data	*data;
+	int		builtin_check;
+	char	**copy;
 
+	copy = envp;
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;
 	par_list = NULL;
@@ -31,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	store_env_list(envp, &env_list);
 	while (1)
 	{
-		// print_dir();
+		print_dir();
 		if (take_input(data))
 			continue ;
 		if (check_input(data->input_string))
@@ -47,16 +49,23 @@ int	main(int argc, char **argv, char **envp)
 		printf("-----\n");
 		display_path(data);
 		printf("-----\n");
-		display_token_list(tok_list);
+		// display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
-		// if (is_builtin(par_list, env_list))
-		// 	builtin_check = 1;
-		// if (!builtin_check)
-		// {
-		// 	exec_shell(par_list, env_list);
-		// }
-		// free
+		printf("------------------------\n");
+		printf("------------------------\n");
+		printf("------------------------\n");
+		printf("-----TRUE MINISHELL-----\n");
+		if (is_builtin(par_list, env_list))
+			builtin_check = 1;
+		if (!builtin_check)
+		{
+			if (data->has_pipe < 1 && par_list->infile_token != NULL
+				&& par_list->outfile_token != NULL)
+				exec_shell(par_list, copy);
+			else
+				runtime_shell(par_list, env_list, copy, data);
+		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}

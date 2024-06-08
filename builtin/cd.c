@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:05:30 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:45:00 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	func_cd(t_parse *cmds)
 		return ;
 	else
 	{
-		while (i < 4)
+		while (i < 3)
 		{
 			if (strcmp(cmds->cmd_array[1], rel_paths[i]) == 0)
 			{
@@ -55,7 +55,15 @@ void	func_cd(t_parse *cmds)
 			i++;
 		}
 	}
-	func_relative_cd(path_int);
+	func_path(path_int, cmds->cmd_array[1]);
+}
+
+void	func_path(int path_int, char *path)
+{
+	if (path_int > 0)
+		func_relative_cd(path_int);
+	else
+		func_absolute_cd(path);
 }
 
 void	func_relative_cd(int path_int)
@@ -66,10 +74,13 @@ void	func_relative_cd(int path_int)
 		chdir(".");
 }
 
-void	func_absolute_cd(int path_int)
+void	func_absolute_cd(char *dir)
 {
-	if (path_int == 1)
-		chdir("..");
-	else if (path_int == 2)
-		chdir(".");
+	DIR	*dir_info;
+
+	dir_info = opendir(dir);
+	if (!dir_info)
+		printf("cd: %s: No such file or directory\n", dir);
+	else
+		chdir(dir);
 }
