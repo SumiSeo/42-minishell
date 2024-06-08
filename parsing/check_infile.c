@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:04:27 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:20:38 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	check_infile(t_parse *par_list)
 {
 	while (par_list)
 	{
-		if (par_list->infile_name != NULL && ft_strlen(par_list->infile_token) == 1)
+		if (par_list->infile_name != NULL
+			&& ft_strlen(par_list->infile_token) == 1)
 		{
 			par_list->infile_exist = infile_exist(par_list->infile_name);
 			if (par_list->infile_exist == 1)
@@ -58,8 +59,8 @@ void	check_infile(t_parse *par_list)
 // 	{
 // 		string = get_next_line(0);
 // 		printf("%zu\n", ft_strlen(string));
-// 		if (string == NULL
-// 			|| ft_strncmp(string, argv, ft_strlen(string) - 1) == 0)
+// 		if (string == NULL || ft_strncmp(string, argv, ft_strlen(string)
+// 				- 1) == 0)
 // 			break ;
 // 		ft_putstr_fd(string, fd1);
 // 		free(string);
@@ -87,9 +88,9 @@ void	check_infile(t_parse *par_list)
 // 	return (fd1);
 // }
 
-// void		open_all_infile(t_parse *parser)
+// void	open_all_infile(t_parse *parser)
 // {
-// 	while(parser)
+// 	while (parser)
 // 	{
 // 		if (parser->infile != NULL)
 // 			parser->fd_infile = open_infile(parser);
@@ -97,16 +98,18 @@ void	check_infile(t_parse *par_list)
 // 	}
 // }
 
-// void		open_all_outfile(t_parse *parser)
+// void	open_all_outfile(t_parse *parser)
 // {
-// 	while(parser)
+// 	while (parser)
 // 	{
 // 		if (parser->outfile != NULL)
 // 		{
 // 			if (ft_strlen(parser->token_outfile) == 2)
-// 				parser->fd_outfile = open(parser->outfile, O_CREAT | O_APPEND | O_WRONLY, 0644);
+// 				parser->fd_outfile = open(parser->outfile,
+// 						O_CREAT | O_APPEND | O_WRONLY, 0644);
 // 			else
-// 				parser->fd_outfile = open(parser->outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+// 				parser->fd_outfile = open(parser->outfile,
+// 						O_CREAT | O_TRUNC | O_WRONLY, 0644);
 // 		}
 // 		parser = parser->next;
 // 	}

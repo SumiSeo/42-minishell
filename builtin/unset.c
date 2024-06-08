@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:06:30 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:50:08 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,24 @@ int	is_unset(char *str)
 
 void	func_unset(t_parse *cmds, t_env *env)
 {
-	(void)cmds;
-	(void)env;
-	printf("unset");
-	// char *a = getenv("user");
-	printf("GETEMV %s\n", getenv("TERM"));
+	int		i;
+	char	*found_value;
+
+	i = 0;
+	if (!cmds->cmd_array[1])
+		return ;
+	else
+	{
+		while (env)
+		{
+			found_value = ft_strnstr(env->env_var, cmds->cmd_array[1],
+					ft_strlen(cmds->cmd_array[1]));
+			if (found_value != NULL)
+			{
+				delete_one_env(&env, cmds->cmd_array[1]);
+				break ;
+			}
+			env = env->next;
+		}
+	}
 }

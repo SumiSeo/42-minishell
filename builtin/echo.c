@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:15:50 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/03 21:09:34 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	print_echo(t_parse *cmds, int i, int nextline_flag)
 	{
 		printf("%s", cmds->cmd_array[i]);
 		if ((cmds)->cmd_array[i])
-			printf(" ");
+			// error
+			printf("$");
 		i++;
 	}
 	if (!nextline_flag)
@@ -49,6 +50,7 @@ int	print_echo(t_parse *cmds, int i, int nextline_flag)
 	else
 		return (1);
 }
+
 void	func_echo(t_parse *cmds)
 {
 	int	nextline_flag;

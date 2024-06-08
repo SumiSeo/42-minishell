@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/01 18:23:08 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:52:24 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_builtin(t_parse *cmds, t_env *env)
 	else if (is_cd(cmds->cmd_array[0]) == 1)
 		func_cd(cmds);
 	else if (is_env(cmds->cmd_array[0]) == 1)
-		func_env(env);
+		func_env(cmds, env);
 	else if (is_exit(cmds->cmd_array[0]) == 1)
 		func_exit(cmds);
 	else if (is_unset(cmds->cmd_array[0]))
