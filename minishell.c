@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 18:53:45 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:32:30 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,49 @@
 
 void	parse(t_data *data)
 {
-	// int	i;
-	// int len;
-	// i = 0;
-	// len = 0;
-	int	start;
-	int end;
+	int		i;
 
-	start = 0;
-	end = ft_strlen(data->input_string);
-	if (data->input_string[0] == '"' && data->input_string[1] == '"')
+	i = 0;
+	// printf("[");
+	while (data->input_string[i] != '\0')
 	{
-		start = start + 2;
-		end = end - 2;
+		while (data->input_string[i] == ' ' && data->input_string[i] != '\0')
+			i++;
+		if (data->input_string[i] == '"')
+		{
+			i++;
+			while (data->input_string[i] != '\0' && data->input_string[i] != '"')
+			{
+				printf("%c", data->input_string[i]);
+				i++;
+			}	
+			i++;
+		}
+		else if (data->input_string[i] == 39)
+		{
+			i++;
+			while (data->input_string[i] != '\0' && data->input_string[i] != 39)
+			{
+				printf("%c", data->input_string[i]);
+				i++;
+			}
+			i++;
+		}
+		else
+		{
+			while (data->input_string[i] != '\0' && data->input_string[i] != 39 && data->input_string[i] != '"' && data->input_string[i] != ' ')
+			{
+				printf("%c", data->input_string[i]);
+				i++;
+			}
+		}
+		printf("\n");
+		if (data->input_string[i] == '\0')
+			break ;
+		if (data->input_string[i] == ' ')
+			i++;
 	}
-	while (start < end)
-	{
-		printf("%c", data->input_string[start]);
-		start++;
-	}
-	printf("\n");
+	// printf("]");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -59,11 +82,11 @@ int	main(int argc, char **argv, char **envp)
 		// print_dir();
 		if (take_input(data))
 			continue ;
-		parse(data);
+		// parse(data);
 		// if (check_input(data->input_string))
-		// 	continue ;
+			// continue ;
 		// store_path(env_list, data);
-		// create_token_list(data->input_string, &tok_list);
+		create_token_list(data, &tok_list);
 		// count_nb_pipe(tok_list, data);
 		// create_parse_list(tok_list, &par_list);
 		// store_command(tok_list, par_list);
@@ -72,8 +95,8 @@ int	main(int argc, char **argv, char **envp)
 		// search_command(par_list, data);
 		// printf("-----\n");
 		// display_path(data);
-		// printf("-----\n");
-		// display_token_list(tok_list);
+		printf("-----\n");
+		display_token_list(tok_list);
 		// printf("-----\n");
 		// display_parse_list(par_list);
 

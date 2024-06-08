@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/02 17:00:00 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:34:35 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 {
 	char			**all_paths;
 	int				has_pipe;
+	int				position;
 	char			*input_string;
 }					t_data;
 
@@ -151,7 +152,7 @@ void				func_unset(t_parse *parser, t_env *env);
 
 // 1. lexical analysis
 int					check_input(char const *str);
-void				create_token_list(char const *str, t_token **tok_list);
+void				create_token_list(t_data *data, t_token **tok_list);
 void				free_token_list(t_token **tok_list);
 void				display_token_list(t_token *tok_list);
 
