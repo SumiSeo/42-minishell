@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/07 22:57:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:32:35 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_data
 {
 	char			**all_paths;
 	int				has_pipe;
+	int				position;
 	char			*input_string;
 }					t_data;
 
@@ -150,7 +151,7 @@ void				execute_redirection(t_parse *cmds_list, char **env_copy);
 
 //  lexical analysis
 int					check_input(char const *str);
-void				create_token_list(char const *str, t_token **tok_list);
+void				create_token_list(t_data *data, t_token **tok_list);
 void				free_token_list(t_token **tok_list);
 
 //  parsing

@@ -6,11 +6,58 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/07 22:55:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:32:30 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
+
+void	parse(t_data *data)
+{
+	int		i;
+
+	i = 0;
+	// printf("[");
+	while (data->input_string[i] != '\0')
+	{
+		while (data->input_string[i] == ' ' && data->input_string[i] != '\0')
+			i++;
+		if (data->input_string[i] == '"')
+		{
+			i++;
+			while (data->input_string[i] != '\0' && data->input_string[i] != '"')
+			{
+				printf("%c", data->input_string[i]);
+				i++;
+			}	
+			i++;
+		}
+		else if (data->input_string[i] == 39)
+		{
+			i++;
+			while (data->input_string[i] != '\0' && data->input_string[i] != 39)
+			{
+				printf("%c", data->input_string[i]);
+				i++;
+			}
+			i++;
+		}
+		else
+		{
+			while (data->input_string[i] != '\0' && data->input_string[i] != 39 && data->input_string[i] != '"' && data->input_string[i] != ' ')
+			{
+				printf("%c", data->input_string[i]);
+				i++;
+			}
+		}
+		printf("\n");
+		if (data->input_string[i] == '\0')
+			break ;
+		if (data->input_string[i] == ' ')
+			i++;
+	}
+	// printf("]");
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -36,18 +83,19 @@ int	main(int argc, char **argv, char **envp)
 		print_dir();
 		if (take_input(data))
 			continue ;
-		if (check_input(data->input_string))
-			continue ;
-		store_path(env_list, data);
-		create_token_list(data->input_string, &tok_list);
-		count_nb_pipe(tok_list, data);
-		create_parse_list(tok_list, &par_list);
-		store_command(tok_list, par_list);
-		check_infile(par_list);
-		check_outfile(par_list);
-		search_command(par_list, data);
-		printf("-----\n");
-		display_path(data);
+		// parse(data);
+		// if (check_input(data->input_string))
+			// continue ;
+		// store_path(env_list, data);
+		create_token_list(data, &tok_list);
+		// count_nb_pipe(tok_list, data);
+		// create_parse_list(tok_list, &par_list);
+		// store_command(tok_list, par_list);
+		// check_infile(par_list);
+		// check_outfile(par_list);
+		// search_command(par_list, data);
+		// printf("-----\n");
+		// display_path(data);
 		printf("-----\n");
 		// display_token_list(tok_list);
 		printf("-----\n");
