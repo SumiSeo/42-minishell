@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 17:32:35 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/08 22:20:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 
 // redirection
-void				execute_redirection(t_parse *cmds_list, char **env_copy);
+void				redirection(t_parse *cmds_list);
 
 //  lexical analysis
 int					check_input(char const *str);
