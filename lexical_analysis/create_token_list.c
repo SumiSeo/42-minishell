@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/08 16:49:18 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:31:36 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ void	push_token_list(t_token **tok_list, const char *str, int len)
 	j = 0;
 	last = *tok_list;
 	element = malloc(sizeof(t_token));
-	// printf("here\n");
-	// printf("%d\n", len);
-	// printf("%s\n", str);
-
-	if (str[0] == '>' || str[1] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
+	if (str[0] == '>' || str[0] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
 	{
 		element->operator = malloc(len + 1);
 		element->word = NULL;
@@ -37,7 +33,7 @@ void	push_token_list(t_token **tok_list, const char *str, int len)
 	{
 		element->word = malloc(len + 1);
 		element->operator = NULL;
-		while (str[i] != ' ' && str[i] != '\0')
+		while (str[i] != ' ' && str[i] != '\0' && str[i] != '|')
 		{
 			if (str[i] == '"')
 			{
@@ -75,22 +71,6 @@ void	push_token_list(t_token **tok_list, const char *str, int len)
 		}
 		element->word[j] = '\0';
 	}
-
-	// else if (str[0] == '"' || str[0] == 39)
-	// {
-	// 	len = len -2;
-	// 	element->word = malloc(len + 1);
-	// 	element->operator = NULL;
-	// 	str++;
-	// 	ft_strlcpy(element->word, str, len + 1);
-	// }
-	// else
-	// {
-	// 	element->word = malloc(len + 1);
-	// 	element->operator = NULL;
-	// 	ft_strlcpy(element->word, str, len + 1);
-	// }
-
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{
@@ -112,14 +92,23 @@ int	get_len(t_data *data)
 	i = 0;
 	len = 0;
 	if (data->input_string[data->position] == '>' && data->input_string[1] == '>')
+	{
 		len = 2;
+		data->position = data->position + 2;
+	}	
 	else if (data->input_string[data->position] == '<' && data->input_string[1] == '<')
+	{
 		len = 2;
+		data->position = data->position + 2;
+	}
 	else if (data->input_string[data->position] == '|' || data->input_string[data->position] == '>' || data->input_string[data->position] == '<')
+	{
 		len = 1;
+		data->position = data->position + 1;
+	}
 	else
 	{
-		while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0')
+		while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0' && data->input_string[data->position] != '|')
 		{
 			if (data->input_string[data->position] == '"')
 			{
@@ -128,7 +117,9 @@ int	get_len(t_data *data)
 				{
 					len++;
 					data->position++;
-				}	
+				}
+				if (data->input_string[data->position] != '\0')
+					data->position++;
 			}
 			else if (data->input_string[data->position] == 39)
 			{
@@ -137,7 +128,9 @@ int	get_len(t_data *data)
 				{
 					len++;
 					data->position++;
-				}	
+				}
+				if (data->input_string[data->position] != '\0')
+					data->position++;
 			}
 			else
 			{
@@ -149,7 +142,6 @@ int	get_len(t_data *data)
 			}
 		}
 	}
-	printf("i: %d len: %d\n", data->position, len);
 	return (len);
 }
 
