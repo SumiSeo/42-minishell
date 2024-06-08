@@ -3,61 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 17:32:30 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:30:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
-
-void	parse(t_data *data)
-{
-	int		i;
-
-	i = 0;
-	// printf("[");
-	while (data->input_string[i] != '\0')
-	{
-		while (data->input_string[i] == ' ' && data->input_string[i] != '\0')
-			i++;
-		if (data->input_string[i] == '"')
-		{
-			i++;
-			while (data->input_string[i] != '\0' && data->input_string[i] != '"')
-			{
-				printf("%c", data->input_string[i]);
-				i++;
-			}	
-			i++;
-		}
-		else if (data->input_string[i] == 39)
-		{
-			i++;
-			while (data->input_string[i] != '\0' && data->input_string[i] != 39)
-			{
-				printf("%c", data->input_string[i]);
-				i++;
-			}
-			i++;
-		}
-		else
-		{
-			while (data->input_string[i] != '\0' && data->input_string[i] != 39 && data->input_string[i] != '"' && data->input_string[i] != ' ')
-			{
-				printf("%c", data->input_string[i]);
-				i++;
-			}
-		}
-		printf("\n");
-		if (data->input_string[i] == '\0')
-			break ;
-		if (data->input_string[i] == ' ')
-			i++;
-	}
-	// printf("]");
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -65,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parse	*par_list;
 	t_env	*env_list;
 	t_data	*data;
-	int		builtin_check;
+	// int		builtin_check;
 	char	**copy;
 
 	copy = envp;
@@ -83,37 +36,36 @@ int	main(int argc, char **argv, char **envp)
 		print_dir();
 		if (take_input(data))
 			continue ;
-		// parse(data);
-		// if (check_input(data->input_string))
-			// continue ;
-		// store_path(env_list, data);
+		if (check_input(data->input_string))
+			continue ;
+		store_path(env_list, data);
 		create_token_list(data, &tok_list);
-		// count_nb_pipe(tok_list, data);
-		// create_parse_list(tok_list, &par_list);
-		// store_command(tok_list, par_list);
-		// check_infile(par_list);
-		// check_outfile(par_list);
-		// search_command(par_list, data);
-		// printf("-----\n");
-		// display_path(data);
+		count_nb_pipe(tok_list, data);
+		create_parse_list(tok_list, &par_list);
+		store_command(tok_list, par_list);
+		check_infile(par_list);
+		check_outfile(par_list);
+		search_command(par_list, data);
 		printf("-----\n");
-		// display_token_list(tok_list);
+		display_path(data);
+		printf("-----\n");
+		display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
-		printf("------------------------\n");
-		printf("------------------------\n");
-		printf("------------------------\n");
-		printf("-----TRUE MINISHELL-----\n");
-		if (is_builtin(par_list, env_list))
-			builtin_check = 1;
-		if (!builtin_check)
-		{
-			if (data->has_pipe < 1 && par_list->infile_token != NULL
-				&& par_list->outfile_token != NULL)
-				exec_shell(par_list, copy);
-			else
-				runtime_shell(par_list, env_list, copy, data);
-		}
+		// printf("------------------------\n");
+		// printf("------------------------\n");
+		// printf("------------------------\n");
+		// printf("-----TRUE MINISHELL-----\n");
+		// if (is_builtin(par_list, env_list))
+		// 	builtin_check = 1;
+		// if (!builtin_check)
+		// {
+		// 	if (data->has_pipe < 1 && par_list->infile_token != NULL
+		// 		&& par_list->outfile_token != NULL)
+		// 		exec_shell(par_list, copy);
+		// 	else
+		// 		runtime_shell(par_list, env_list, copy, data);
+		// }
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}
