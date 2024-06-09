@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 21:42:46 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 19:53:39 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,56 +34,12 @@ int	take_standard_input(t_parse *cmds_list, t_pipe *cur_pipe)
 	printf("This file doex not exists\n");
 	return (0);
 }
-void	create_pipe(t_parse *cmds_list, char **env_copy, t_data *data,
-		t_pipe *cur_pipe)
+void	execution(t_parse *cmds_list, char **env_copy, t_pipe *pipe_info)
 {
-	int	fork_id;
-
-	printf("Check create pipe function\n");
+	(void)pipe_info;
+	printf("Check execute pipe function\n");
 	(void)cmds_list;
 	(void)env_copy;
-	(void)data;
-	if (pipe(cur_pipe->pipefd) == -1)
-		printf("There is a probem with pipe creation\n");
-	fork_id = fork();
-	if (fork_id == -1)
-		printf("There is a probem with fork creation\n");
-	if (fork_id == 0)
-	{
-		// check if there is < or << in the cmds list
-		if (find_redirection(cmds_list))
-			cur_pipe->fdi = 1;
-		// if it exists open the file
-		printf("Cure %d\n", cur_pipe->fdi);
-		if (cur_pipe->fdi == 1)
-		{
-			open_infile(cmds_list, cur_pipe);
-			printf("Here I am for opetning %d\n", cur_pipe->infile);
-		}
-		// if it does not exist take entree standard
-		else
-			take_standard_input(cmds_list, cur_pipe);
-		// and then from here pipe two things
-	}
-	else
-	{
-		printf("I am parent process\n");
-		wait(NULL);
-	}
-}
-
-int	count_cmds(t_parse *cmds_list)
-{
-	int	total_cmd;
-
-	total_cmd = 0;
-	while (cmds_list)
-	{
-		if (cmds_list->cmd_array)
-			total_cmd++;
-		cmds_list = cmds_list->next;
-	}
-	return (total_cmd);
 }
 
 int	init_pipe(void)
@@ -100,17 +56,14 @@ int	init_pipe(void)
 	else
 		return (1);
 }
-void	execute_pipeline(t_parse *cmds_list, t_env *env_list, char **env_copy,
-		t_data *data)
+void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 {
-	t_pipe *cur_pipe;
+	t_pipe *pipe_info;
 	(void)data;
-	(void)env_list;
-	(void)env_copy;
 
 	printf("Pipe execution started\n");
-	cur_pipe = (t_pipe *)malloc(sizeof(t_pipe));
-	if (cur_pipe == NULL)
+	pipe_info = (t_pipe *)malloc(sizeof(t_pipe));
+	if (pipe_info == NULL)
 	{
 		printf("Memory allocation failed\n");
 		exit(EXIT_FAILURE);
@@ -127,12 +80,11 @@ void	execute_pipeline(t_parse *cmds_list, t_env *env_list, char **env_copy,
 				printf("Fork creatino failed\n");
 			if (fork_id == 0)
 			{
-				// child process
-				redirection(cmds_list);
-				printf("Checkchcchhch\n");
+				redirection(cmds_list, pipe_info);
+				execution(cmds_list, env_copy, pipe_info);
 			}
 			else
-				wait(0);
+				wait(NULL);
 		}
 		i++;
 	}

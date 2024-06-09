@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 22:20:36 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 19:53:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,12 @@ void				exec_args(char **parsed);
 void				exec_args_piped(char **parsed, char **parsedpipe);
 int					own_cmd_handler(char **parsed);
 int					count_arr_length(char **argv);
-void				create_pipe(t_parse *cmds_list, char **env_copy,
-						t_data *data, t_pipe *cur_pipe);
-void				execute_pipeline(t_parse *cmds_list, t_env *env_list,
-						char **env_copy, t_data *data);
+void				execution(t_parse *cmds_list, char **env_copy,
+						t_pipe *pipe_info);
+void				execute_pipeline(t_parse *cmds_list, char **env_copy,
+						t_data *data);
 void				execute_cmds(char **parsed_args, char **env);
-void				create_first_pipe(char *cmd, char **env);
-void				create_last_pipe(char *cmd, char **env);
+int					count_cmds(t_parse *cmds_list);
 
 // execution
 void				runtime_shell(t_parse *cmds_list, t_env *env_list,
@@ -147,7 +146,7 @@ void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 
 // redirection
-void				redirection(t_parse *cmds_list);
+void				redirection(t_parse *cmds_list, t_pipe *pipe_info);
 
 //  lexical analysis
 int					check_input(char const *str);
