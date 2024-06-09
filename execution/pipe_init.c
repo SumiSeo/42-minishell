@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 20:45:11 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 22:18:40 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 				printf("Fork creatino failed\n");
 			if (fork_id == 0)
 			{
+				printf("before redirection\n");
 				redirection(cmds_list, pipe_info);
 				printf("between redirectio and execution\n");
 				execution(cmds_list, env_copy, pipe_info);
 			}
-			// else
-			// 	wait(NULL);
+			else
+				wait(NULL);
 		}
 		i++;
 	}
