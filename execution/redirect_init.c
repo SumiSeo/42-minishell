@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 19:53:10 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:07:28 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	outfile_check(t_parse *cmds_list, t_pipe *pipe_info)
 		if (pipe_info->outfile == -1)
 			perror(cmds_list->outfile_name);
 		dup2(pipe_info->outfile, STDOUT_FILENO);
-		execlp("ping", "ping", "-c", "1", "google.com", NULL);
 		return (1);
 	}
 	return (0);
@@ -40,7 +39,7 @@ int	outfile_check(t_parse *cmds_list, t_pipe *pipe_info)
 void	redirection(t_parse *cmds_list, t_pipe *pipe_info)
 {
 	printf("REDIRECTION\n");
-	while (cmds_list)
+	if (cmds_list)
 	{
 		if (cmds_list->infile_exist == 1)
 			infile_check(cmds_list, pipe_info);

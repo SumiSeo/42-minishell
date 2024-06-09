@@ -6,48 +6,32 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 19:53:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:07:05 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	find_redirection(t_parse *cmds_list)
-{
-	if (cmds_list->infile_exist)
-		return (1);
-	return (0);
-}
-
-int	open_infile(t_parse *cmds_list, t_pipe *cur_pipe)
-{
-	cur_pipe->infile = open(cmds_list->infile_name, O_RDONLY);
-	if (cur_pipe->infile == -1)
-		return (0);
-	return (1);
-}
-
-int	take_standard_input(t_parse *cmds_list, t_pipe *cur_pipe)
-{
-	(void)cmds_list;
-	(void)cur_pipe;
-	printf("This file doex not exists\n");
-	return (0);
-}
 void	execution(t_parse *cmds_list, char **env_copy, t_pipe *pipe_info)
 {
-	(void)pipe_info;
 	printf("Check execute pipe function\n");
 	(void)cmds_list;
 	(void)env_copy;
+	if (pipe_info)
+	{
+		printf("Pipe infile %d\n", pipe_info->infile);
+		printf("Pipe outfile %d\n", pipe_info->outfile);
+		printf("Pipe fd[0] %d\n", pipe_info->pipefd[0]);
+		printf("Pipe fd[1] %d\n", pipe_info->pipefd[1]);
+		return ;
+	}
 }
 
-int	init_pipe(void)
+int	init_pipe(t_pipe *pipe_info)
 {
-	int	fd[2];
 	int	pipe_id;
 
-	pipe_id = pipe(fd);
+	pipe_id = pipe(pipe_info->pipefd);
 	if (pipe_id == -1)
 	{
 		printf("Pipe creatioin failed");
@@ -73,7 +57,7 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 	int i = 0;
 	while (i < total_count)
 	{
-		if (init_pipe())
+		if (init_pipe(pipe_info))
 		{
 			int fork_id = fork();
 			if (fork_id == -1)
@@ -81,6 +65,7 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 			if (fork_id == 0)
 			{
 				redirection(cmds_list, pipe_info);
+				printf("HELLO \n");
 				execution(cmds_list, env_copy, pipe_info);
 			}
 			else
