@@ -1,8 +1,0 @@
-HELLO 
-Check execute pipe function
-Pipe infile 0
-Pipe outfile 5
-Pipe fd[0] 3
-Pipe fd[1] 4
-[1;33mSuminishell😛💻 [/home/sumseo/Desktop/rendu/minishell][0m
-[?2004h💪^C[?2004l

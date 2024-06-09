@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 21:26:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:40:19 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	char	**copy;
 
 	copy = envp;
+	builtin_check = 0;
 	data = malloc(sizeof(t_data));
 	tok_list = NULL;
 	par_list = NULL;
@@ -52,9 +53,6 @@ int	main(int argc, char **argv, char **envp)
 		display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
-		printf("------------------------\n");
-		printf("------------------------\n");
-		printf("------------------------\n");
 		printf("-----TRUE MINISHELL-----\n");
 		if (is_builtin(par_list, env_list))
 			builtin_check = 1;
@@ -64,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 				&& par_list->outfile_token == NULL)
 				exec_shell(par_list, copy);
 			else
-				runtime_shell(par_list, env_list, copy, data);
+				runtime_shell(par_list, copy, data);
 		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);

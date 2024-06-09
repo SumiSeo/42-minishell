@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 20:07:05 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:45:11 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	execution(t_parse *cmds_list, char **env_copy, t_pipe *pipe_info)
 	printf("Check execute pipe function\n");
 	(void)cmds_list;
 	(void)env_copy;
+	(void)pipe_info;
 	if (pipe_info)
 	{
 		printf("Pipe infile %d\n", pipe_info->infile);
@@ -40,10 +41,9 @@ int	init_pipe(t_pipe *pipe_info)
 	else
 		return (1);
 }
-void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
+void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 {
 	t_pipe *pipe_info;
-	(void)data;
 
 	printf("Pipe execution started\n");
 	pipe_info = (t_pipe *)malloc(sizeof(t_pipe));
@@ -53,7 +53,6 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 		exit(EXIT_FAILURE);
 	}
 	int total_count = count_cmds(cmds_list);
-	printf("Total cmds count check %d\n", total_count);
 	int i = 0;
 	while (i < total_count)
 	{
@@ -65,11 +64,11 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 			if (fork_id == 0)
 			{
 				redirection(cmds_list, pipe_info);
-				printf("HELLO \n");
+				printf("between redirectio and execution\n");
 				execution(cmds_list, env_copy, pipe_info);
 			}
-			else
-				wait(NULL);
+			// else
+			// 	wait(NULL);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 19:59:57 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 20:35:50 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,13 @@ int					own_cmd_handler(char **parsed);
 int					count_arr_length(char **argv);
 void				execution(t_parse *cmds_list, char **env_copy,
 						t_pipe *pipe_info);
-void				execute_pipeline(t_parse *cmds_list, char **env_copy,
-						t_data *data);
+void				execute_pipeline(t_parse *cmds_list, char **env_copy);
 void				execute_cmds(char **parsed_args, char **env);
 int					count_cmds(t_parse *cmds_list);
 
 // execution
-void				runtime_shell(t_parse *cmds_list, t_env *env_list,
-						char **env_copy, t_data *data);
+void				runtime_shell(t_parse *cmds_list, char **env_copy,
+						t_data *data);
 void				exec_shell(t_parse *cmds_list, char **env_copy);
 
 // pipex
