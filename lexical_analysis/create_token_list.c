@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/08 21:25:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/10 16:23:14 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ int	get_len(t_data *data)
 	i = 0;
 	len = 0;
 	if (data->input_string[data->position] == '>'
-		&& data->input_string[1] == '>')
+		&& data->input_string[data->position + 1] == '>')
 	{
 		len = 2;
 		data->position = data->position + 2;
 	}
 	else if (data->input_string[data->position] == '<'
-		&& data->input_string[1] == '<')
+		&& data->input_string[data->position + 1] == '<')
 	{
 		len = 2;
 		data->position = data->position + 2;
