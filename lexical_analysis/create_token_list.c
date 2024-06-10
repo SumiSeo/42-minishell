@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/08 18:31:36 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/10 15:52:08 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ int	get_len(t_data *data)
 
 	i = 0;
 	len = 0;
-	if (data->input_string[data->position] == '>' && data->input_string[1] == '>')
+	if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
 	{
 		len = 2;
 		data->position = data->position + 2;
 	}	
-	else if (data->input_string[data->position] == '<' && data->input_string[1] == '<')
+	else if (data->input_string[data->position] == '<' && data->input_string[data->position + 1] == '<')
 	{
 		len = 2;
 		data->position = data->position + 2;
