@@ -6,23 +6,70 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/11 13:34:36 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/11 16:41:16 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	push_token_list(t_token **tok_list, const char *str, int len)
+char	*env_path(t_env *env_list, int len, char *string)
+{
+	while (env_list)
+	{
+		if (ft_strncmp(env_list->env_var, string, len) == 0)
+			return (env_list->env_var + len + 1);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
+
+
+void	push_token_list(t_token **tok_list, char *str, int len, t_env *env_list)
 {
 	t_token	*element;
 	t_token	*last;
 	int	i;
 	int	j;
+	char	*string;
+	int		length;
+	char 	*result;
 
 	i = 0;
 	j = 0;
+	length = 0;
 	last = *tok_list;
+	string = NULL;
+	result = NULL;
 	element = malloc(sizeof(t_token));
+
+	// printf("%s\n", str);
+	// printf("%zu\n", ft_strlen(str));
+	// printf("%d\n", len);
+	// env_list = env_list->next;
+	if (str[0] == '$')
+	{
+		// printf("%s\n", str);
+		while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
+		{
+			i++;
+			length++;
+		}
+		length--;
+		element->word = malloc(len + 1);
+		element->operator = NULL;
+		string = malloc (sizeof(char) * (length +1));
+		ft_strlcpy(string, str + 1, length + 1);
+		printf("%s\n", string);
+
+		result = env_path(env_list, length, str + 1);
+		printf("%s\n", result);
+		// ft_strlcpy(string, str + 1, len + 1);
+		// result = env_path(env_list, len, string);
+		ft_strlcpy(element->word, result, len + 1);
+		printf("%s\n", element->word);
+	}
+	else 
 	if (str[0] == '>' || str[0] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
 	{
 		element->operator = malloc(len + 1);
@@ -92,18 +139,26 @@ void	push_token_list(t_token **tok_list, const char *str, int len)
 // 	}
 // }
 
-char	*env_path(t_env *env_list, int len, char *string)
+
+
+
+int expander_len(t_data *data)
 {
-	while (env_list)
+	int		i;
+	int		len;
+
+	i = data->position;
+	len = 0;
+	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>')
 	{
-		if (ft_strncmp(env_list->env_var, string, len) == 0)
-			return (env_list->env_var + len + 1);
-		env_list = env_list->next;
+		i++;
+		len++;
 	}
-	return (NULL);
+	len--;
+	return (len);
 }
 
-void expander(t_data *data, t_env *env_list)
+int expander_size(t_data *data, t_env *env_list)
 {
 	int		i;
 	int		len;
@@ -113,21 +168,23 @@ void expander(t_data *data, t_env *env_list)
 	string = NULL;
 	i = data->position;
 	len = 0;
-	printf("%d\n", data->position);
+	// printf("%d\n", data->position);
 	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>')
 	{
 		i++;
 		len++;
 	}
 	len--;
-	printf("%d\n", data->position);
-	printf("%d\n", len);
+	// printf("%d\n", data->position);
+	// printf("%d\n", len);
 	string = malloc (sizeof(char) * (len +1));
 	ft_strlcpy(string, data->input_string + data->position + 1, len + 1);
-	printf("%s\n", string);
+	// printf("%s\n", string);
 	// display_env_list(env_list);
 	result = env_path(env_list, len, string);
-	printf("%s\n", result);
+	// printf("%s\n", result);
+	// printf("%zu\n", ft_strlen(result));
+	return (ft_strlen(result));
 }
 
 int	get_len(t_data *data, t_env *env_list)
@@ -139,8 +196,8 @@ int	get_len(t_data *data, t_env *env_list)
 	len = 0;
 	if (data->input_string[data->position] == '$')
 	{
-		expander(data, env_list);
-		data->position++;
+		len = expander_size(data, env_list);
+		data->position = data->position + expander_len(data) + 1;
 	}
 	else if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
 	{
@@ -196,12 +253,25 @@ int	get_len(t_data *data, t_env *env_list)
 	return (len);
 }
 
+void	test(t_token **tok_list, const char *str, int len, t_env *env_list)
+{
+	t_token	*last;
+
+	last = *tok_list;
+	if (str[0] == '$')
+	{
+		printf("%d\n", len);
+		printf("%s\n", env_list->env_var);
+		printf("%s\n", str);
+	}
+}
+
 void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
 	int	len;
 	int	i;
-
-	tok_list = NULL;
+	// **** attention segfault
+	// tok_list = NULL;
 	data->position = 0;
 	i = 0;
 	while (data->input_string[data->position] != '\0')
@@ -213,7 +283,11 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 		if (data->input_string[data->position] == '\0')
 			break ;
 		len = get_len(data, env_list);
-		// push_token_list(tok_list, data->input_string + i, len);
+		printf("here %d\n", len);
+		printf("here %s\n", data->input_string + i);
+		printf("here %s\n", env_list->env_var);
+		// test(tok_list, data->input_string + i, len, env_list);
+		push_token_list(tok_list, data->input_string + i, len, env_list);
 		i = data->position;
 	}
 }
