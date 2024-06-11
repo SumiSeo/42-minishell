@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/11 22:10:41 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/11 22:27:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 			fd_in = fdpipe[0];
 		}
 		dup2(fd_out, STDOUT_FILENO);
+		// clsoe(fd_in);
 		close(fd_out);
 		fork_id = fork();
 		if (fork_id == -1)
