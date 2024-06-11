@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/11 16:42:43 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/11 17:14:58 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ char	*env_path(t_env *env_list, int len, char *string)
 	}
 	return (NULL);
 }
-
-
 
 void	push_token_list(t_token **tok_list, char *str, int len, t_env *env_list)
 {
@@ -60,17 +58,16 @@ void	push_token_list(t_token **tok_list, char *str, int len, t_env *env_list)
 		element->operator = NULL;
 		string = malloc (sizeof(char) * (length +1));
 		ft_strlcpy(string, str + 1, length + 1);
-		printf("%s\n", string);
-
 		result = env_path(env_list, length, str + 1);
+		if (result == NULL)
+			element->word[0] = '\0';
+		else
+			ft_strlcpy(element->word, result, len + 1);
+		printf("%s\n", string);
 		printf("%s\n", result);
-		// ft_strlcpy(string, str + 1, len + 1);
-		// result = env_path(env_list, len, string);
-		ft_strlcpy(element->word, result, len + 1);
 		printf("%s\n", element->word);
 	}
-	else 
-	if (str[0] == '>' || str[0] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
+	else if (str[0] == '>' || str[0] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
 	{
 		element->operator = malloc(len + 1);
 		element->word = NULL;
@@ -182,6 +179,8 @@ int expander_size(t_data *data, t_env *env_list)
 	// printf("%s\n", string);
 	// display_env_list(env_list);
 	result = env_path(env_list, len, string);
+	if (result == NULL)
+		return (0);
 	// printf("%s\n", result);
 	// printf("%zu\n", ft_strlen(result));
 	return (ft_strlen(result));
