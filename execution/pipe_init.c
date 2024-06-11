@@ -6,74 +6,14 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/11 21:51:24 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/11 22:10:41 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	first_pipe_exec(t_parse *cmds_list, char **env_copy, t_pipe *pipe_info)
-{
-	// if (pipe_info->infile)
-	// {
-	pipe_info->temp = open("tmp", O_WRONLY | O_RDONLY);
-	// close(pipe_info->pipefd[0]);
-	dup2(pipe_info->infile, STDIN_FILENO);
-	dup2(pipe_info->pipefd[1], STDOUT_FILENO);
-	parse_path(cmds_list, env_copy);
-	// }
-}
-void	execution(t_parse *cmds_list, char **env_copy, t_pipe *pipe_info)
-{
-	printf("Execution started\n");
-	if (!cmds_list->prev)
-	{
-		printf("FIRST COMMAND: %s\n", cmds_list->cmd_array[0]);
-		first_pipe_exec(cmds_list, env_copy, pipe_info);
-		// dup2(pipe_info->infile, STDIN_FILENO);
-		// dup2(pipe_info->temp, STDOUT_FILENO);
-	}
-	else if (!cmds_list->next)
-	{
-		printf("LAST COMMAND: %s\n", cmds_list->cmd_array[0]);
-		dup2(pipe_info->pipefd[0], STDIN_FILENO);
-		dup2(pipe_info->outfile, STDOUT_FILENO);
-		parse_path(cmds_list, env_copy);
-	}
-	else
-	{
-		printf("MIDDLE COMMAND: %s\n", cmds_list->cmd_array[0]);
-		dup2(pipe_info->pipefd[0], STDIN_FILENO);
-		dup2(pipe_info->pipefd[1], STDOUT_FILENO);
-		parse_path(cmds_list, env_copy);
-	}
-	// execute command and then pass it to the next pipe
-}
-
-int	init_pipe(t_pipe *pipe_info)
-{
-	int	pipe_id;
-
-	pipe_id = pipe(pipe_info->pipefd);
-	pipe_info->total_pipe++;
-	if (pipe_id == -1)
-	{
-		printf("Pipe creatioin failed");
-		return (0);
-	}
-	else
-		return (1);
-}
 void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 {
-	t_pipe *pipe_info;
-
-	pipe_info = (t_pipe *)malloc(sizeof(t_pipe));
-	if (pipe_info == NULL)
-	{
-		printf("Memory allocation failed\n");
-		exit(EXIT_FAILURE);
-	}
 	int total_count = count_cmds(cmds_list);
 	int i = 0;
 
@@ -82,11 +22,13 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 
 	if (tmp_in == -1 || tmp_out == -1)
 	{
-		perror("dup");
+		perror("Stdin or stdout dup");
 		exit(EXIT_FAILURE);
 	}
 
 	int fd_in;
+	// open the file
+
 	if (cmds_list->infile_exist)
 	{
 		fd_in = open(cmds_list->infile_name, O_RDONLY);
@@ -106,12 +48,18 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 		}
 	}
 	int fd_out;
+	int *pids = malloc(total_count * sizeof(int));
+	if (pids == NULL)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
 	int fork_id;
 	while (i < total_count)
 	{
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
-
 		if (i == total_count - 1)
 		{
 			if (cmds_list->outfile_name && cmds_list->outfile_token)
@@ -159,18 +107,25 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy)
 			perror("Execute error");
 			exit(EXIT_FAILURE);
 		}
+		else
+		{
+			close(fd_out);
+			pids[i] = fork_id;
+		}
 		cmds_list = cmds_list->next;
 		i++;
 	}
+	i = 0;
 	while (i < total_count)
 	{
-		if (wait(NULL) == -1)
+		if (waitpid(pids[i], NULL, 0) == -1)
 		{
 			perror("wait");
 			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
+	free(pids);
 	dup2(tmp_in, STDIN_FILENO);
 	dup2(tmp_out, STDOUT_FILENO);
 	close(tmp_in);
