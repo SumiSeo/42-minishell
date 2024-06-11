@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/11 16:41:16 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/11 16:42:43 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,18 +253,6 @@ int	get_len(t_data *data, t_env *env_list)
 	return (len);
 }
 
-void	test(t_token **tok_list, const char *str, int len, t_env *env_list)
-{
-	t_token	*last;
-
-	last = *tok_list;
-	if (str[0] == '$')
-	{
-		printf("%d\n", len);
-		printf("%s\n", env_list->env_var);
-		printf("%s\n", str);
-	}
-}
 
 void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
@@ -286,7 +274,6 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 		printf("here %d\n", len);
 		printf("here %s\n", data->input_string + i);
 		printf("here %s\n", env_list->env_var);
-		// test(tok_list, data->input_string + i, len, env_list);
 		push_token_list(tok_list, data->input_string + i, len, env_list);
 		i = data->position;
 	}
