@@ -13,11 +13,8 @@ minishell
 minishell.c
 minishell.h
 obj
-out
 outfile
 outfile2
-outfile3
-outfile4
 parsing
 ReadMe.md
 store_env

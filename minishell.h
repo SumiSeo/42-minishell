@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 20:35:50 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/10 23:28:54 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,14 @@ typedef struct s_pipe
 {
 	int				pipefd[2];
 	int				total_pipe;
-	char			**cmd;
-	char			*path;
 	int				fdi;
 	int				fdo;
 	int				i;
-	int				prev;
+	int				prev[2];
 	char			*limiter;
 	int				infile;
 	int				outfile;
+	int				temp;
 }					t_pipe;
 
 typedef struct s_token
