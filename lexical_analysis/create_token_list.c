@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/10 15:52:08 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/11 13:34:36 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,66 @@ void	push_token_list(t_token **tok_list, const char *str, int len)
 	element->prev = last;
 }
 
+// void	display_env_list(t_env *env_list)
+// {
+// 	while (env_list)
+// 	{
+// 		printf("[%s]\n", env_list->env_var);
+// 		env_list = env_list->next;
+// 	}
+// }
 
-int	get_len(t_data *data)
+char	*env_path(t_env *env_list, int len, char *string)
+{
+	while (env_list)
+	{
+		if (ft_strncmp(env_list->env_var, string, len) == 0)
+			return (env_list->env_var + len + 1);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
+void expander(t_data *data, t_env *env_list)
+{
+	int		i;
+	int		len;
+	char	*string;
+	char	*result;
+
+	string = NULL;
+	i = data->position;
+	len = 0;
+	printf("%d\n", data->position);
+	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>')
+	{
+		i++;
+		len++;
+	}
+	len--;
+	printf("%d\n", data->position);
+	printf("%d\n", len);
+	string = malloc (sizeof(char) * (len +1));
+	ft_strlcpy(string, data->input_string + data->position + 1, len + 1);
+	printf("%s\n", string);
+	// display_env_list(env_list);
+	result = env_path(env_list, len, string);
+	printf("%s\n", result);
+}
+
+int	get_len(t_data *data, t_env *env_list)
 {
 	int		i;
 	int		len;
 
 	i = 0;
 	len = 0;
-	if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
+	if (data->input_string[data->position] == '$')
+	{
+		expander(data, env_list);
+		data->position++;
+	}
+	else if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
 	{
 		len = 2;
 		data->position = data->position + 2;
@@ -145,12 +196,12 @@ int	get_len(t_data *data)
 	return (len);
 }
 
-void	create_token_list(t_data *data, t_token **tok_list)
+void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
 	int	len;
 	int	i;
 
-	// tok_list = NULL;
+	tok_list = NULL;
 	data->position = 0;
 	i = 0;
 	while (data->input_string[data->position] != '\0')
@@ -161,8 +212,8 @@ void	create_token_list(t_data *data, t_token **tok_list)
 		i = data->position;
 		if (data->input_string[data->position] == '\0')
 			break ;
-		len = get_len(data);
-		push_token_list(tok_list, data->input_string + i, len);
+		len = get_len(data, env_list);
+		// push_token_list(tok_list, data->input_string + i, len);
 		i = data->position;
 	}
 }
@@ -178,6 +229,67 @@ void	display_token_list(t_token *tok_list)
 		tok_list = tok_list->next;
 	}
 }
+
+// int	get_len(t_data *data)
+// {
+// 	int		i;
+// 	int		len;
+
+// 	i = 0;
+// 	len = 0;
+// 	if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
+// 	{
+// 		len = 2;
+// 		data->position = data->position + 2;
+// 	}	
+// 	else if (data->input_string[data->position] == '<' && data->input_string[data->position + 1] == '<')
+// 	{
+// 		len = 2;
+// 		data->position = data->position + 2;
+// 	}
+// 	else if (data->input_string[data->position] == '|' || data->input_string[data->position] == '>' || data->input_string[data->position] == '<')
+// 	{
+// 		len = 1;
+// 		data->position = data->position + 1;
+// 	}
+// 	else
+// 	{
+// 		while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0' && data->input_string[data->position] != '|')
+// 		{
+// 			if (data->input_string[data->position] == '"')
+// 			{
+// 				data->position++;
+// 				while (data->input_string[data->position] != '\0' && data->input_string[data->position] != '"')
+// 				{
+// 					len++;
+// 					data->position++;
+// 				}
+// 				if (data->input_string[data->position] != '\0')
+// 					data->position++;
+// 			}
+// 			else if (data->input_string[data->position] == 39)
+// 			{
+// 				data->position++;
+// 				while (data->input_string[data->position] != '\0' && data->input_string[data->position] != 39)
+// 				{
+// 					len++;
+// 					data->position++;
+// 				}
+// 				if (data->input_string[data->position] != '\0')
+// 					data->position++;
+// 			}
+// 			else
+// 			{
+// 				while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0' && data->input_string[data->position] != '"' && data->input_string[data->position] != 39 && data->input_string[data->position] != '|' && data->input_string[data->position] != '>')
+// 				{
+// 					data->position++;
+// 					len++;
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return (len);
+// }
 
 // void	push_token_list(t_token **tok_list, const char *str, int len)
 // {
