@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 18:30:38 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:57:52 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ int	main(int argc, char **argv, char **envp)
 		if (check_input(data->input_string))
 			continue ;
 		store_path(env_list, data);
-		create_token_list(data, &tok_list);
+		create_token_list(data, &tok_list, env_list);
 		count_nb_pipe(tok_list, data);
 		create_parse_list(tok_list, &par_list);
 		store_command(tok_list, par_list);
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
-		printf("-----\n");
-		display_path(data);
+		// printf("-----\n");
+		// display_path(data);
 		printf("-----\n");
 		display_token_list(tok_list);
 		printf("-----\n");

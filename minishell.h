@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 17:32:35 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/11 13:06:27 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void				execute_redirection(t_parse *cmds_list, char **env_copy);
 
 //  lexical analysis
 int					check_input(char const *str);
-void				create_token_list(t_data *data, t_token **tok_list);
+void				create_token_list(t_data *data, t_token **tok_list, t_env *env_list);
 void				free_token_list(t_token **tok_list);
 
 //  parsing
