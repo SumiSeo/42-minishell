@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/12 13:26:02 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:26:46 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 	t_token	*last;
 	int	i;
 	int	j;
+	int	k;
 	char	*src;
 	int		src_len;
 	char 	*dst;
 
 	i = 0;
 	j = 0;
+
 	src_len = 0;
 	last = *tok_list;
 	src = NULL;
@@ -79,6 +81,8 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 				i++;
 				while (str[i] != '\0' && str[i] != '"')
 				{
+					// printf("i: %d\n", i);
+					// printf("%c\n", str[i]);
 					if (str[i] == '$')
 					{
 						while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
@@ -86,18 +90,19 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 							i++;
 							src_len++;
 						}
-						printf("%d\n", src_len);
+						// printf("%d\n", src_len);
 						printf("%d\n", i);
 						printf("%c\n", str[i]);
+						printf("%s\n", element->word);
 						src_len--;
-						printf("%d\n", src_len);
-						printf("%d\n", dst_len);
-						element->word = malloc(dst_len + 1);
-						element->operator = NULL;
+						// printf("%d\n", src_len);
+						// printf("%d\n", dst_len);
+						// element->word = malloc(dst_len + 1);
+						// element->operator = NULL;
 						src = malloc (sizeof(char) * (src_len +1));
-						ft_strlcpy(src, str + 2, src_len + 1);
-						dst = env_path(env_list, src_len, str + 2);
-						
+						ft_strlcpy(src, str + j + 2, src_len + 1);
+						dst = env_path(env_list, src_len, str + j + 2);
+						// printf("%s\n", dst);
 						if (dst == NULL)
 						{
 							printf("la\n");
@@ -105,19 +110,33 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 						}
 						else
 						{
+							k = 0;
 							printf("ici\n");
-							ft_strlcpy(element->word, dst, dst_len + 1);
-							j = j + dst_len;
-							// printf("%s\n", element->word);
+							printf("%d\n", dst_len);
+							printf("%s\n", dst);
+							printf("%d\n", j);
+							printf("%s\n", element->word);
+							// ft_strlcpy(element->word + j, dst, dst_len + 1);
+							while (dst[k])
+							{
+								// printf("%c",dst[k]);
+								element->word[j] = dst[k];
+								k++;
+								j++;
+							}
+							// j = j + dst_len;
+							printf("%s\n", element->word);
 						}
 						// printf("%d\n", dst_len);
 					}
 					else
 					{
+						printf("ok\n");
 						element->word[j] = str[i];
 						i++;
 						j++;
 					}
+					// printf("i: %d\n", i);
 				}
 				if (str[i] != '\0')
 					i++;
@@ -213,7 +232,9 @@ int	get_len(t_data *data, t_env *env_list)
 	if (data->input_string[data->position] == '$')
 	{
 		len = expansion_len(data, env_list);
+		// printf("a: %d\n", data->position);
 		data->position = data->position + expansion_pos(data) + 1;
+		// printf("b: %d\n", data->position);
 	}
 	else if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
 	{
@@ -242,11 +263,15 @@ int	get_len(t_data *data, t_env *env_list)
 					if (data->input_string[data->position] == '$')
 					{
 						len = len + expansion_len(data, env_list);
+						// printf("a: %d\n", data->position);
 						data->position = data->position + expansion_pos(data) + 1;
+						// printf("a: %d\n", data->position);
 					}
 					else
+					{
 						len++;
-					data->position++;
+						data->position++;
+					}
 				}
 				if (data->input_string[data->position] != '\0')
 					data->position++;
@@ -292,9 +317,11 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 		i = data->position;
 		if (data->input_string[data->position] == '\0')
 			break ;
+		// printf("a: %d\n", data->position);
 		len = get_len(data, env_list);
-		printf("a: %d\n", len);
-		printf("b: %s\n", data->input_string + i);
+		// printf("b: %d\n", data->position);
+		// printf("a: %d\n", len);
+		// printf("b: %s\n", data->input_string + i);
 		// printf("here %s\n", env_list->env_var);
 		push_token_list(tok_list, data->input_string + i, len, env_list);
 		i = data->position;
