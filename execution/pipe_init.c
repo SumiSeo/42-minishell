@@ -6,91 +6,134 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/08 16:56:58 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:37:53 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	find_redirection(t_parse *cmds_list)
+void	free_fork_pids(t_pipe *pipe_info)
 {
-	if (cmds_list->infile_exist)
-		return (1);
-	return (0);
-}
+	int	i;
 
-int	open_infile(t_parse *cmds_list, t_pipe *cur_pipe)
-{
-	cur_pipe->infile = open(cmds_list->infile_name, O_RDONLY);
-	if (cur_pipe->infile == -1)
-		return (0);
-	return (1);
-}
-
-int	take_standard_input(t_parse *cmds_list, t_pipe *cur_pipe)
-{
-	(void)cmds_list;
-	(void)cur_pipe;
-	printf("This file doex not exists\n");
-	return (0);
-}
-void	create_pipe(t_parse *cmds_list, char **env_copy, t_data *data,
-		t_pipe *cur_pipe)
-{
-	int	fork_id;
-
-	printf("Check create pipe function\n");
-	(void)cmds_list;
-	(void)env_copy;
-	(void)data;
-	if (pipe(cur_pipe->pipefd) == -1)
-		printf("There is a probem with pipe creation\n");
-	fork_id = fork();
-	if (fork_id == -1)
-		printf("There is a probem with fork creation\n");
-	if (fork_id == 0)
+	i = 0;
+	while (i < pipe_info->total_cmds)
 	{
-		// check if there is < or << in the cmds list
-		if (find_redirection(cmds_list))
-			cur_pipe->fdi = 1;
-		// if it exists open the file
-		printf("Cure %d\n", cur_pipe->fdi);
-		if (cur_pipe->fdi == 1)
+		if (waitpid(pipe_info->pids[i], NULL, 0) == -1)
 		{
-			open_infile(cmds_list, cur_pipe);
-			printf("Here I am for opetning %d\n", cur_pipe->infile);
+			perror("wait");
+			exit(EXIT_FAILURE);
 		}
-		// if it does not exist take entree standard
-		else
-			take_standard_input(cmds_list, cur_pipe);
-		// and then from here pipe two things
+		i++;
+	}
+	free(pipe_info->pids);
+}
+void	open_infile(t_pipe *pipe_info, t_parse *cmds_list)
+{
+	printf("Infile exist  ? %d\n", cmds_list->infile_exist);
+	if (cmds_list->infile_exist)
+	{
+		pipe_info->fdi = open(cmds_list->infile_name, O_RDONLY);
+		if (pipe_info->fdi == -1)
+		{
+			perror("open infile");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
-		printf("I am parent process\n");
-		wait(NULL);
+		pipe_info->fdi = dup(pipe_info->tmp_in);
+		if (pipe_info->fdi == -1)
+		{
+			perror("dup tmp_in");
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
-void	execute_pipeline(t_parse *cmds_list, t_env *env_list, char **env_copy,
-		t_data *data)
+void	init_pipe(t_pipe *pipe_info, t_parse *cmds_list)
 {
-	t_pipe *cur_pipe;
-
-	(void)env_list;
-	printf("Pipe execution started\n");
-	cur_pipe = (t_pipe *)malloc(sizeof(t_pipe));
-	if (cur_pipe == NULL)
+	pipe_info->total_cmds = count_cmds(cmds_list);
+	pipe_info->tmp_in = dup(STDIN_FILENO);
+	pipe_info->tmp_out = dup(STDOUT_FILENO);
+	pipe_info->pids = malloc(pipe_info->total_cmds * sizeof(int));
+	if (pipe_info->pids == NULL)
 	{
-		printf("Memory allocation failed\n");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-
-	int i;
-	i = 0;
-	while (i < data->has_pipe)
+	if (pipe_info->tmp_in == -1 || pipe_info->tmp_out == -1)
 	{
-		create_pipe(cmds_list, env_copy, data, cur_pipe);
+		perror("Stdin or stdout dup");
+		exit(EXIT_FAILURE);
+	}
+	open_infile(pipe_info, cmds_list);
+}
+
+void	execute_pipeline(t_parse *cmds_list, char **env_copy)
+{
+	t_pipe	*pipe_info;
+	int		i;
+	int		fd_out;
+	int		fork_id;
+	int		fdpipe[2];
+
+	pipe_info = malloc(sizeof(t_pipe));
+	if (pipe_info == NULL)
+	{
+		perror("pipe_info_malloc");
+		exit(EXIT_FAILURE);
+	}
+	init_pipe(pipe_info, cmds_list);
+	i = 0;
+	while (i < pipe_info->total_cmds)
+	{
+		dup2(pipe_info->fdi, STDIN_FILENO);
+		close(pipe_info->fdi);
+		if (i == pipe_info->total_cmds - 1)
+		{
+			if (cmds_list->outfile_name && cmds_list->outfile_token)
+			{
+				fd_out = open(cmds_list->outfile_name,
+						O_WRONLY | O_TRUNC | O_CREAT, 0644);
+				if (fd_out == -1)
+					printf("What happed\n");
+			}
+			else
+			{
+				fd_out = dup(pipe_info->tmp_out);
+			}
+		}
+		else
+		{
+			if (pipe(fdpipe) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
+			pipe_info->fdi = fdpipe[READEND];
+			fd_out = fdpipe[WRITEEND];
+		}
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+		fork_id = fork();
+		if (fork_id == 0)
+		{
+			parse_path(cmds_list, env_copy);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			close(fd_out);
+			pipe_info->pids[i] = fork_id;
+		}
+		cmds_list = cmds_list->next;
 		i++;
 	}
+	free_fork_pids(pipe_info);
+	dup2(pipe_info->tmp_in, STDIN_FILENO);
+	dup2(pipe_info->tmp_out, STDOUT_FILENO);
+	close(pipe_info->tmp_in);
+	close(pipe_info->tmp_out);
+	free(pipe_info);
 }

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/05/26 17:34:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/09 19:52:19 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,42 +22,16 @@ int	count_arr_length(char **argv)
 	return (i);
 }
 
-void	create_first_pipe(char *cmd, char **env)
+int	count_cmds(t_parse *cmds_list)
 {
-	int	pid;
-	int	pipe_fd[2];
-	int	fd_in;
+	int total_cmd;
 
-	(void)env;
-	if (pipe(pipe_fd) == -1)
-		exit_program("Pipe creation failed");
-	else
+	total_cmd = 0;
+	while (cmds_list)
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			close(pipe_fd[0]);
-			// [p[0] for read]
-			// [p[1] for write]
-			// down cmd should be replaced with filename or sortie
-			fd_in = open(cmd, O_RDONLY);
-			if (fd_in == -1)
-				exit_program("File can not be opened");
-			else
-			{
-				dup2(fd_in, STDIN_FILENO);
-				close(fd_in);
-			}
-			close(pipe_fd[1]);
-		}
-		else
-			wait(0);
+		if (cmds_list->cmd_array)
+			total_cmd++;
+		cmds_list = cmds_list->next;
 	}
-}
-
-void	create_last_pipe(char *cmd, char **env)
-{
-	(void)cmd;
-	(void)env;
-	printf("****created last pipe\n");
+	return (total_cmd);
 }

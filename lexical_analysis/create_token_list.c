@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/12 16:35:10 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:46:57 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 			}
 			else
 			{
-				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
+				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"'
+					&& str[i] != 39 && str[i] != '|' && str[i] != '>')
 				{
 					src_len = 0;
 					if (str[i] == '$')
@@ -282,8 +283,8 @@ int expansion_len(t_data *data, t_env *env_list)
 
 int	get_len(t_data *data, t_env *env_list)
 {
-	int		i;
-	int		len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = 0;
@@ -306,19 +307,30 @@ int	get_len(t_data *data, t_env *env_list)
 		len = 2;
 		data->position = data->position + 2;
 	}
-	else if (data->input_string[data->position] == '|' || data->input_string[data->position] == '>' || data->input_string[data->position] == '<')
+	else if (data->input_string[data->position] == '<'
+		&& data->input_string[data->position + 1] == '<')
+	{
+		len = 2;
+		data->position = data->position + 2;
+	}
+	else if (data->input_string[data->position] == '|'
+		|| data->input_string[data->position] == '>'
+		|| data->input_string[data->position] == '<')
 	{
 		len = 1;
 		data->position = data->position + 1;
 	}
 	else
 	{
-		while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0' && data->input_string[data->position] != '|')
+		while (data->input_string[data->position] != ' '
+			&& data->input_string[data->position] != '\0'
+			&& data->input_string[data->position] != '|')
 		{
 			if (data->input_string[data->position] == '"')
 			{
 				data->position++;
-				while (data->input_string[data->position] != '\0' && data->input_string[data->position] != '"')
+				while (data->input_string[data->position] != '\0'
+					&& data->input_string[data->position] != '"')
 				{
 					if (data->input_string[data->position] == '$')
 					{
@@ -339,7 +351,8 @@ int	get_len(t_data *data, t_env *env_list)
 			else if (data->input_string[data->position] == 39)
 			{
 				data->position++;
-				while (data->input_string[data->position] != '\0' && data->input_string[data->position] != 39)
+				while (data->input_string[data->position] != '\0'
+					&& data->input_string[data->position] != 39)
 				{
 					len++;
 					data->position++;
@@ -349,7 +362,12 @@ int	get_len(t_data *data, t_env *env_list)
 			}
 			else
 			{
-				while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0' && data->input_string[data->position] != '"' && data->input_string[data->position] != 39 && data->input_string[data->position] != '|' && data->input_string[data->position] != '>')
+				while (data->input_string[data->position] != ' '
+					&& data->input_string[data->position] != '\0'
+					&& data->input_string[data->position] != '"'
+					&& data->input_string[data->position] != 39
+					&& data->input_string[data->position] != '|'
+					&& data->input_string[data->position] != '>')
 				{
 					if (data->input_string[data->position] == '$')
 					{
@@ -382,7 +400,8 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 	while (data->input_string[data->position] != '\0')
 	{
 		len = 0;
-		while (data->input_string[data->position] == ' ' && data->input_string[data->position] != '\0')
+		while (data->input_string[data->position] == ' '
+			&& data->input_string[data->position] != '\0')
 			data->position++;
 		i = data->position;
 		if (data->input_string[data->position] == '\0')
@@ -400,6 +419,7 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 
 void	display_token_list(t_token *tok_list)
 {
+	tok_list->num = 0;
 	while (tok_list)
 	{
 		if (tok_list->word)
@@ -625,7 +645,8 @@ void	display_token_list(t_token *tok_list)
 // 		str++;
 // 		ft_strlcpy(element->word, str, len + 1);
 // 	}
-// 	else if (str[0] == '>' || str[1] == '>' || str[0] == '|' || str[0] == '>' || str[0] == '<')
+// 	else if (str[0] == '>' || str[1] == '>' || str[0] == '|' || str[0] == '>'
+// || str[0] == '<')
 // 	{
 // 		element->operator = malloc(len + 1);
 // 		element->word = NULL;
@@ -676,7 +697,8 @@ void	display_token_list(t_token *tok_list)
 // 		len = 1;
 // 	else
 // 	{
-// 		while (str[len] != ' ' && str[len] != '\0' && str[len] != '"' && str[len] != 39 && str[len] != '|' && str[len] != '>')
+// 		while (str[len] != ' ' && str[len] != '\0' && str[len] != '"'
+// && str[len] != 39 && str[len] != '|' && str[len] != '>')
 // 			len++;
 // 	}
 // 	// printf("len: %d\n", len);

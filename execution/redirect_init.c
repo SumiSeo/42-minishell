@@ -6,81 +6,74 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/07 21:08:55 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/11 00:12:04 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execute_redirection(t_parse *cmds_list, char **env_copy)
+void	assign_infile(t_parse *cmds_list, t_pipe *pipe_info)
 {
-	int	pipe_fd[2];
-	int	fork_id;
-	int	in_fd;
-	int	out_fd;
-
-	if (pipe(pipe_fd) == -1)
-		printf("Could not open pipe\n");
-	fork_id = fork();
-	if (fork_id == -1)
-		printf("Could not fork\n");
-	if (fork_id == 0)
+	printf("*****Infile assigned\n ");
+	if (cmds_list->infile_name)
 	{
-		in_fd = open(cmds_list->infile_name, O_RDONLY);
-		if (in_fd == -1)
+		pipe_info->infile = open(cmds_list->infile_name, O_RDONLY);
+		if (pipe_info->infile == -1)
+			perror(cmds_list->infile_name);
+	}
+	return ;
+}
+
+void	assign_outfile(t_parse *cmds_list, t_pipe *pipe_info, int flag)
+{
+	if (flag == 1)
+	{
+		printf("*****Outfile newly created\n ");
+		if (cmds_list->outfile_name)
 		{
-			dup2(pipe_fd[0], STDIN_FILENO);
-			close(pipe_fd[0]);
-			dup2(pipe_fd[1], STDOUT_FILENO);
-			close(pipe_fd[1]);
-			exec_shell(cmds_list, env_copy);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			dup2(in_fd, STDIN_FILENO);
-			close(in_fd);
-			dup2(pipe_fd[1], STDOUT_FILENO);
-			close(pipe_fd[1]);
-			exec_shell(cmds_list, env_copy);
-			exit(EXIT_FAILURE);
+			pipe_info->outfile = open(cmds_list->outfile_name,
+					O_WRONLY | O_TRUNC | O_CREAT, 0666);
+			if (pipe_info->outfile == -1)
+				perror(cmds_list->outfile_name);
 		}
 	}
 	else
 	{
-		if (fork() == 0)
+		printf("*****Outfile appended\n ");
+		if (cmds_list->outfile_name)
 		{
-			close(pipe_fd[1]);
-			// parent process second fork
-			out_fd = open(cmds_list->outfile_name, O_WRONLY | O_TRUNC | O_CREAT,
-					0644);
-			if (out_fd == -1)
-			{
-				printf("Having problem with outfile %d\n", out_fd);
-				dup2(pipe_fd[0], STDIN_FILENO);
-				close(pipe_fd[0]);
-				dup2(pipe_fd[1], STDOUT_FILENO);
-				close(pipe_fd[1]);
-				exec_shell(cmds_list, env_copy);
-				exit(EXIT_FAILURE);
-			}
-			else
-			{
-				dup2(pipe_fd[0], STDIN_FILENO);
-				close(pipe_fd[0]);
-				dup2(out_fd, STDOUT_FILENO);
-				close(out_fd);
-				exec_shell(cmds_list, env_copy);
-				exit(EXIT_FAILURE);
-			};
-			// close(pipe_fd[0]);
-			// exit(EXIT_FAILURE);
+			pipe_info->outfile = open(cmds_list->outfile_name,
+					O_WRONLY | O_APPEND | O_CREAT, 0666);
+			if (pipe_info->outfile == -1)
+				perror(cmds_list->outfile_name);
 		}
-		else
-		{
-			close(pipe_fd[0]);
-			wait(0);
-		}
-		wait(NULL);
 	}
+	return ;
+}
+void	redirection(t_parse *cmds_list, t_pipe *pipe_info)
+{
+	if (cmds_list->infile_exist && cmds_list->infile_name
+		&& cmds_list->infile_token)
+	{
+		if (ft_strncmp(cmds_list->infile_token, "<<", 2) == 0)
+			printf("This is heredoc\n");
+		if (ft_strncmp(cmds_list->infile_token, "<", 1) == 0)
+			assign_infile(cmds_list, pipe_info);
+	}
+	printf("Check infile or outfile ? \n");
+	printf("Outfile exist ? %d\n", cmds_list->outfile_exist);
+	printf("Outfile name ? %s\n", cmds_list->outfile_name);
+	printf("Outfile token ? %s\n", cmds_list->outfile_token);
+	printf("Outfile access ? %d\n", cmds_list->outfile_access);
+	if (cmds_list->outfile_name && cmds_list->outfile_token
+		&& cmds_list->outfile_access)
+	{
+		printf("Check outfile ? \n");
+		if (ft_strncmp(cmds_list->outfile_token, ">>", 2) == 0)
+			assign_outfile(cmds_list, pipe_info, 2);
+		if (ft_strncmp(cmds_list->outfile_token, ">", 1) == 0)
+			assign_outfile(cmds_list, pipe_info, 1);
+	}
+	if (cmds_list->infile_token == NULL || cmds_list->outfile_token == NULL)
+		return ;
 }
