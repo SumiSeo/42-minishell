@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/12 15:26:46 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:35:10 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 	char	*src;
 	int		src_len;
 	char 	*dst;
+	int	pos;
 
 	i = 0;
 	j = 0;
-
+	pos = 0;
 	src_len = 0;
 	last = *tok_list;
 	src = NULL;
@@ -158,9 +159,63 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 			{
 				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>')
 				{
-					element->word[j] = str[i];
-					i++;
-					j++;
+					src_len = 0;
+					if (str[i] == '$')
+					{
+						i++;
+						pos++;
+						while (str[i] != ' ' && str[i] != '\0' && str[i] != '"' && str[i] != 39 && str[i] != '|' && str[i] != '>' && str[i] != '$')
+						{
+							i++;
+							src_len++;
+						}
+						// printf("%d\n", src_len);
+						printf("%d\n", pos);
+						printf("%s\n", str + pos);
+						printf("%s\n", element->word);
+						printf("%d\n", src_len);
+						// printf("%d\n", dst_len);
+						// element->word = malloc(dst_len + 1);
+						// element->operator = NULL;
+						src = malloc (sizeof(char) * (src_len +1));
+						ft_strlcpy(src, str + pos, src_len + 1);
+						dst = env_path(env_list, src_len, str + pos);
+						// printf("%s\n", dst);
+						if (dst == NULL)
+						{
+							printf("env not found\n");
+							element->word[0] = '\0';
+						}
+						else
+						{
+							k = 0;
+							printf("env found\n");
+							printf("%d\n", dst_len);
+							printf("%s\n", dst);
+							printf("%d\n", j);
+							printf("%s\n", element->word);
+							// ft_strlcpy(element->word + j, dst, dst_len + 1);
+							while (dst[k])
+							{
+								// printf("%c",dst[k]);
+								element->word[j] = dst[k];
+								k++;
+								j++;
+							}
+							// j = j + dst_len;
+							pos = pos + src_len;
+							printf("%s\n", element->word);
+						}
+						// printf("%d\n", dst_len);
+					}
+					else
+					{
+						printf("not dollar\n");
+						element->word[j] = str[i];
+						i++;
+						j++;
+						pos++;
+					}
 				}
 			}
 		}
@@ -186,12 +241,12 @@ int expansion_pos(t_data *data)
 
 	i = data->position;
 	pos = 0;
-	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>')
+	i++;
+	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>' && data->input_string[i] != '$')
 	{
 		i++;
 		pos++;
 	}
-	pos--;
 	return (pos);
 }
 
@@ -205,20 +260,23 @@ int expansion_len(t_data *data, t_env *env_list)
 	string = NULL;
 	i = data->position;
 	len = 0;
-	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>')
+	i++;
+	while (data->input_string[i] != ' ' && data->input_string[i] != '\0' && data->input_string[i] != '"' && data->input_string[i] != 39 && data->input_string[i] != '|' && data->input_string[i] != '>' && data->input_string[i] != '$')
 	{
 		i++;
 		len++;
 	}
-	len--;
+	// printf("here %d\n", len);
 	string = malloc (sizeof(char) * (len +1));
 	ft_strlcpy(string, data->input_string + data->position + 1, len + 1);
+	// printf("string %s\n", string);
 	result = env_path(env_list, len, string);
+	// printf("result %s\n", result);
 	if (result == NULL)
 		return (0);
-	// printf("%s\n", string);
+	// printf("ee %s\n", string);
 	// printf("%s\n", result);
-	// printf("%zu\n", ft_strlen(result));
+	// printf("here %zu\n", ft_strlen(result));
 	return (ft_strlen(result));
 }
 
@@ -231,9 +289,11 @@ int	get_len(t_data *data, t_env *env_list)
 	len = 0;
 	if (data->input_string[data->position] == '$')
 	{
-		len = expansion_len(data, env_list);
+		len = len + expansion_len(data, env_list);
+		// printf("length: %d\n", len);
 		// printf("a: %d\n", data->position);
 		data->position = data->position + expansion_pos(data) + 1;
+
 		// printf("b: %d\n", data->position);
 	}
 	else if (data->input_string[data->position] == '>' && data->input_string[data->position + 1] == '>')
@@ -291,8 +351,18 @@ int	get_len(t_data *data, t_env *env_list)
 			{
 				while (data->input_string[data->position] != ' ' && data->input_string[data->position] != '\0' && data->input_string[data->position] != '"' && data->input_string[data->position] != 39 && data->input_string[data->position] != '|' && data->input_string[data->position] != '>')
 				{
-					data->position++;
-					len++;
+					if (data->input_string[data->position] == '$')
+					{
+						len = len + expansion_len(data, env_list);
+						// printf("a: %d\n", data->position);
+						data->position = data->position + expansion_pos(data) + 1;
+						// printf("a: %d\n", data->position);
+					}
+					else
+					{
+						len++;
+						data->position++;
+					}
 				}
 			}
 		}
@@ -320,7 +390,7 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 		// printf("a: %d\n", data->position);
 		len = get_len(data, env_list);
 		// printf("b: %d\n", data->position);
-		// printf("a: %d\n", len);
+		printf("a: %d\n", len);
 		// printf("b: %s\n", data->input_string + i);
 		// printf("here %s\n", env_list->env_var);
 		push_token_list(tok_list, data->input_string + i, len, env_list);
