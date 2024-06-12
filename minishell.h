@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/10 23:28:54 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:50:41 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,23 @@
 # include <term.h>
 # include <unistd.h>
 
+# define READEND 0
+# define WRITEEND 1
+
 typedef struct s_pipe
 {
 	int				pipefd[2];
-	int				total_pipe;
 	int				fdi;
 	int				fdo;
 	int				i;
-	int				prev[2];
+	int				tmp_in;
+	int				tmp_out;
+	int				*pids;
 	char			*limiter;
 	int				infile;
 	int				outfile;
 	int				temp;
+	int				total_cmds;
 }					t_pipe;
 
 typedef struct s_token

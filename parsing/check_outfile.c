@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:55:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/10 23:55:25 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:51:53 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	outfile_exist(char *string)
 {
 	if (access(string, F_OK) == -1)
 	{
-		perror(string);
 		return (0);
 	}
 	return (1);
