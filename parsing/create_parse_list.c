@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/02 17:34:38 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/11 17:49:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	display_parser_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		printf("%s ", array[i]);
+		printf("[%s]", array[i]);
 		i++;
 	}
 }

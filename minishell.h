@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/12 14:50:41 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:46:04 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void				redirection(t_parse *cmds_list, t_pipe *pipe_info);
 
 //  lexical analysis
 int					check_input(char const *str);
-void				create_token_list(t_data *data, t_token **tok_list);
+void				create_token_list(t_data *data, t_token **tok_list, t_env *env_list);
 void				free_token_list(t_token **tok_list);
 
 //  parsing
