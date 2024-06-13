@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/13 17:58:55 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:01:06 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ void	add_string(t_token *element, char *str, int dst_len, t_env *env_list)
 	}
 }
 
-void	push_token_list(t_token **tok_list, char *str, t_env *env_list, t_data *data)
+void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 {
 	t_token	*element;
 	t_token	*last;
@@ -336,8 +336,8 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env_list, t_data *dat
 	element->j = 0;
 	element->i = 0;
 	element->dst_len = 0;
-	get_len(data, env_list, element);
-	add_string(element, str, element->dst_len, env_list);
+	get_len(data, env, element);
+	add_string(element, str, element->dst_len, env);
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{
