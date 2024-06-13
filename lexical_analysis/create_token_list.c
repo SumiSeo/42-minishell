@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/13 16:22:33 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/13 16:39:00 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,26 +147,21 @@ int	get_the_length(char *str)
 	return (i);
 }
 
-int	get_len(t_data *data, t_env *env_list)
+int	get_len(t_data *data, t_env *env_list, t_token	*element)
 {
 	int	i;
-	int	len;
+	// int	len;
 
 	i = 0;
-	len = 0;
+	// len = 0;
 	if (is_double_bracket(data))
 	{
-		len = 2;
+		element->dst_len = 2;
 		data->position = data->position + 2;
 	}	
-	else if (is_double_bracket(data))
-	{
-		len = 2;
-		data->position = data->position + 2;
-	}
 	else if (is_bracket_pipe(data))
 	{
-		len = 1;
+		element->dst_len = 1;
 		data->position = data->position + 1;
 	}
 	else
@@ -180,12 +175,12 @@ int	get_len(t_data *data, t_env *env_list)
 				{
 					if (data->input_string[data->position] == '$')
 					{
-						len = len + expansion_len(data, env_list);
+						element->dst_len = element->dst_len + expansion_len(data, env_list);
 						data->position = data->position + expansion_pos(data) + 1;
 					}
 					else
 					{
-						len++;
+						element->dst_len++;
 						data->position++;
 					}
 				}
@@ -197,7 +192,7 @@ int	get_len(t_data *data, t_env *env_list)
 				data->position++;
 				while (not_single_quote(data->input_string[data->position]))
 				{
-					len++;
+					element->dst_len++;
 					data->position++;
 				}
 				if (data->input_string[data->position] != '\0')
@@ -209,19 +204,19 @@ int	get_len(t_data *data, t_env *env_list)
 				{
 					if (data->input_string[data->position] == '$')
 					{
-						len = len + expansion_len(data, env_list);
+						element->dst_len = element->dst_len + expansion_len(data, env_list);
 						data->position = data->position + expansion_pos(data) + 1;
 					}
 					else
 					{
-						len++;
+						element->dst_len++;
 						data->position++;
 					}
 				}
 			}
 		}
 	}
-	return (len);
+	return (element->dst_len);
 }
 
 void	word(t_token *element, char *str)
@@ -336,8 +331,9 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env_list, t_data *dat
 	element = malloc(sizeof(t_token));
 	element->j = 0;
 	element->i = 0;
-	len = get_len(data, env_list);
-	add_string(element, str, len, env_list);
+	element->dst_len = 0;
+	get_len(data, env_list, element);
+	add_string(element, str, element->dst_len, env_list);
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{
@@ -350,8 +346,8 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env_list, t_data *dat
 	element->prev = last;
 }
 
-	// **** attention segfault
-	// tok_list = NULL;
+// **** attention segfault
+// tok_list = NULL;
 void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
 	int	len;
@@ -385,6 +381,84 @@ void	display_token_list(t_token *tok_list)
 		tok_list = tok_list->next;
 	}
 }
+//---------------------------------------------------------------- V5
+
+// int	get_len(t_data *data, t_env *env_list)
+// {
+// 	int	i;
+// 	int	len;
+
+// 	i = 0;
+// 	len = 0;
+// 	if (is_double_bracket(data))
+// 	{
+// 		len = 2;
+// 		data->position = data->position + 2;
+// 	}	
+// 	else if (is_double_bracket(data))
+// 	{
+// 		len = 2;
+// 		data->position = data->position + 2;
+// 	}
+// 	else if (is_bracket_pipe(data))
+// 	{
+// 		len = 1;
+// 		data->position = data->position + 1;
+// 	}
+// 	else
+// 	{
+// 		while (not_operator_3(data->input_string[data->position]))
+// 		{
+// 			if (data->input_string[data->position] == '"')
+// 			{
+// 				data->position++;
+// 				while (not_double_quote(data->input_string[data->position]))
+// 				{
+// 					if (data->input_string[data->position] == '$')
+// 					{
+// 						len = len + expansion_len(data, env_list);
+// 						data->position = data->position + expansion_pos(data) + 1;
+// 					}
+// 					else
+// 					{
+// 						len++;
+// 						data->position++;
+// 					}
+// 				}
+// 				if (data->input_string[data->position] != '\0')
+// 					data->position++;
+// 			}
+// 			else if (data->input_string[data->position] == 39)
+// 			{
+// 				data->position++;
+// 				while (not_single_quote(data->input_string[data->position]))
+// 				{
+// 					len++;
+// 					data->position++;
+// 				}
+// 				if (data->input_string[data->position] != '\0')
+// 					data->position++;
+// 			}
+// 			else
+// 			{
+// 				while (not_operator_6(data->input_string[data->position]))
+// 				{
+// 					if (data->input_string[data->position] == '$')
+// 					{
+// 						len = len + expansion_len(data, env_list);
+// 						data->position = data->position + expansion_pos(data) + 1;
+// 					}
+// 					else
+// 					{
+// 						len++;
+// 						data->position++;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return (len);
+// }
 
 //---------------------------------------------------------------- OLD $
 
