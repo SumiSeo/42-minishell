@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/13 18:01:06 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:23:07 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,19 @@ int	is_operator(char c)
 		return (0);
 }
 
-int	is_double_bracket(t_data *data)
+int	is_double_bracket(char c, char d)
 {
-	if (data->input[data->pos] == '>'
-		&& data->input[data->pos + 1] == '>')
+	if (c == '>' && d == '>')
 		return (1);
-	else if (data->input[data->pos] == '<'
-		&& data->input[data->pos + 1] == '<')
+	else if (c == '<' && d == '<')
 		return (1);
 	else
 		return (0);
 }
 
-int	is_bracket_pipe(t_data *data)
+int	is_bracket_pipe(char c)
 {
-	if (data->input[data->pos] == '|'
-		|| data->input[data->pos] == '>'
-		|| data->input[data->pos] == '<')
+	if (c == '|' || c == '>' || c == '<')
 		return (1);
 	else
 		return (0);
@@ -198,12 +194,12 @@ void	single_quote_len(t_data *data, t_token	*element)
 
 int	get_len(t_data *data, t_env *env_list, t_token	*element)
 {
-	if (is_double_bracket(data))
+	if (is_double_bracket(data->input[data->pos], data->input[data->pos + 1]))
 	{
 		element->dst_len = 2;
 		data->pos = data->pos + 2;
 	}	
-	else if (is_bracket_pipe(data))
+	else if (is_bracket_pipe(data->input[data->pos]))
 	{
 		element->dst_len = 1;
 		data->pos = data->pos + 1;
@@ -237,18 +233,13 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	char	*src;
 	char	*dst;
 
-	src = NULL;
-	dst = NULL;
 	element->i++;
-	src_len = 0;
 	src_len = get_the_length(str + element->i);
 	src = malloc (sizeof(char) * (src_len +1));
 	ft_strlcpy(src, str + element->i, src_len + 1);
 	dst = env_path(env_list, src_len, str + element->i);
 	if (dst == NULL)
-	{
 		element->word[element->j] = '\0';
-	}
 	else
 	{
 		k = 0;
