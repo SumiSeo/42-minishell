@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/13 15:04:05 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:49:39 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ typedef struct s_data
 {
 	char			**all_paths;
 	int				has_pipe;
-	int				position;
-	char			*input_string;
+	int				pos;
+	char			*input;
 }					t_data;
 
 typedef struct s_parse

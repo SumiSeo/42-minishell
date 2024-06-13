@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/13 16:39:00 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:58:55 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	is_operator(char c)
 
 int	is_double_bracket(t_data *data)
 {
-	if (data->input_string[data->position] == '>'
-		&& data->input_string[data->position + 1] == '>')
+	if (data->input[data->pos] == '>'
+		&& data->input[data->pos + 1] == '>')
 		return (1);
-	else if (data->input_string[data->position] == '<'
-		&& data->input_string[data->position + 1] == '<')
+	else if (data->input[data->pos] == '<'
+		&& data->input[data->pos + 1] == '<')
 		return (1);
 	else
 		return (0);
@@ -34,9 +34,9 @@ int	is_double_bracket(t_data *data)
 
 int	is_bracket_pipe(t_data *data)
 {
-	if (data->input_string[data->position] == '|'
-		|| data->input_string[data->position] == '>'
-		|| data->input_string[data->position] == '<')
+	if (data->input[data->pos] == '|'
+		|| data->input[data->pos] == '>'
+		|| data->input[data->pos] == '<')
 		return (1);
 	else
 		return (0);
@@ -100,10 +100,10 @@ int	expansion_pos(t_data *data)
 	int		i;
 	int		pos;
 
-	i = data->position;
+	i = data->pos;
 	pos = 0;
 	i++;
-	while (not_operator_7(data->input_string[i]))
+	while (not_operator_7(data->input[i]))
 	{
 		i++;
 		pos++;
@@ -119,16 +119,16 @@ int	expansion_len(t_data *data, t_env *env_list)
 	char	*result;
 
 	string = NULL;
-	i = data->position;
+	i = data->pos;
 	len = 0;
 	i++;
-	while (not_operator_7(data->input_string[i]))
+	while (not_operator_7(data->input[i]))
 	{
 		i++;
 		len++;
 	}
 	string = malloc (sizeof(char) * (len +1));
-	ft_strlcpy(string, data->input_string + data->position + 1, len + 1);
+	ft_strlcpy(string, data->input + data->pos + 1, len + 1);
 	result = env_path(env_list, len, string);
 	if (result == NULL)
 		return (0);
@@ -147,73 +147,77 @@ int	get_the_length(char *str)
 	return (i);
 }
 
+void	double_quote_len(t_data *data, t_env *env_list, t_token	*element)
+{
+	data->pos++;
+	while (not_double_quote(data->input[data->pos]))
+	{
+		if (data->input[data->pos] == '$')
+		{
+			element->dst_len = element->dst_len + expansion_len(data, env_list);
+			data->pos = data->pos + expansion_pos(data) + 1;
+		}
+		else
+		{
+			element->dst_len++;
+			data->pos++;
+		}
+	}
+	if (data->input[data->pos] != '\0')
+		data->pos++;
+}
+
+void	no_quote_len(t_data *data, t_env *env_list, t_token	*element)
+{
+	while (not_operator_6(data->input[data->pos]))
+	{
+		if (data->input[data->pos] == '$')
+		{
+			element->dst_len = element->dst_len + expansion_len(data, env_list);
+			data->pos = data->pos + expansion_pos(data) + 1;
+		}
+		else
+		{
+			element->dst_len++;
+			data->pos++;
+		}
+	}
+}
+
+void	single_quote_len(t_data *data, t_token	*element)
+{
+	data->pos++;
+	while (not_single_quote(data->input[data->pos]))
+	{
+		element->dst_len++;
+		data->pos++;
+	}
+	if (data->input[data->pos] != '\0')
+		data->pos++;
+}
+
 int	get_len(t_data *data, t_env *env_list, t_token	*element)
 {
-	int	i;
-	// int	len;
-
-	i = 0;
-	// len = 0;
 	if (is_double_bracket(data))
 	{
 		element->dst_len = 2;
-		data->position = data->position + 2;
+		data->pos = data->pos + 2;
 	}	
 	else if (is_bracket_pipe(data))
 	{
 		element->dst_len = 1;
-		data->position = data->position + 1;
+		data->pos = data->pos + 1;
 	}
 	else
 	{
-		while (not_operator_3(data->input_string[data->position]))
+		while (not_operator_3(data->input[data->pos]))
 		{
-			if (data->input_string[data->position] == '"')
-			{
-				data->position++;
-				while (not_double_quote(data->input_string[data->position]))
-				{
-					if (data->input_string[data->position] == '$')
-					{
-						element->dst_len = element->dst_len + expansion_len(data, env_list);
-						data->position = data->position + expansion_pos(data) + 1;
-					}
-					else
-					{
-						element->dst_len++;
-						data->position++;
-					}
-				}
-				if (data->input_string[data->position] != '\0')
-					data->position++;
-			}
-			else if (data->input_string[data->position] == 39)
-			{
-				data->position++;
-				while (not_single_quote(data->input_string[data->position]))
-				{
-					element->dst_len++;
-					data->position++;
-				}
-				if (data->input_string[data->position] != '\0')
-					data->position++;
-			}
+			if (data->input[data->pos] == '"')
+				double_quote_len(data, env_list, element);
+			else if (data->input[data->pos] == 39)
+				single_quote_len(data, element);
 			else
-			{
-				while (not_operator_6(data->input_string[data->position]))
-				{
-					if (data->input_string[data->position] == '$')
-					{
-						element->dst_len = element->dst_len + expansion_len(data, env_list);
-						data->position = data->position + expansion_pos(data) + 1;
-					}
-					else
-					{
-						element->dst_len++;
-						data->position++;
-					}
-				}
-			}
+				no_quote_len(data, env_list, element);
 		}
 	}
 	return (element->dst_len);
@@ -350,22 +354,14 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env_list, t_data *dat
 // tok_list = NULL;
 void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
-	int	len;
-	int	i;
-
-	data->position = 0;
-	i = 0;
-	while (data->input_string[data->position] != '\0')
+	data->pos = 0;
+	while (data->input[data->pos] != '\0')
 	{
-		len = 0;
-		while (data->input_string[data->position] == ' '
-			&& data->input_string[data->position] != '\0')
-			data->position++;
-		i = data->position;
-		if (data->input_string[data->position] == '\0')
+		while (data->input[data->pos] == ' ' && data->input[data->pos] != '\0')
+			data->pos++;
+		if (data->input[data->pos] == '\0')
 			break ;
-		push_token_list(tok_list, data->input_string + i, env_list, data);
-		i = data->position;
+		push_token_list(tok_list, data->input + data->pos, env_list, data);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 21:00:36 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:49:18 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	take_input(t_data *data)
 	len = ft_strlen(buf);
 	if (len != 0)
 	{
-		data->input_string = (char *)malloc(sizeof(char) * (len + 1));
+		data->input = (char *)malloc(sizeof(char) * (len + 1));
 		add_history(buf);
-		size = ft_strlcpy(data->input_string, buf, len + 1);
+		size = ft_strlcpy(data->input, buf, len + 1);
 		return (0);
 	}
 	else
