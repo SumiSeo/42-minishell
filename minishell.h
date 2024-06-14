@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 19:11:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/14 20:20:53 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ typedef struct s_parse
 	int				builtin;
 	int				only_cmd;
 	int				num_redirections;
-	// int				fd[2];
+	int				pipe_fdi;
+	int				pipe_fdo;
+	int				infile;
+	int				outfile;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }					t_parse;
@@ -194,7 +197,9 @@ void				getfile(t_parse *cmds_list, t_pipe *pipe_info);
 
 void				redirection(t_parse *cmds_list, t_pipe *pipe_info,
 						char **env_copy, int i);
-void				pipe_init(t_pipe *pipe_info, int i, t_data *data);
+void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
+						t_data *data);
 void				second_redirection(t_parse *cmds_list, t_pipe *pipe_info);
-void				only_redirection(t_pipe *pipe_info);
+void				only_redirection(t_parse *cmds_list, t_pipe *pipe_info);
+
 #endif

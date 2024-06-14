@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 19:21:22 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/14 20:35:27 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,20 @@ void	free_fork_pids(t_pipe *pipe_info)
 // 	close(pipe_info->tmp_out);
 // 	free(pipe_info);
 // }
+void	pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i, t_data *data)
+{
+	int	fd[2];
+
+	(void)i;
+	(void)pipe_info;
+	(void)cmds_list;
+	if (data->has_pipe < 0)
+		return ;
+	if (pipe(fd) == -1)
+		perror("Pipe");
+	cmds_list->pipe_fdi = dup(fd[0]);
+	cmds_list->pipe_fdo = dup(fd[1]);
+}
 
 void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 {
@@ -114,25 +128,19 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 	}
 	i = 0;
 	pipe_info->total_cmds = count_cmds(cmds_list);
-	printf("pripe total cmds %d\n", pipe_info->total_cmds);
 	while (i < pipe_info->total_cmds)
 	{
-		// pipe_init(pipe_info, i, data);
+		pipe_init(pipe_info, cmds_list, i, data);
 		getfile(cmds_list, pipe_info);
-		// pipe(cmds_list->fd);
 		fork_id = fork();
 		if (fork_id == -1)
 			perror("fork");
 		if (fork_id == 0)
 		{
-			printf("check\n");
 			redirection(cmds_list, pipe_info, env_copy, i);
 			parse_path(cmds_list, env_copy);
 		}
-		else
-		{
-			waitpid(fork_id, &status, 0);
-		}
+		waitpid(fork_id, &status, 0);
 		cmds_list = cmds_list->next;
 		i++;
 	}
