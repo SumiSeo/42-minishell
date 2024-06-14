@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/14 16:00:27 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/14 16:38:16 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,17 @@ int	is_space(char c)
 
 char	*env_path(t_env *env_list, int len, char *string)
 {
+	int	env_len;
+
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->env_var, string, len) == 0)
+		env_len = 0;
+		while (env_list->env_var[env_len] != '=')
+			env_len++;
+		if (env_len == len && ft_strncmp(env_list->env_var, string, len) == 0)
 			return (env_list->env_var + len + 1);
-		env_list = env_list->next;
+		else
+			env_list = env_list->next;
 	}
 	return (NULL);
 }
