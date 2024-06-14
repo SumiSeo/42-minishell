@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/12 16:46:57 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/12 20:21:45 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void	push_token_list(t_token **tok_list, char *str, int dst_len, t_env *env_list
 					}
 					else
 					{
-						printf("not dollar\n");
+						// printf("not dollar\n");
 						element->word[j] = str[i];
 						i++;
 						j++;
@@ -409,7 +409,7 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 		// printf("a: %d\n", data->position);
 		len = get_len(data, env_list);
 		// printf("b: %d\n", data->position);
-		printf("a: %d\n", len);
+		// printf("a: %d\n", len);
 		// printf("b: %s\n", data->input_string + i);
 		// printf("here %s\n", env_list->env_var);
 		push_token_list(tok_list, data->input_string + i, len, env_list);

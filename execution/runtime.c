@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 20:37:51 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/13 16:30:20 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 {
-	// // if (data->has_pipe < 1)
-	// // 	execute_redirection(cmds_list, env_copy);
-	// else if (data->has_pipe > 0)
-	(void)data;
-	execute_pipeline(cmds_list, env_copy);
+	printf("runtime shell called\n");
+	execute_pipeline(cmds_list, env_copy, data);
 }
 
 void	exec_shell(t_parse *cmds_list, char **env_copy)

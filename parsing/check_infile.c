@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/10 23:57:00 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/12 20:12:50 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,34 @@ void	check_infile(t_parse *par_list)
 
 ////////////////////////////////////////////// OPEN INFILE
 
-// void	receive_input(char *argv)
-// {
-// 	char	*string;
-// 	int		fd1;
+int	receive_input(char *argv)
+{
+	char	*string;
+	int		temp_fd;
+	size_t	len;
 
-// 	fd1 = open("temp", O_CREAT | O_WRONLY, 0644);
-// 	while (1)
-// 	{
-// 		string = get_next_line(0);
-// 		printf("%zu\n", ft_strlen(string));
-// 		if (string == NULL || ft_strncmp(string, argv, ft_strlen(string)
-// 				- 1) == 0)
-// 			break ;
-// 		ft_putstr_fd(string, fd1);
-// 		free(string);
-// 	}
-// }
+	temp_fd = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	while (1)
+	{
+		string = get_next_line(0);
+		if (!string)
+			perror("get _next_line");
+		len = ft_strlen(string);
+		if (len > 0 && string[len - 1] == '\n')
+			string[len - 1] = '\0';
+		if (ft_strncmp(string, argv, ft_strlen(argv)) == 0
+			&& ft_strlen(string) == ft_strlen(argv))
+		{
+			free(string);
+			break ;
+		}
+		// ft_putstr_fd(string, );
+		// write(temp_fd, string, ft_strlen(string));
+		// ft_putstr_fd("\n", );
+		free(string);
+	}
+	return (temp_fd);
+}
 
 // int	open_infile(t_parse *parser)
 // {

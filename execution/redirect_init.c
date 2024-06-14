@@ -6,74 +6,126 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/11 00:12:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/14 16:36:25 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	assign_infile(t_parse *cmds_list, t_pipe *pipe_info)
+void	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 {
-	printf("*****Infile assigned\n ");
-	if (cmds_list->infile_name)
+	if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<<",
+			2) == 0)
+		printf("heredoc infile\n");
+	else if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<",
+			1) == 0)
 	{
-		pipe_info->infile = open(cmds_list->infile_name, O_RDONLY);
-		if (pipe_info->infile == -1)
-			perror(cmds_list->infile_name);
+		printf("normal infile\n");
+		pipe_info->fdi = open(cmds_list->infile_name, O_RDONLY);
 	}
-	return ;
+	else
+	{
+		pipe_info->fdi = dup(STDIN_FILENO);
+	}
+	if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token, ">>",
+			2) == 0)
+	{
+		printf("append outfile\n");
+		pipe_info->fdo = open(cmds_list->outfile_name, O_RDWR | O_APPEND, 0644);
+	}
+	else if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token,
+			">", 1) == 0)
+	{
+		printf("normal outfile\n");
+		pipe_info->fdo = open(cmds_list->outfile_name,
+				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	}
+	else
+		pipe_info->fdo = dup(STDOUT_FILENO);
 }
 
-void	assign_outfile(t_parse *cmds_list, t_pipe *pipe_info, int flag)
+void	only_redirection(t_pipe *pipe_info)
 {
-	if (flag == 1)
+	dup2(pipe_info->fdi, STDIN_FILENO);
+	close(pipe_info->fdi);
+	dup2(pipe_info->fdo, STDOUT_FILENO);
+	close(pipe_info->fdo);
+}
+
+void	redirection(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
+		int i)
+{
+	(void)env_copy;
+	(void)cmds_list;
+	if (!cmds_list || !pipe_info)
 	{
-		printf("*****Outfile newly created\n ");
-		if (cmds_list->outfile_name)
+		printf("cmds_list or pipe_info is NULL\n");
+	}
+	if (pipe_info->only_redirect)
+	{
+		only_redirection(pipe_info);
+		return ;
+	}
+	if (i == 0)
+	{
+		printf("First command\n");
+		close(pipe_info->pipefd[0]);
+		dup2(pipe_info->fdi, STDIN_FILENO);
+		close(pipe_info->fdi);
+		if (cmds_list->outfile_token)
 		{
-			pipe_info->outfile = open(cmds_list->outfile_name,
-					O_WRONLY | O_TRUNC | O_CREAT, 0666);
-			if (pipe_info->outfile == -1)
-				perror(cmds_list->outfile_name);
+			dup2(pipe_info->fdo, STDOUT_FILENO);
+			close(pipe_info->fdo);
+			close(pipe_info->pipefd[1]);
+		}
+		else
+		{
+			dup2(pipe_info->pipefd[1], STDOUT_FILENO);
+			close(pipe_info->pipefd[1]);
+		}
+	}
+	else if (i == pipe_info->total_cmds - 1)
+	{
+		close(pipe_info->pipefd[1]);
+		dup2(pipe_info->fdo, STDOUT_FILENO);
+		close(pipe_info->fdo);
+		if (cmds_list->infile_token)
+		{
+			dup2(pipe_info->fdi, STDIN_FILENO);
+			close(pipe_info->fdi);
+			close(pipe_info->pipefd[0]);
+		}
+		else
+		{
+			dup2(pipe_info->pipefd[0], STDIN_FILENO);
+			close(pipe_info->pipefd[0]);
 		}
 	}
 	else
 	{
-		printf("*****Outfile appended\n ");
-		if (cmds_list->outfile_name)
+		printf("Middle command\n");
+		if (cmds_list->infile_token)
 		{
-			pipe_info->outfile = open(cmds_list->outfile_name,
-					O_WRONLY | O_APPEND | O_CREAT, 0666);
-			if (pipe_info->outfile == -1)
-				perror(cmds_list->outfile_name);
+			dup2(pipe_info->fdi, STDIN_FILENO);
+			close(pipe_info->fdi);
+			close(pipe_info->pipefd[0]);
+		}
+		else
+		{
+			dup2(pipe_info->pipefd[0], STDIN_FILENO);
+			close(pipe_info->pipefd[0]);
+		}
+		if (cmds_list->outfile_token)
+		{
+			dup2(pipe_info->fdo, STDOUT_FILENO);
+			close(pipe_info->fdo);
+			close(pipe_info->pipefd[1]);
+		}
+		else
+		{
+			dup2(pipe_info->pipefd[1], STDOUT_FILENO);
+			close(pipe_info->pipefd[1]);
 		}
 	}
-	return ;
-}
-void	redirection(t_parse *cmds_list, t_pipe *pipe_info)
-{
-	if (cmds_list->infile_exist && cmds_list->infile_name
-		&& cmds_list->infile_token)
-	{
-		if (ft_strncmp(cmds_list->infile_token, "<<", 2) == 0)
-			printf("This is heredoc\n");
-		if (ft_strncmp(cmds_list->infile_token, "<", 1) == 0)
-			assign_infile(cmds_list, pipe_info);
-	}
-	printf("Check infile or outfile ? \n");
-	printf("Outfile exist ? %d\n", cmds_list->outfile_exist);
-	printf("Outfile name ? %s\n", cmds_list->outfile_name);
-	printf("Outfile token ? %s\n", cmds_list->outfile_token);
-	printf("Outfile access ? %d\n", cmds_list->outfile_access);
-	if (cmds_list->outfile_name && cmds_list->outfile_token
-		&& cmds_list->outfile_access)
-	{
-		printf("Check outfile ? \n");
-		if (ft_strncmp(cmds_list->outfile_token, ">>", 2) == 0)
-			assign_outfile(cmds_list, pipe_info, 2);
-		if (ft_strncmp(cmds_list->outfile_token, ">", 1) == 0)
-			assign_outfile(cmds_list, pipe_info, 1);
-	}
-	if (cmds_list->infile_token == NULL || cmds_list->outfile_token == NULL)
-		return ;
+	printf("Hello world2\n");
 }
