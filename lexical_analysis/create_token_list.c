@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/14 15:46:01 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/14 16:00:27 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_operator(char c)
 {
-	if (c == '>' || c == '>' || c == '|')
+	if (c == '>' || c == '<' || c == '|')
 		return (1);
 	else
 		return (0);
@@ -41,7 +41,7 @@ int	is_bracket_pipe(char c)
 int	not_operator_dollar(char c)
 {
 	if (c != ' ' && c != '\0' && c != '"'
-		&& c != 39 && c != '|' && c != '>' && c != '$')
+		&& c != 39 && c != '|' && c != '>' && c != '<' && c != '$')
 		return (1);
 	else
 		return (0);
@@ -50,7 +50,7 @@ int	not_operator_dollar(char c)
 int	not_operator(char c)
 {
 	if (c != ' ' && c != '\0' && c != '"'
-		&& c != 39 && c != '|' && c != '>')
+		&& c != 39 && c != '|' && c != '>' && c != '<')
 		return (1);
 	else
 		return (0);
