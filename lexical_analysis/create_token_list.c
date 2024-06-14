@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/13 18:23:07 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/14 13:38:36 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_operator(char c)
 {
-	if (c == '>' || c == '>' || c == '|' || c == '>' || c == '<')
+	if (c == '>' || c == '>' || c == '|')
 		return (1);
 	else
 		return (0);
@@ -38,7 +38,7 @@ int	is_bracket_pipe(char c)
 		return (0);
 }
 
-int	not_operator_7(char c)
+int	not_operator_dollar(char c)
 {
 	if (c != ' ' && c != '\0' && c != '"'
 		&& c != 39 && c != '|' && c != '>' && c != '$')
@@ -47,7 +47,7 @@ int	not_operator_7(char c)
 		return (0);
 }
 
-int	not_operator_6(char c)
+int	not_operator(char c)
 {
 	if (c != ' ' && c != '\0' && c != '"'
 		&& c != 39 && c != '|' && c != '>')
@@ -56,7 +56,7 @@ int	not_operator_6(char c)
 		return (0);
 }
 
-int	not_operator_3(char c)
+int	not_space_pipe(char c)
 {
 	if (c != ' ' && c != '\0' && c != '|')
 		return (1);
@@ -80,6 +80,14 @@ int	not_single_quote(char c)
 		return (0);
 }
 
+int	is_space(char c)
+{
+	if (c == ' ' && c != '\0')
+		return (1);
+	else
+		return (0);
+}
+
 char	*env_path(t_env *env_list, int len, char *string)
 {
 	while (env_list)
@@ -91,56 +99,29 @@ char	*env_path(t_env *env_list, int len, char *string)
 	return (NULL);
 }
 
-int	expansion_pos(t_data *data)
-{
-	int		i;
-	int		pos;
-
-	i = data->pos;
-	pos = 0;
-	i++;
-	while (not_operator_7(data->input[i]))
-	{
-		i++;
-		pos++;
-	}
-	return (pos);
-}
-
-int	expansion_len(t_data *data, t_env *env_list)
+void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 {
 	int		i;
 	int		len;
 	char	*string;
 	char	*result;
 
-	string = NULL;
+	data->pos++;
 	i = data->pos;
 	len = 0;
-	i++;
-	while (not_operator_7(data->input[i]))
+	while (not_operator_dollar(data->input[i]))
 	{
 		i++;
 		len++;
 	}
 	string = malloc (sizeof(char) * (len +1));
-	ft_strlcpy(string, data->input + data->pos + 1, len + 1);
+	ft_strlcpy(string, data->input + data->pos, len + 1);
 	result = env_path(env_list, len, string);
+	data->pos = data->pos + i;
 	if (result == NULL)
-		return (0);
-	return (ft_strlen(result));
-}
-
-int	get_the_length(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (not_operator_7(str[i]))
-	{
-		i++;
-	}
-	return (i);
+		element->len = 0;
+	else
+		element->len = element->len + ft_strlen(result);
 }
 
 void	double_quote_len(t_data *data, t_env *env_list, t_token	*element)
@@ -150,12 +131,11 @@ void	double_quote_len(t_data *data, t_env *env_list, t_token	*element)
 	{
 		if (data->input[data->pos] == '$')
 		{
-			element->dst_len = element->dst_len + expansion_len(data, env_list);
-			data->pos = data->pos + expansion_pos(data) + 1;
+			expand_len_pos(data, env_list, element);
 		}
 		else
 		{
-			element->dst_len++;
+			element->len++;
 			data->pos++;
 		}
 	}
@@ -165,16 +145,15 @@ void	double_quote_len(t_data *data, t_env *env_list, t_token	*element)
 
 void	no_quote_len(t_data *data, t_env *env_list, t_token	*element)
 {
-	while (not_operator_6(data->input[data->pos]))
+	while (not_operator(data->input[data->pos]))
 	{
 		if (data->input[data->pos] == '$')
 		{
-			element->dst_len = element->dst_len + expansion_len(data, env_list);
-			data->pos = data->pos + expansion_pos(data) + 1;
+			expand_len_pos(data, env_list, element);
 		}
 		else
 		{
-			element->dst_len++;
+			element->len++;
 			data->pos++;
 		}
 	}
@@ -185,28 +164,28 @@ void	single_quote_len(t_data *data, t_token	*element)
 	data->pos++;
 	while (not_single_quote(data->input[data->pos]))
 	{
-		element->dst_len++;
+		element->len++;
 		data->pos++;
 	}
 	if (data->input[data->pos] != '\0')
 		data->pos++;
 }
 
-int	get_len(t_data *data, t_env *env_list, t_token	*element)
+void	get_len_pos(t_data *data, t_env *env_list, t_token	*element)
 {
 	if (is_double_bracket(data->input[data->pos], data->input[data->pos + 1]))
 	{
-		element->dst_len = 2;
+		element->len = 2;
 		data->pos = data->pos + 2;
 	}	
 	else if (is_bracket_pipe(data->input[data->pos]))
 	{
-		element->dst_len = 1;
+		element->len = 1;
 		data->pos = data->pos + 1;
 	}
 	else
 	{
-		while (not_operator_3(data->input[data->pos]))
+		while (not_space_pipe(data->input[data->pos]))
 		{
 			if (data->input[data->pos] == '"')
 				double_quote_len(data, env_list, element);
@@ -216,10 +195,21 @@ int	get_len(t_data *data, t_env *env_list, t_token	*element)
 				no_quote_len(data, env_list, element);
 		}
 	}
-	return (element->dst_len);
 }
 
-void	word(t_token *element, char *str)
+int	get_the_length(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (not_operator_dollar(str[i]))
+	{
+		i++;
+	}
+	return (i);
+}
+
+void	copy_word(t_token *element, char *str)
 {
 	element->word[element->j] = str[element->i];
 	element->i++;
@@ -253,11 +243,11 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	element->i = element->i + src_len;
 }
 
-void	operator(t_token *element, char *str, int dst_len)
+void	operator(t_token *element, char *str)
 {
-	element->operator = malloc(dst_len + 1);
+	element->operator = malloc(element->len + 1);
 	element->word = NULL;
-	ft_strlcpy(element->operator, str, dst_len + 1);
+	ft_strlcpy(element->operator, str, element->len + 1);
 }
 
 void	double_quote(t_token *element, char *str, t_env *env_list)
@@ -268,7 +258,7 @@ void	double_quote(t_token *element, char *str, t_env *env_list)
 		if (str[element->i] == '$')
 			expand_word(element, str, env_list);
 		else
-			word(element, str);
+			copy_word(element, str);
 	}
 	if (str[element->i] != '\0')
 		element->i++;
@@ -278,31 +268,31 @@ void	single_quote(t_token *element, char *str)
 {
 	element->i++;
 	while (str[element->i] != '\0' && str[element->i] != 39)
-		word(element, str);
+		copy_word(element, str);
 	if (str[element->i] != '\0')
 		element->i++;
 }
 
 void	no_quote(t_token *element, char *str, t_env *env_list)
 {
-	while (not_operator_6(str[element->i]))
+	while (not_operator(str[element->i]))
 	{
 		if (str[element->i] == '$')
 			expand_word(element, str, env_list);
 		else
-			word(element, str);
+			copy_word(element, str);
 	}
 }
 
-void	add_string(t_token *element, char *str, int dst_len, t_env *env_list)
+void	add_string(t_token *element, char *str, t_env *env_list)
 {
 	if (is_operator(str[0]))
-		operator(element, str, dst_len);
+		operator(element, str);
 	else
 	{
-		element->word = malloc(dst_len + 1);
+		element->word = malloc(element->len + 1);
 		element->operator = NULL;
-		while (not_operator_3(str[element->i]))
+		while (not_space_pipe(str[element->i]))
 		{
 			if (str[element->i] == '"')
 				double_quote(element, str, env_list);
@@ -319,16 +309,14 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 {
 	t_token	*element;
 	t_token	*last;
-	int		len;
 
-	len = 0;
 	last = *tok_list;
 	element = malloc(sizeof(t_token));
 	element->j = 0;
 	element->i = 0;
-	element->dst_len = 0;
-	get_len(data, env, element);
-	add_string(element, str, element->dst_len, env);
+	element->len = 0;
+	get_len_pos(data, env, element);
+	add_string(element, str, env);
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{
@@ -348,7 +336,7 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 	data->pos = 0;
 	while (data->input[data->pos] != '\0')
 	{
-		while (data->input[data->pos] == ' ' && data->input[data->pos] != '\0')
+		while (is_space(data->input[data->pos]))
 			data->pos++;
 		if (data->input[data->pos] == '\0')
 			break ;
@@ -368,6 +356,49 @@ void	display_token_list(t_token *tok_list)
 		tok_list = tok_list->next;
 	}
 }
+
+//---------------------------------------------------------------- V6
+
+// int	expand_pos(t_data *data)
+// {
+// 	int		i;
+// 	int		pos;
+
+// 	i = data->pos;
+// 	pos = 0;
+// 	i++;
+// 	while (not_operator_dollar(data->input[i]))
+// 	{
+// 		i++;
+// 		pos++;
+// 	}
+// 	return (pos);
+// }
+
+// int	expand_len(t_data *data, t_env *env_list)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*string;
+// 	char	*result;
+
+// 	string = NULL;
+// 	i = data->pos;
+// 	len = 0;
+// 	i++;
+// 	while (not_operator_dollar(data->input[i]))
+// 	{
+// 		i++;
+// 		len++;
+// 	}
+// 	string = malloc (sizeof(char) * (len +1));
+// 	ft_strlcpy(string, data->input + data->pos + 1, len + 1);
+// 	result = env_path(env_list, len, string);
+// 	if (result == NULL)
+// 		return (0);
+// 	return (ft_strlen(result));
+// }
+
 //---------------------------------------------------------------- V5
 
 // int	get_len(t_data *data, t_env *env_list)

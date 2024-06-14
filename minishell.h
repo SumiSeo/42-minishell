@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/13 17:49:39 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/14 12:22:03 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_token
 	int				index;
 	int				j;
 	int				i;
-	int				dst_len;
+	int				len;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
