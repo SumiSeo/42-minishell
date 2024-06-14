@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 16:31:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:21:22 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,40 +97,15 @@ void	free_fork_pids(t_pipe *pipe_info)
 // 	free(pipe_info);
 // }
 
-void	pipe_init(t_pipe *pipe_info, int i, t_data *data)
-{
-	int	pipe_id;
-
-	if (data->has_pipe < 1)
-	{
-		pipe_info->only_redirect = 1;
-		return ;
-	}
-	if (i == 0)
-	{
-		pipe_info->is_first_cmd = 1;
-	}
-	else if (i == pipe_info->total_cmds - 1)
-	{
-		pipe_info->is_last_cmd = 1;
-	}
-	else
-		pipe_info->is_middle_cmd = 1;
-	pipe_id = pipe(pipe_info->pipefd);
-	if (pipe_id == -1)
-		perror("pipe");
-	else
-	{
-		printf("Pipe created \n");
-	}
-}
-
 void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 {
 	t_pipe	*pipe_info;
 	int		i;
 	int		fork_id;
+	int		status;
 
+	(void)env_copy;
+	(void)data;
 	pipe_info = malloc(sizeof(t_pipe));
 	if (pipe_info == NULL)
 	{
@@ -139,22 +114,24 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 	}
 	i = 0;
 	pipe_info->total_cmds = count_cmds(cmds_list);
+	printf("pripe total cmds %d\n", pipe_info->total_cmds);
 	while (i < pipe_info->total_cmds)
 	{
-		pipe_init(pipe_info, i, data);
+		// pipe_init(pipe_info, i, data);
 		getfile(cmds_list, pipe_info);
+		// pipe(cmds_list->fd);
 		fork_id = fork();
 		if (fork_id == -1)
 			perror("fork");
 		if (fork_id == 0)
 		{
+			printf("check\n");
 			redirection(cmds_list, pipe_info, env_copy, i);
-			printf("Yo");
 			parse_path(cmds_list, env_copy);
 		}
 		else
 		{
-			waitpid(fork_id, NULL, 0);
+			waitpid(fork_id, &status, 0);
 		}
 		cmds_list = cmds_list->next;
 		i++;

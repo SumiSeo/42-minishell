@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 15:39:25 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:11:12 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ typedef struct s_parse
 	int				outfile_access;
 	char			*path;
 	int				builtin;
+	int				only_cmd;
 	int				num_redirections;
+	// int				fd[2];
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }					t_parse;

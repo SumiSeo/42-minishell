@@ -1,4 +1,3 @@
-Hello world2
 $@)
 $(dir
 builtin
@@ -8,6 +7,7 @@ e_execution_system.c
 error_handler
 execution
 file1
+fourls
 get_next_line
 hellowworld
 ignore_readline.supp
@@ -21,6 +21,7 @@ minishell.h
 obj
 out
 outcheck
+outttdfsdfdsf
 parsing
 pie
 pierre

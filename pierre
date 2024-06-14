@@ -1,67 +1,47 @@
-NAME = minishell
-
-#SRCS AND OBJS FOR COMPILING
-
-SRCS = minishell.c error_handler/error_controler.c\
-input_handler/input_handler.c\
-e_execution_system.c\
-execution/pipe_init.c\
-execution/pipe_utils.c\
-execution/runtime.c\
-execution/exec_utils.c\
-execution/redirect_init.c\
-builtin/echo.c\
-builtin/pwd.c\
-builtin/cd.c\
-builtin/exit.c\
-builtin/export.c\
-builtin/unset.c\
-builtin/env.c\
-builtin/find_builtin.c\
-lexical_analysis/check_input.c\
-lexical_analysis/create_token_list.c\
-lexical_analysis/count_nb_pipe.c\
-lexical_analysis/free_token_list.c\
-parsing/create_parse_list.c\
-parsing/check_infile.c\
-parsing/check_outfile.c\
-parsing/free_parse_list.c\
-parsing/search_command.c\
-parsing/store_command.c\
-store_env/store_env_list.c\
-store_env/store_path.c\
-store_env/env_utils.c\
-utils_display/display.c\
-get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
-
-INCLUDES = libft/
-OBJDIR = obj
-
-OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
-
-#FLAGS 
-CC = clang
-CFLAGS = -Wall -Werror -Wextra
-LDFLAGS = -lreadline
-CLIB = -L libft/ -l libft
-DEBUGGER = -g3
-
-all : $(NAME)
-
-$(NAME) : $(OBJS)
-		make -C libft
-		$(CC) $(OBJS) -I $(INCLUDES) -o $(NAME) $(CLIB) $(LDFLAGS) $(DEBUGGER)
-
-$(OBJDIR)/%.o : %.c
-		mkdir -p $(dir $@)
-		$(CC) $(CFLAGS) -c $< -o $@
-
-clean :
-		rm -rf $(OBJDIR)
-
-fclean : clean
-		rm -rf $(NAME)
-
-re : fclean all
-
-.PHONY: all clean fclean re
+total 172
+drwxr-xr-x 17 sumseo 2023_paris  4096 Jun 14 19:00 .
+drwxr-xr-x  8 sumseo 2023_paris   103 May 18 10:48 ..
+drwxr-xr-x  2 sumseo 2023_paris     6 Jun  8 19:02 $@)
+drwxr-xr-x  2 sumseo 2023_paris     6 Jun  8 19:02 $(dir
+drwxr-xr-x  2 sumseo 2023_paris   125 Jun 12 16:47 builtin
+-rw-r--r--  1 sumseo 2023_paris    89 Jun 14 18:57 cc
+-rw-r--r--  1 sumseo 2023_paris  1941 Jun 14 18:35 check
+-rw-r--r--  1 sumseo 2023_paris  2215 May 29 18:48 e_execution_system.c
+drwxr-xr-x  2 sumseo 2023_paris    31 Jun  8 17:31 error_handler
+drwxr-xr-x  2 sumseo 2023_paris   124 Jun 12 16:47 execution
+-rw-r--r--  1 sumseo 2023_paris   647 Jun 14 18:50 file1
+-rw-r--r--  1 sumseo 2023_paris   356 Jun 14 16:39 fourls
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 14 18:54 gd
+drwxr-xr-x  2 sumseo 2023_paris    81 Jun  1 17:59 get_next_line
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 14 18:55 gg
+drwxr-xr-x  8 sumseo 2023_paris   220 Jun 14 16:36 .git
+-rw-r--r--  1 sumseo 2023_paris   401 Jun 14 17:45 hellosumi
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 14 15:50 hellowworld
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 14 18:55 hg
+-rw-r--r--  1 sumseo 2023_paris   127 Jun 14 16:26 ignore_readline.supp
+drwxr-xr-x  2 sumseo 2023_paris    29 Jun  8 17:31 input_handler
+drwxr-xr-x  2 sumseo 2023_paris   102 Jun 12 16:47 lexical_analysis
+drwxr-xr-x  2 sumseo 2023_paris  4096 Jun 13 16:03 libft
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 13 16:06 Makefile
+-rwxr-xr-x  1 sumseo 2023_paris 53200 Jun 14 19:00 minishell
+-rw-r--r--  1 sumseo 2023_paris  2441 Jun 14 18:35 minishell.c
+-rw-r--r--  1 sumseo 2023_paris  5967 Jun 14 18:52 minishell.h
+drwxr-xr-x 11 sumseo 2023_paris   225 Jun 14 18:35 obj
+-rw-r--r--  1 sumseo 2023_paris   103 Jun 14 18:56 out
+-rw-r--r--  1 sumseo 2023_paris  2058 Jun 14 18:34 outt
+drwxr-xr-x  2 sumseo 2023_paris   150 Jun 12 16:47 parsing
+-rw-r--r--  1 sumseo 2023_paris     0 Jun 14 19:01 pierre
+-rw-r--r--  1 sumseo 2023_paris  2397 May 29 18:48 ReadMe.md
+drwxr-xr-x  2 sumseo 2023_paris    69 Jun 12 16:47 store_env
+-rw-r--r--  1 sumseo 2023_paris  2706 Jun 14 19:00 sumi
+-rw-r--r--  1 sumseo 2023_paris  2706 Jun 14 18:58 usmii
+drwxr-xr-x  2 sumseo 2023_paris    23 Jun  1 17:59 utils_display
+drwxr-xr-x  2 sumseo 2023_paris    27 Jun 12 16:47 .vscode
+-rw-r--r--  1 sumseo 2023_paris    13 Jun 14 18:47 yap
+-rw-r--r--  1 sumseo 2023_paris    13 Jun 14 18:49 yay
+-rw-r--r--  1 sumseo 2023_paris   300 Jun 14 18:53 yd
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 14 18:54 ye
+-rw-r--r--  1 sumseo 2023_paris   303 Jun 14 18:53 yg
+-rw-r--r--  1 sumseo 2023_paris  1350 Jun 14 18:55 yi
+-rw-r--r--  1 sumseo 2023_paris    13 Jun 14 18:38 yo
+-rw-r--r--  1 sumseo 2023_paris    13 Jun 14 18:39 yooo

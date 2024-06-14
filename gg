@@ -1,4 +1,3 @@
-Hello world2
 NAME = minishell
 
 #SRCS AND OBJS FOR COMPILING

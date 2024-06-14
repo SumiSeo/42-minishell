@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_parse_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/11 17:49:21 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:05:27 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	count_words_pipe_create(t_token *tok_list)
 {
-	int		len;
+	int	len;
 
 	len = 0;
 	while (tok_list)
 	{
-		if (tok_list->operator && tok_list->operator[0] == '|')
-			break;
+		if (tok_list->operator&& tok_list->operator[0] == '|')
+			break ;
 		len++;
 		tok_list = tok_list->next;
 	}
@@ -76,14 +76,14 @@ void	create_parse_list(t_token *tok_list, t_parse **par_list)
 			tok_list = tok_list->next;
 			k++;
 		}
-		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
+		if (tok_list && tok_list->operator&& tok_list->operator[0] == '|')
 			tok_list = tok_list->next;
 	}
 }
 
 void	display_parser_array(char **array)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (array[i])
