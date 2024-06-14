@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/14 13:38:36 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/14 15:46:01 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,19 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 		element->len = element->len + ft_strlen(result);
 }
 
-void	double_quote_len(t_data *data, t_env *env_list, t_token	*element)
+void	len_single_quote(t_data *data, t_token	*element)
+{
+	data->pos++;
+	while (not_single_quote(data->input[data->pos]))
+	{
+		element->len++;
+		data->pos++;
+	}
+	if (data->input[data->pos] != '\0')
+		data->pos++;
+}
+
+void	len_double_quote(t_data *data, t_env *env_list, t_token	*element)
 {
 	data->pos++;
 	while (not_double_quote(data->input[data->pos]))
@@ -143,7 +155,7 @@ void	double_quote_len(t_data *data, t_env *env_list, t_token	*element)
 		data->pos++;
 }
 
-void	no_quote_len(t_data *data, t_env *env_list, t_token	*element)
+void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 {
 	while (not_operator(data->input[data->pos]))
 	{
@@ -157,18 +169,6 @@ void	no_quote_len(t_data *data, t_env *env_list, t_token	*element)
 			data->pos++;
 		}
 	}
-}
-
-void	single_quote_len(t_data *data, t_token	*element)
-{
-	data->pos++;
-	while (not_single_quote(data->input[data->pos]))
-	{
-		element->len++;
-		data->pos++;
-	}
-	if (data->input[data->pos] != '\0')
-		data->pos++;
 }
 
 void	get_len_pos(t_data *data, t_env *env_list, t_token	*element)
@@ -187,17 +187,24 @@ void	get_len_pos(t_data *data, t_env *env_list, t_token	*element)
 	{
 		while (not_space_pipe(data->input[data->pos]))
 		{
-			if (data->input[data->pos] == '"')
-				double_quote_len(data, env_list, element);
-			else if (data->input[data->pos] == 39)
-				single_quote_len(data, element);
+			if (data->input[data->pos] == 39)
+				len_single_quote(data, element);
+			else if (data->input[data->pos] == '"')
+				len_double_quote(data, env_list, element);
 			else
-				no_quote_len(data, env_list, element);
+				len_no_quote(data, env_list, element);
 		}
 	}
 }
 
-int	get_the_length(char *str)
+void	store_operator(t_token *element, char *str)
+{
+	element->operator = malloc(element->len + 1);
+	element->word = NULL;
+	ft_strlcpy(element->operator, str, element->len + 1);
+}
+
+int	get_len_src(char *str)
 {
 	int	i;
 
@@ -224,7 +231,7 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	char	*dst;
 
 	element->i++;
-	src_len = get_the_length(str + element->i);
+	src_len = get_len_src(str + element->i);
 	src = malloc (sizeof(char) * (src_len +1));
 	ft_strlcpy(src, str + element->i, src_len + 1);
 	dst = env_path(env_list, src_len, str + element->i);
@@ -243,17 +250,19 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	element->i = element->i + src_len;
 }
 
-void	operator(t_token *element, char *str)
-{
-	element->operator = malloc(element->len + 1);
-	element->word = NULL;
-	ft_strlcpy(element->operator, str, element->len + 1);
-}
-
-void	double_quote(t_token *element, char *str, t_env *env_list)
+void	store_single_quote(t_token *element, char *str)
 {
 	element->i++;
-	while (str[element->i] != '\0' && str[element->i] != '"')
+	while (not_single_quote(str[element->i]))
+		copy_word(element, str);
+	if (str[element->i] != '\0')
+		element->i++;
+}
+
+void	store_double_quote(t_token *element, char *str, t_env *env_list)
+{
+	element->i++;
+	while (not_double_quote(str[element->i]))
 	{
 		if (str[element->i] == '$')
 			expand_word(element, str, env_list);
@@ -264,16 +273,7 @@ void	double_quote(t_token *element, char *str, t_env *env_list)
 		element->i++;
 }
 
-void	single_quote(t_token *element, char *str)
-{
-	element->i++;
-	while (str[element->i] != '\0' && str[element->i] != 39)
-		copy_word(element, str);
-	if (str[element->i] != '\0')
-		element->i++;
-}
-
-void	no_quote(t_token *element, char *str, t_env *env_list)
+void	store_no_quote(t_token *element, char *str, t_env *env_list)
 {
 	while (not_operator(str[element->i]))
 	{
@@ -284,22 +284,22 @@ void	no_quote(t_token *element, char *str, t_env *env_list)
 	}
 }
 
-void	add_string(t_token *element, char *str, t_env *env_list)
+void	store_string(t_token *element, char *str, t_env *env_list)
 {
 	if (is_operator(str[0]))
-		operator(element, str);
+		store_operator(element, str);
 	else
 	{
 		element->word = malloc(element->len + 1);
 		element->operator = NULL;
 		while (not_space_pipe(str[element->i]))
 		{
-			if (str[element->i] == '"')
-				double_quote(element, str, env_list);
-			else if (str[element->i] == 39)
-				single_quote(element, str);
+			if (str[element->i] == 39)
+				store_single_quote(element, str);
+			else if (str[element->i] == '"')
+				store_double_quote(element, str, env_list);
 			else
-				no_quote(element, str, env_list);
+				store_no_quote(element, str, env_list);
 		}
 		element->word[element->j] = '\0';
 	}
@@ -312,11 +312,11 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 
 	last = *tok_list;
 	element = malloc(sizeof(t_token));
+	element->len = 0;
 	element->j = 0;
 	element->i = 0;
-	element->len = 0;
 	get_len_pos(data, env, element);
-	add_string(element, str, env);
+	store_string(element, str, env);
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{
