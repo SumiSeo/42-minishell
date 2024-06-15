@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 16:27:42 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 17:03:38 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,8 @@
 
 typedef struct s_pipe
 {
-	int				pipefd[2];
-	int				fdi;
-	int				fdo;
-	int				i;
 	int				*pids;
 	char			*limiter;
-	int				infile;
-	int				outfile;
-	int				is_first_cmd;
-	int				is_last_cmd;
-	int				is_middle_cmd;
 	int				total_cmds;
 	int				only_redirect;
 }					t_pipe;
@@ -195,13 +186,13 @@ char				*get_next_line(int fd);
 size_t				ft_strlen(const char *string);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
+// redirection
 int					receive_input(char *input_name);
-void				getfile(t_parse *cmds_list);
-
+void				getfile(t_parse *cmds_list, t_pipe *pipe_info);
 void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
-void				second_redirection(t_parse *cmds_list, t_pipe *pipe_info);
 void				only_redirection(t_parse *cmds_list);
+void				open_heredoc(t_parse *cmds_list, t_pipe *pipe_info);
 
 #endif

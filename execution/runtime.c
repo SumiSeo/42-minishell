@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 16:25:00 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 18:30:05 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ void	exec_shell(t_parse *cmds_list, char **env_copy)
 		exit_program("Fork failed");
 	else if (fork_id == 0)
 		parse_path(cmds_list, env_copy);
-	wait(0);
 	wait(0);
 }
