@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:20:22 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:57:09 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 13:04:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	replace_one_env(t_env *env_list, char *env_val, char *variable,
 	char	*new_var;
 
 	new_var = ft_strjoin(variable, value);
+	printf("new var %s\n", new_var);
 	if (new_var == NULL)
 	{
 		perror("Failed to allocate memory for new_var");
