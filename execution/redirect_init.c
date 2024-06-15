@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 20:35:09 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 12:31:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,9 @@ void	redirection(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 	else if (i == 0)
 	{
 		printf("First command\n");
-		close(cmds_list->outfile);
-		printf("Check fdi %d \n ", cmds_list->pipe_fdi);
 		dup2(cmds_list->infile, STDIN_FILENO);
 		close(cmds_list->infile);
+		close(cmds_list->pipe_fdi);
 		if (cmds_list->outfile_token)
 		{
 			dup2(cmds_list->outfile, STDOUT_FILENO);
@@ -128,49 +127,29 @@ void	redirection(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 		{
 			dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
 			close(cmds_list->pipe_fdo);
+			close(cmds_list->outfile);
 		}
 	}
 	else if (i == pipe_info->total_cmds - 1)
 	{
 		printf("Last command\n");
-		close(cmds_list->prev->pipe_fdo);
 		dup2(cmds_list->outfile, STDOUT_FILENO);
 		close(cmds_list->outfile);
+		close(cmds_list->pipe_fdo);
+		close(cmds_list->prev->pipe_fdo);
 		if (cmds_list->infile_token)
 		{
 			dup2(cmds_list->infile, STDIN_FILENO);
 			close(cmds_list->infile);
+			close(cmds_list->pipe_fdi);
 			close(cmds_list->prev->pipe_fdi);
 		}
 		else
 		{
+			close(cmds_list->infile);
 			dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
 			close(cmds_list->prev->pipe_fdi);
 		}
 	}
-	// else
-	// {
-	// 	printf("Middle command\n");
-	// 	if (cmds_list->infile_token)
-	// 	{
-	// 		dup2(cmds_list->prev, STDIN_FILENO);
-	// 		close(pipe_info->fdi);
-	// 		close(pipe_info->pipefd[0]);
-	// 	}
-	// 	else
-	// 	{
-	// 		dup2(pipe_info->pipefd[0], STDIN_FILENO);
-	// 		close(pipe_info->pipefd[0]);
-	// 	}
-	// 	if (cmds_list->outfile_token)
-	// 	{
-	// 		dup2(pipe_info->fdo, STDOUT_FILENO);
-	// 		close(pipe_info->fdo);
-	// 		close(pipe_info->pipefd[1]);
-	// 	}
-	// 	else
-	// 	{
-	// 		dup2(pipe_info->pipefd[1], STDOUT_FILENO);
-	// 		close(pipe_info->pipefd[1]);
-	// 	}
+	printf("check\n");
 }
