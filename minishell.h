@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/12 16:46:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/14 12:22:03 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ typedef struct s_token
 	char			*operator;
 	int				num;
 	int				index;
+	int				j;
+	int				i;
+	int				len;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -69,8 +72,8 @@ typedef struct s_data
 {
 	char			**all_paths;
 	int				has_pipe;
-	int				position;
-	char			*input_string;
+	int				pos;
+	char			*input;
 }					t_data;
 
 typedef struct s_parse
