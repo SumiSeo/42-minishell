@@ -1,1 +1,0 @@
-[1;33mSuminishell😛💻 [/home/sumseo/Desktop/rendu/minishell][0m[?2004h ^C[?2004l
