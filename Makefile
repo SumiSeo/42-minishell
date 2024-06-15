@@ -50,11 +50,11 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 		make -C libft
-		$(CC) $(OBJS) -I $(INCLUDES) -o $(NAME) $(CLIB) $(LDFLAGS) $(DEBUGGER)
+		$(CC) $(OBJS) -I $(INCLUDES) -o $(NAME) $(CLIB) $(LDFLAGS) 
 
 $(OBJDIR)/%.o : %.c
 		mkdir -p $(dir $@)
-		$(CC) $(CFLAGS) -c $< -o $@
+		$(CC) $(CFLAGS) $(DEBUGGER) -c $< -o $@
 
 clean :
 		rm -rf $(OBJDIR)

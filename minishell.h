@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 12:41:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 13:16:26 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,6 @@ void				redirection(t_parse *cmds_list, t_pipe *pipe_info,
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
 void				second_redirection(t_parse *cmds_list, t_pipe *pipe_info);
-void				only_redirection(t_parse *cmds_list, t_pipe *pipe_info);
+void				only_redirection(t_parse *cmds_list);
 
 #endif
