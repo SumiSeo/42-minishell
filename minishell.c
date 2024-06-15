@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 19:46:14 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 12:41:33 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		print_dir();
 		if (take_input(data))
 			continue ;
-		if (check_input(data->input_string))
+		if (check_input(data->input))
 			continue ;
 		store_path(env_list, data);
 		create_token_list(data, &tok_list, env_list);
