@@ -6,74 +6,150 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/11 00:12:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 12:31:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	assign_infile(t_parse *cmds_list, t_pipe *pipe_info)
+void	open_heredoc(t_parse *cmds_list, t_pipe *pipe_info)
 {
-	printf("*****Infile assigned\n ");
-	if (cmds_list->infile_name)
-	{
-		pipe_info->infile = open(cmds_list->infile_name, O_RDONLY);
-		if (pipe_info->infile == -1)
-			perror(cmds_list->infile_name);
-	}
-	return ;
-}
+	int		tmp;
+	char	*str;
+	size_t	len;
 
-void	assign_outfile(t_parse *cmds_list, t_pipe *pipe_info, int flag)
-{
-	if (flag == 1)
+	(void)cmds_list;
+	tmp = open("tmp", O_RDONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
 	{
-		printf("*****Outfile newly created\n ");
-		if (cmds_list->outfile_name)
+		str = get_next_line(0);
+		if (!str)
+			perror("get _next_line");
+		len = ft_strlen(str);
+		if (len > 0 && str[len - 1] == '\n')
+			str[len - 1] = '\0';
+		if (ft_strncmp(str, pipe_info->limiter,
+				ft_strlen(pipe_info->limiter)) == 0
+			&& ft_strlen(str) == ft_strlen(pipe_info->limiter))
 		{
-			pipe_info->outfile = open(cmds_list->outfile_name,
-					O_WRONLY | O_TRUNC | O_CREAT, 0666);
-			if (pipe_info->outfile == -1)
-				perror(cmds_list->outfile_name);
+			free(str);
+			break ;
 		}
+		free(str);
+	}
+}
+void	getfile(t_parse *cmds_list, t_pipe *pipe_info)
+{
+	printf("check\n");
+	if (cmds_list == NULL)
+	{
+		fprintf(stderr, "cmds_list is NULL\n");
+		return ;
+	}
+	(void)pipe_info;
+	if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<<",
+			2) == 0)
+	{
+		// pipe_info->limiter = cmds_list->infile_name;
+		// open_heredoc(cmds_list, pipe_info);
+		printf("heredoc\n");
+	}
+	else if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<",
+			1) == 0)
+	{
+		printf("normal infile\n");
+		cmds_list->infile = open(cmds_list->infile_name, O_RDONLY);
 	}
 	else
 	{
-		printf("*****Outfile appended\n ");
-		if (cmds_list->outfile_name)
+		printf("STANDARD INPUT\n");
+		cmds_list->infile = dup(STDIN_FILENO);
+	}
+	if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token, ">>",
+			2) == 0)
+	{
+		printf("append outfile\n");
+		cmds_list->outfile = open(cmds_list->outfile_name, O_RDWR | O_APPEND,
+				0644);
+	}
+	else if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token,
+			">", 1) == 0)
+	{
+		printf("normal outfile\n");
+		cmds_list->outfile = open(cmds_list->outfile_name,
+				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	}
+	else if (!cmds_list->outfile_token)
+	{
+		printf("STANDARD OUTPUT\n");
+		cmds_list->outfile = dup(STDOUT_FILENO);
+	}
+}
+
+void	only_redirection(t_parse *cmds_list, t_pipe *pipe_info)
+{
+	(void)pipe_info;
+	dup2(cmds_list->infile, STDIN_FILENO);
+	close(cmds_list->infile);
+	dup2(cmds_list->outfile, STDOUT_FILENO);
+	close(cmds_list->outfile);
+}
+
+void	redirection(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
+		int i)
+{
+	(void)env_copy;
+	(void)cmds_list;
+	(void)i;
+	if (!cmds_list || !pipe_info)
+	{
+		printf("cmds_list or pipe_info is NULL\n");
+	}
+	if (pipe_info->total_cmds == 1)
+	{
+		printf("only\n");
+		only_redirection(cmds_list, pipe_info);
+		return ;
+	}
+	else if (i == 0)
+	{
+		printf("First command\n");
+		dup2(cmds_list->infile, STDIN_FILENO);
+		close(cmds_list->infile);
+		close(cmds_list->pipe_fdi);
+		if (cmds_list->outfile_token)
 		{
-			pipe_info->outfile = open(cmds_list->outfile_name,
-					O_WRONLY | O_APPEND | O_CREAT, 0666);
-			if (pipe_info->outfile == -1)
-				perror(cmds_list->outfile_name);
+			dup2(cmds_list->outfile, STDOUT_FILENO);
+			close(cmds_list->outfile);
+			close(cmds_list->pipe_fdo);
+		}
+		else
+		{
+			dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
+			close(cmds_list->pipe_fdo);
+			close(cmds_list->outfile);
 		}
 	}
-	return ;
-}
-void	redirection(t_parse *cmds_list, t_pipe *pipe_info)
-{
-	if (cmds_list->infile_exist && cmds_list->infile_name
-		&& cmds_list->infile_token)
+	else if (i == pipe_info->total_cmds - 1)
 	{
-		if (ft_strncmp(cmds_list->infile_token, "<<", 2) == 0)
-			printf("This is heredoc\n");
-		if (ft_strncmp(cmds_list->infile_token, "<", 1) == 0)
-			assign_infile(cmds_list, pipe_info);
+		printf("Last command\n");
+		dup2(cmds_list->outfile, STDOUT_FILENO);
+		close(cmds_list->outfile);
+		close(cmds_list->pipe_fdo);
+		close(cmds_list->prev->pipe_fdo);
+		if (cmds_list->infile_token)
+		{
+			dup2(cmds_list->infile, STDIN_FILENO);
+			close(cmds_list->infile);
+			close(cmds_list->pipe_fdi);
+			close(cmds_list->prev->pipe_fdi);
+		}
+		else
+		{
+			close(cmds_list->infile);
+			dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
+			close(cmds_list->prev->pipe_fdi);
+		}
 	}
-	printf("Check infile or outfile ? \n");
-	printf("Outfile exist ? %d\n", cmds_list->outfile_exist);
-	printf("Outfile name ? %s\n", cmds_list->outfile_name);
-	printf("Outfile token ? %s\n", cmds_list->outfile_token);
-	printf("Outfile access ? %d\n", cmds_list->outfile_access);
-	if (cmds_list->outfile_name && cmds_list->outfile_token
-		&& cmds_list->outfile_access)
-	{
-		printf("Check outfile ? \n");
-		if (ft_strncmp(cmds_list->outfile_token, ">>", 2) == 0)
-			assign_outfile(cmds_list, pipe_info, 2);
-		if (ft_strncmp(cmds_list->outfile_token, ">", 1) == 0)
-			assign_outfile(cmds_list, pipe_info, 1);
-	}
-	if (cmds_list->infile_token == NULL || cmds_list->outfile_token == NULL)
-		return ;
+	printf("check\n");
 }

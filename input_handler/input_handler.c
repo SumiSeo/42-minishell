@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/13 17:49:18 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/15 12:41:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_dir(void)
 	char	cwd[1024];
 
 	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m\n", cwd);
+	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m", cwd);
 }
 int	take_input(t_data *data)
 {
@@ -26,7 +26,7 @@ int	take_input(t_data *data)
 	int		size;
 
 	size = 0;
-	buf = readline("💪");
+	buf = readline(" ");
 	len = ft_strlen(buf);
 	if (len != 0)
 	{

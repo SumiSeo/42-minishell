@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/14 12:22:03 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/15 12:41:39 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,15 @@ typedef struct s_pipe
 	int				fdi;
 	int				fdo;
 	int				i;
-	int				tmp_in;
-	int				tmp_out;
 	int				*pids;
 	char			*limiter;
 	int				infile;
 	int				outfile;
-	int				temp;
+	int				is_first_cmd;
+	int				is_last_cmd;
+	int				is_middle_cmd;
 	int				total_cmds;
+	int				only_redirect;
 }					t_pipe;
 
 typedef struct s_token
@@ -90,7 +91,12 @@ typedef struct s_parse
 	int				outfile_access;
 	char			*path;
 	int				builtin;
+	int				only_cmd;
 	int				num_redirections;
+	int				pipe_fdi;
+	int				pipe_fdo;
+	int				infile;
+	int				outfile;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }					t_parse;
@@ -111,7 +117,8 @@ int					own_cmd_handler(char **parsed);
 int					count_arr_length(char **argv);
 void				execution(t_parse *cmds_list, char **env_copy,
 						t_pipe *pipe_info);
-void				execute_pipeline(t_parse *cmds_list, char **env_copy);
+void				execute_pipeline(t_parse *cmds_list, char **env_copy,
+						t_data *data);
 void				execute_cmds(char **parsed_args, char **env);
 int					count_cmds(t_parse *cmds_list);
 
@@ -151,12 +158,10 @@ void				func_unset(t_parse *parser, t_env *env);
 void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 
-// redirection
-void				redirection(t_parse *cmds_list, t_pipe *pipe_info);
-
 //  lexical analysis
 int					check_input(char const *str);
-void				create_token_list(t_data *data, t_token **tok_list, t_env *env_list);
+void				create_token_list(t_data *data, t_token **tok_list,
+						t_env *env_list);
 void				free_token_list(t_token **tok_list);
 
 //  parsing
@@ -189,5 +194,15 @@ char				*get_next_line(int fd);
 // utils
 size_t				ft_strlen(const char *string);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
+
+int					receive_input(char *input_name);
+void				getfile(t_parse *cmds_list, t_pipe *pipe_info);
+
+void				redirection(t_parse *cmds_list, t_pipe *pipe_info,
+						char **env_copy, int i);
+void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
+						t_data *data);
+void				second_redirection(t_parse *cmds_list, t_pipe *pipe_info);
+void				only_redirection(t_parse *cmds_list, t_pipe *pipe_info);
 
 #endif
