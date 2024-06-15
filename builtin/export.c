@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 22:07:20 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 13:14:50 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,12 @@ void	export_without_args(t_env *env)
 	}
 }
 
-int	check_variable(t_parse *cmds, t_env *env, char *variable, char *value)
+int	check_variable(t_env *env, char *variable, char *value)
 {
 	char	*found_value;
 	int		result;
 
 	result = 0;
-	(void)cmds;
 	while (env)
 	{
 		found_value = ft_strnstr(env->env_var, variable, ft_strlen(variable));
@@ -101,24 +100,30 @@ int	check_variable(t_parse *cmds, t_env *env, char *variable, char *value)
 void	func_export(t_parse *cmds, t_env *env)
 {
 	char	*variable;
+	char	*export_str;
 	char	*value;
 	char	*new_var;
 	int		len;
+	char	**split_var;
+	char	*variable_join;
 
 	if (!cmds->cmd_array[1])
 	{
 		export_without_args(env);
 		return ;
 	}
-	variable = ft_strdup(cmds->cmd_array[1]);
-	value = ft_strdup(cmds->cmd_array[2]);
-	if (check_variable(cmds, env, variable, value))
+	export_str = ft_strdup(cmds->cmd_array[1]);
+	split_var = ft_split(export_str, '=');
+	variable = split_var[0];
+	value = split_var[1];
+	variable_join = ft_strjoin(variable, "=");
+	if (check_variable(env, variable_join, value))
 		return ;
 	else
 	{
 		if (variable[0] != '\0' && value[0] != '\0')
 		{
-			new_var = ft_strjoin(variable, value);
+			new_var = ft_strjoin(variable_join, value);
 			len = ft_strlen(new_var);
 			push_env_list(&env, new_var, len);
 		}

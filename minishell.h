@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 12:41:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 16:27:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,13 +196,12 @@ size_t				ft_strlen(const char *string);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
 int					receive_input(char *input_name);
-void				getfile(t_parse *cmds_list, t_pipe *pipe_info);
+void				getfile(t_parse *cmds_list);
 
-void				redirection(t_parse *cmds_list, t_pipe *pipe_info,
-						char **env_copy, int i);
+void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
 void				second_redirection(t_parse *cmds_list, t_pipe *pipe_info);
-void				only_redirection(t_parse *cmds_list, t_pipe *pipe_info);
+void				only_redirection(t_parse *cmds_list);
 
 #endif

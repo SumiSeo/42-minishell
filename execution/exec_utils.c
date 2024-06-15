@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 22:29:47 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 15:04:27 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,15 @@ void	free_array(char **line)
 
 void	execute_cmd(t_parse *cmds, char **env_copy)
 {
-	int i;
-	i = 0;
+	int	i;
 
+	i = 0;
 	if (cmds->cmd_array[0] == (void *)0 && access(cmds->path, X_OK | F_OK) != 0)
 	{
 		ft_putstr_fd("Command not found\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	else if (access(cmds->path, X_OK | F_OK) == 0)
-	{
-		execve(cmds->path, &cmds->cmd_array[0], env_copy);
-	}
+		execve(cmds->path, cmds->cmd_array, env_copy);
 	perror("ERROR");
 }
