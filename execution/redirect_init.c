@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 15:15:42 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 16:04:19 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,14 @@ void	redirection(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 			dup2(cmds_list->infile, STDIN_FILENO);
 			close(cmds_list->infile);
 		}
-		dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
+		if (cmds_list->outfile_name)
+		{
+			dup2(cmds_list->outfile, STDOUT_FILENO);
+			close(cmds_list->outfile);
+			close(cmds_list->pipe_fdo);
+		}
+		else
+			dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
 		close(cmds_list->pipe_fdo);
 		close(cmds_list->pipe_fdi);
 	}
@@ -82,27 +89,40 @@ void	redirection(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 		{
 			dup2(cmds_list->outfile, STDOUT_FILENO);
 			close(cmds_list->outfile);
+			close(cmds_list->pipe_fdo);
 		}
-		dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
+		if (cmds_list->infile_name)
+		{
+			dup2(cmds_list->infile, STDIN_FILENO);
+			close(cmds_list->infile);
+			close(cmds_list->prev->pipe_fdi);
+		}
+		else
+		{
+			dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
+		}
 		close(cmds_list->prev->pipe_fdi);
 		close(cmds_list->prev->pipe_fdo);
 	}
-	// else
-	// {
-	// 	// middle command
-	// 	if (cmds_list->infile_name)
-	// 	{
-	// 		dup2(cmds_list->infile, STDIN_FILENO);
-	// 		close(cmds_list->infile);
-	// 	}
-	// 	if (cmds_list->outfile_name)
-	// 	{
-	// 		dup2(cmds_list->outfile, STDOUT_FILENO);
-	// 		close(cmds_list->outfile);
-	// 	}
-	// 	dup2(cmds_list->prev->pipe_fdo, STDOUT_FILENO);
-	// 	dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
-	// 	close(cmds_list->prev->pipe_fdi);
-	// 	close(cmds_list->prev->pipe_fdo);
-	// }
+	else
+	{
+		// middle command
+		if (cmds_list->infile_name)
+		{
+			dup2(cmds_list->infile, STDIN_FILENO);
+			close(cmds_list->infile);
+			close(cmds_list->prev->pipe_fdi);
+		}
+		if (cmds_list->outfile_name)
+		{
+			dup2(cmds_list->outfile, STDOUT_FILENO);
+			close(cmds_list->outfile);
+			close(cmds_list->prev->pipe_fdo);
+		}
+		else
+		{
+			dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
+			dup2(cmds_list->prev->pipe_fdo, STDOUT_FILENO);
+		}
+	}
 }

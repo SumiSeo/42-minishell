@@ -6,28 +6,11 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 15:07:51 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/15 16:01:10 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_fork_pids(t_pipe *pipe_info)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipe_info->total_cmds)
-	{
-		if (waitpid(pipe_info->pids[i], NULL, 0) == -1)
-		{
-			perror("wait");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	free(pipe_info->pids);
-}
 
 void	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 {
@@ -71,6 +54,25 @@ void	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 		printf("STANDARD OUTPUT\n");
 	}
 }
+void	close_pipe_files(t_parse *cmds_list, t_pipe *pipe_info)
+{
+	int	i;
+
+	i = 0;
+	while (i < pipe_info->total_cmds)
+	{
+		if (cmds_list && cmds_list->prev)
+		{
+			if (cmds_list->prev->pipe_fdi >= 0)
+				close(cmds_list->prev->pipe_fdi);
+			if (cmds_list->prev->pipe_fdo >= 0)
+				close(cmds_list->prev->pipe_fdo);
+		}
+		if (cmds_list)
+			cmds_list = cmds_list->next;
+		i++;
+	}
+}
 
 void	pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i, t_data *data)
 {
@@ -79,7 +81,7 @@ void	pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i, t_data *data)
 	(void)i;
 	(void)pipe_info;
 	(void)cmds_list;
-	if (data->has_pipe < 0)
+	if (data->has_pipe < 1)
 		return ;
 	else
 	{
@@ -128,10 +130,25 @@ void	execute_pipeline(t_parse *cmds_list, char **env_copy, t_data *data)
 			break ;
 		cmds_list = cmds_list->next;
 	}
-	close(cmds_list->prev->pipe_fdi);
-	close(cmds_list->prev->pipe_fdo);
-	// waitpid(fork_id, &status, 0);
+	close_pipe_files(cmds_list, pipe_info);
 	wait(0);
 	wait(0);
 	free(pipe_info);
+}
+
+void	free_fork_pids(t_pipe *pipe_info)
+{
+	int i;
+
+	i = 0;
+	while (i < pipe_info->total_cmds)
+	{
+		if (waitpid(pipe_info->pids[i], NULL, 0) == -1)
+		{
+			perror("wait");
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	free(pipe_info->pids);
 }
