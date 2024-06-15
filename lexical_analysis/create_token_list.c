@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/14 16:38:16 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/15 12:22:03 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 	string = malloc (sizeof(char) * (len +1));
 	ft_strlcpy(string, data->input + data->pos, len + 1);
 	result = env_path(env_list, len, string);
-	data->pos = data->pos + i;
+	data->pos = i;
 	if (result == NULL)
 		element->len = 0;
 	else
@@ -163,11 +163,14 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token	*element)
 
 void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 {
+	
 	while (not_operator(data->input[data->pos]))
 	{
 		if (data->input[data->pos] == '$')
 		{
+			// printf("before %d\n", data->pos);
 			expand_len_pos(data, env_list, element);
+			// printf("after %d\n", data->pos);
 		}
 		else
 		{
@@ -175,6 +178,7 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 			data->pos++;
 		}
 	}
+	
 }
 
 void	get_len_pos(t_data *data, t_env *env_list, t_token	*element)
