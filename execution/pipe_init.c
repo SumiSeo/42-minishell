@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/16 12:27:31 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/16 13:21:35 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 		if (cmds_list->infile_access)
 			cmds_list->infile = open(cmds_list->infile_name, O_RDONLY);
 		else
+		{
+			perror(cmds_list->infile_name);
 			return (0);
+		}
 	}
 	if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token, ">>",
 			2) == 0)
@@ -36,10 +39,8 @@ int	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 				0644);
 	else if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token,
 			">", 1) == 0)
-	{
 		cmds_list->outfile = open(cmds_list->outfile_name,
 				O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	}
 	return (1);
 }
 void	close_pipe_files(t_parse *cmds_list, t_pipe *pipe_info)

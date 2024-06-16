@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 12:46:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/16 13:20:41 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	main(int argc, char **argv, char **envp)
 		printf("-----\n");
 		// display_path(data);
 		printf("-----\n");
-		display_token_list(tok_list);
+		// display_token_list(tok_list);
 		printf("-----\n");
-		display_parse_list(par_list);
+		// display_parse_list(par_list);
 		printf("-----TRUE MINISHELL-----\n");
 		if (is_builtin(par_list, env_list))
 			builtin_check = 1;
@@ -60,11 +60,11 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("infile token %s\n", par_list->infile_token);
 			printf("outfile token %s\n", par_list->outfile_token);
-			if (data->has_pipe < 1 && par_list->infile_token == NULL
-				&& par_list->outfile_token == NULL)
-				exec_shell(par_list, copy);
-			else
-				runtime_shell(par_list, copy, data);
+			// if (data->has_pipe < 1 && par_list->infile_token == NULL
+			// 	&& par_list->outfile_token == NULL)
+			// 	exec_shell(par_list, copy);
+			// else
+			runtime_shell(par_list, copy, data);
 		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);

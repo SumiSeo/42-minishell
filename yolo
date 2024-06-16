@@ -1,3 +1,4 @@
+first cmdpath /usr/bin/cat
 NAME = minishell
 
 #SRCS AND OBJS FOR COMPILING

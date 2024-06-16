@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 15:04:27 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/16 13:26:57 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	parse_path(t_parse *cmds, char **env_copy)
 {
+	printf("path %s\n", cmds->path);
 	if (cmds->path != NULL && cmds->cmd_array != NULL
 		&& cmds->cmd_array[0] != NULL)
 		execute_cmd(cmds, env_copy);
@@ -52,5 +53,6 @@ void	execute_cmd(t_parse *cmds, char **env_copy)
 	}
 	else if (access(cmds->path, X_OK | F_OK) == 0)
 		execve(cmds->path, cmds->cmd_array, env_copy);
-	perror("ERROR");
+	else
+		perror("ERROR");
 }

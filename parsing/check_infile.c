@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/12 20:12:50 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/16 13:20:53 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	infile_exist(char *string)
 {
 	if (access(string, F_OK) == -1)
 	{
-		perror(string);
+		// perror(string);
 		return (0);
 	}
 	return (1);
@@ -26,7 +26,7 @@ int	infile_rights(char *string)
 {
 	if (access(string, R_OK) == -1)
 	{
-		perror(string);
+		// perror(string);
 		return (0);
 	}
 	return (1);
