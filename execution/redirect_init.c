@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 19:00:59 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/16 12:13:39 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,16 @@ void	open_heredoc(t_parse *cmds_list, t_pipe *pipe_info)
 
 void	only_redirection(t_parse *cmds_list)
 {
-	dup2(cmds_list->infile, STDIN_FILENO);
-	close(cmds_list->infile);
-	dup2(cmds_list->outfile, STDOUT_FILENO);
-	close(cmds_list->outfile);
+	if (cmds_list->infile)
+	{
+		dup2(cmds_list->infile, STDIN_FILENO);
+		close(cmds_list->infile);
+	}
+	if (cmds_list->outfile)
+	{
+		dup2(cmds_list->outfile, STDOUT_FILENO);
+		close(cmds_list->outfile);
+	}
 }
 
 void	first_cmd(t_parse *cmds_list)
@@ -113,16 +119,17 @@ void	middle_cmd(t_parse *cmds_list)
 void	redirection(t_parse *cmds_list, t_pipe *pipe_info, int i)
 {
 	if (!cmds_list || !pipe_info)
-	{
-		printf("cmds_list or pipe_info is NULL\n");
-	}
+		perror("cmds_list or pipe_info is NULL\n");
 	if (pipe_info->total_cmds == 1)
 	{
 		only_redirection(cmds_list);
 		return ;
 	}
 	else if (i == 0)
+	{
+		printf("first cmd");
 		first_cmd(cmds_list);
+	}
 	else if (i == pipe_info->total_cmds - 1)
 		last_cmd(cmds_list);
 	else
