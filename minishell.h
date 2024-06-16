@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 17:03:38 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/16 12:22:23 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,11 +188,12 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
 // redirection
 int					receive_input(char *input_name);
-void				getfile(t_parse *cmds_list, t_pipe *pipe_info);
+int					getfile(t_parse *cmds_list, t_pipe *pipe_info);
 void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
 void				only_redirection(t_parse *cmds_list);
 void				open_heredoc(t_parse *cmds_list, t_pipe *pipe_info);
-
+void				wait_pipe_files(t_parse *cmds_list, t_pipe *pipe_info);
+void				close_pipe_files(t_parse *cmds_list, t_pipe *pipe_info);
 #endif
