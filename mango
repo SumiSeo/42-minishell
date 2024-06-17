@@ -1,2 +1,1 @@
-NAME = minishell
-SRCS = minishell.c error_handler/error_controler.c\
+-rw-r--r--  1 sumseo 2023_paris   111 Jun 17 16:14 sumi

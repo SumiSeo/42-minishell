@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/16 12:13:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:05:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,7 @@ void	redirection(t_parse *cmds_list, t_pipe *pipe_info, int i)
 		return ;
 	}
 	else if (i == 0)
-	{
-		printf("first cmd");
 		first_cmd(cmds_list);
-	}
 	else if (i == pipe_info->total_cmds - 1)
 		last_cmd(cmds_list);
 	else

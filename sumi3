@@ -1,4 +1,0 @@
-path /usr/bin/grep
--rwxr-xr-x  1 sumseo 2023_paris 92624 Jun 16 13:37 minishell
--rw-r--r--  1 sumseo 2023_paris  2433 Jun 16 13:20 minishell.c
--rw-r--r--  1 sumseo 2023_paris  6030 Jun 16 12:36 minishell.h

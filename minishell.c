@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/16 13:54:09 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:56:27 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	main(int argc, char **argv, char **envp)
 			builtin_check = 1;
 		if (!builtin_check)
 		{
-			printf("infile token %s\n", par_list->infile_token);
-			printf("outfile token %s\n", par_list->outfile_token);
+			// printf("infile token %s\n", par_list->infile_token);
+			// printf("outfile token %s\n", par_list->outfile_token);
 			// if (data->has_pipe < 1 && par_list->infile_token == NULL
 			// 	&& par_list->outfile_token == NULL)
 			// 	exec_shell(par_list, copy);

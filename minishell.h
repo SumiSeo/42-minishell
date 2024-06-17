@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/16 12:36:22 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:42:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,12 @@ void				runtime_shell(t_parse *cmds_list, char **env_copy,
 void				exec_shell(t_parse *cmds_list, char **env_copy);
 
 // pipex
-void				parse_path(t_parse *cmds, char **env_copy);
+int					parse_path(char **cmds, char *path, char **env);
 char				**parse_cmd(char *cmds);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
-void				execute_cmd(t_parse *cmds, char **env_copy);
+// void				execute_cmd(t_parse *cmds, char **env_copy);
+int					execute_cmd(char **cmds, char *path, char **env);
 void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
@@ -194,6 +195,6 @@ void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
 void				only_redirection(t_parse *cmds_list);
 void				open_heredoc(t_parse *cmds_list, t_pipe *pipe_info);
-void				wait_pipe_files(t_parse *cmds_list, t_pipe *pipe_info);
-void				close_pipe_files(t_parse *cmds_list, t_pipe *pipe_info);
+void				wait_pipe_files(t_pipe *pipe_info);
+void				close_pipe_files(t_parse *cmds_list);
 #endif

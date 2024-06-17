@@ -1,30 +1,32 @@
-path /usr/bin/ls
-total 144
-drwxr-xr-x 17 sumseo 2023_paris  4096 Jun 16 13:38 .
+first cmdfirst cmd ls
+first cmd -al
+cmdsss ls
+cmdsss -al
+total 140
+drwxr-xr-x 17 sumseo 2023_paris  4096 Jun 17 15:33 .
 drwxr-xr-x  8 sumseo 2023_paris   103 May 18 10:48 ..
 drwxr-xr-x  2 sumseo 2023_paris     6 Jun  8 19:02 $@)
 drwxr-xr-x  2 sumseo 2023_paris     6 Jun  8 19:02 $(dir
+-rw-r--r--  1 sumseo 2023_paris    69 Jun 16 14:05 bana
 drwxr-xr-x  2 sumseo 2023_paris   125 Jun 15 16:47 builtin
 -rw-r--r--  1 sumseo 2023_paris  2215 May 29 18:48 e_execution_system.c
 drwxr-xr-x  2 sumseo 2023_paris    31 Jun  8 17:31 error_handler
 drwxr-xr-x  2 sumseo 2023_paris   105 Jun 16 12:32 execution
 drwxr-xr-x  2 sumseo 2023_paris    81 Jun  1 17:59 get_next_line
-drwxr-xr-x  8 sumseo 2023_paris   220 Jun 16 13:32 .git
+drwxr-xr-x  8 sumseo 2023_paris   220 Jun 16 14:07 .git
+-rw-r--r--  1 sumseo 2023_paris  1987 Jun 16 13:55 hello
 drwxr-xr-x  2 sumseo 2023_paris    29 Jun 15 12:43 input_handler
 drwxr-xr-x  2 sumseo 2023_paris   102 Jun 15 12:43 lexical_analysis
 drwxr-xr-x  2 sumseo 2023_paris  4096 Jun 15 12:43 libft
 -rw-r--r--  1 sumseo 2023_paris  1351 Jun 15 16:47 Makefile
--rw-r--r--  1 sumseo 2023_paris   206 Jun 16 13:31 mango
--rwxr-xr-x  1 sumseo 2023_paris 92624 Jun 16 13:37 minishell
--rw-r--r--  1 sumseo 2023_paris  2433 Jun 16 13:20 minishell.c
--rw-r--r--  1 sumseo 2023_paris  6030 Jun 16 12:36 minishell.h
-drwxr-xr-x 11 sumseo 2023_paris   225 Jun 16 13:25 obj
+-rwxr-xr-x  1 sumseo 2023_paris 92504 Jun 17 15:32 minishell
+-rw-r--r--  1 sumseo 2023_paris  2439 Jun 17 14:56 minishell.c
+-rw-r--r--  1 sumseo 2023_paris  6095 Jun 17 15:27 minishell.h
+drwxr-xr-x 11 sumseo 2023_paris   225 Jun 17 15:17 obj
+-rw-r--r--  1 sumseo 2023_paris    54 Jun 17 15:33 out
+-rw-r--r--  1 sumseo 2023_paris    57 Jun 17 15:33 out1
 drwxr-xr-x  2 sumseo 2023_paris   150 Jun 15 12:43 parsing
 -rw-r--r--  1 sumseo 2023_paris  2397 May 29 18:48 ReadMe.md
 drwxr-xr-x  2 sumseo 2023_paris    69 Jun 15 16:47 store_env
--rw-r--r--  1 sumseo 2023_paris  1378 Jun 16 13:38 sumi1
--rw-r--r--  1 sumseo 2023_paris    17 Jun 16 13:38 sumi2
--rw-r--r--  1 sumseo 2023_paris    19 Jun 16 13:38 sumi3
 drwxr-xr-x  2 sumseo 2023_paris    23 Jun  1 17:59 utils_display
 drwxr-xr-x  2 sumseo 2023_paris    27 Jun 12 16:47 .vscode
--rw-r--r--  1 sumseo 2023_paris  1378 Jun 16 13:31 yolo

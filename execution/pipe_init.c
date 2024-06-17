@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/16 13:32:41 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:42:39 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,24 @@ int	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 			2) == 0)
 		cmds_list->outfile = open(cmds_list->outfile_name, O_RDWR | O_APPEND,
 				0644);
-	else if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token,
-			">", 1) == 0)
-		cmds_list->outfile = open(cmds_list->outfile_name,
-				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	else if (cmds_list->outfile_token)
+	{
+		if (cmds_list->outfile_token && !cmds_list->outfile_name)
+		{
+			perror(cmds_list->outfile_token);
+			return (0);
+		}
+		else if (cmds_list->outfile_token
+			&& ft_strncmp(cmds_list->outfile_token, ">", 1) == 0)
+			cmds_list->outfile = open(cmds_list->outfile_name,
+					O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	}
 	return (1);
 }
-void	close_pipe_files(t_parse *cmds_list, t_pipe *pipe_info)
+void	close_pipe_files(t_parse *cmds_list)
 {
 	int	i;
 
-	(void)pipe_info;
 	i = 0;
 	while (cmds_list != NULL)
 	{
@@ -63,11 +70,10 @@ void	close_pipe_files(t_parse *cmds_list, t_pipe *pipe_info)
 	}
 }
 
-void	wait_pipe_files(t_parse *cmds_list, t_pipe *pipe_info)
+void	wait_pipe_files(t_pipe *pipe_info)
 {
 	int	i;
 
-	(void)cmds_list;
 	i = 0;
 	while (i < pipe_info->total_cmds)
 	{
@@ -90,7 +96,6 @@ void	pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i, t_data *data)
 				perror("Pipe");
 			cmds_list->pipe_fdi = fd[0];
 			cmds_list->pipe_fdo = fd[1];
-			printf("@@@Pipe created\n");
 		}
 		else
 			return ;
