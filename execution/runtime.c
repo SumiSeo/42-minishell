@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/17 18:52:32 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/17 18:57:21 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,35 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 	while (i < pipe_info->total_cmds)
 	{
 		pipe_init(pipe_info, cmds_list, i, data);
-		fork_id = fork();
-		if (fork_id == -1)
-			perror("fork");
-		if (fork_id == 0)
+		if (getfile(cmds_list, pipe_info))
 		{
-			if (getfile(cmds_list, pipe_info) == -1)
-				exit(EXIT_FAILURE);
-			if (parse_path(cmds_list->cmd_array, cmds_list->path, env_copy))
+			fork_id = fork();
+			if (fork_id == -1)
+				perror("fork");
+			if (fork_id == 0)
 			{
-				redirection(cmds_list, pipe_info, i);
-				execve(cmds_list->path, cmds_list->cmd_array, env_copy);
-				perror("execve"); // In case execve fails
-				exit(EXIT_FAILURE);
+				if (parse_path(cmds_list->cmd_array, cmds_list->path, env_copy))
+				{
+					redirection(cmds_list, pipe_info, i);
+					execve(cmds_list->path, cmds_list->cmd_array, env_copy);
+				}
+				else
+					cmds_list = cmds_list->next;
 			}
+			i++;
+			if (cmds_list->infile_name)
+				close(cmds_list->infile);
+			if (cmds_list->outfile_token)
+				close(cmds_list->outfile);
+			if (i == pipe_info->total_cmds)
+				break ;
 			cmds_list = cmds_list->next;
 		}
-		i++;
-		if (cmds_list->infile_name && cmds_list->infile >= 0)
-			close(cmds_list->infile);
-		if (cmds_list->outfile_token && cmds_list->outfile >= 0)
-			close(cmds_list->outfile);
-		if (i == pipe_info->total_cmds)
-			break ;
-		cmds_list = cmds_list->next;
+		else
+		{
+			i++;
+			cmds_list = cmds_list->next;
+		}
 	}
 	close_pipe_files(head);
 	wait_pipe_files(pipe_info);
