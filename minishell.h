@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 16:27:42 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:20:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,10 @@ void				display_token_list(t_token *tok_list);
 
 // gnl
 char				*get_next_line(int fd);
+
+// signals
+
+void				set_signal_action(void);
 
 // utils
 size_t				ft_strlen(const char *string);
