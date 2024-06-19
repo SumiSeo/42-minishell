@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/19 13:07:23 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/19 17:29:35 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	print_dir(void)
 
 	getcwd(cwd, sizeof(cwd));
 	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m", cwd);
+	// printf(">");
 }
 int	take_input(t_data *data)
 {

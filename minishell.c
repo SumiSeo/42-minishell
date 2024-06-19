@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/18 19:20:01 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/19 18:37:15 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("-----\n");
 		display_parse_list(par_list);
 		printf("-----TRUE MINISHELL-----\n");
+		enable_signal();
 		if (is_builtin(par_list, env_list))
 			builtin_check = 1;
 		if (!builtin_check)
