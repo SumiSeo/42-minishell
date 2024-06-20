@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/19 13:48:46 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/20 18:08:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ char				*get_next_line(int fd);
 
 // signals
 
-void				set_signal_action(void);
+void				disable_signal(void);
 void				enable_signal(void);
 
 // utils

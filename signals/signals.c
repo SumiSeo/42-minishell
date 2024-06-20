@@ -6,27 +6,38 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:25 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/19 18:36:58 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/20 18:26:18 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	sigint_handler(int signal)
+void	sigint_not_blocking(int signal)
 {
 	if (signal == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-		rl_on_new_line();
 		rl_replace_line("", 0);
-		print_dir();
+		rl_on_new_line();
+		rl_redisplay();
+		// print_dir();
 	}
 }
 
-void	set_signal_action(void)
+void	sigint_blocking_cmd(int signal)
 {
-	printf("disable\n");
-	signal(SIGINT, sigint_handler);
+	if (signal == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+	}
+}
+
+void	disable_signal(void)
+{
+	// printf("disable\n");
+	signal(SIGINT, sigint_not_blocking);
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
@@ -34,8 +45,8 @@ void	set_signal_action(void)
 
 void	enable_signal(void)
 {
-	printf("enable\n");
-	// signal(SIGINT, SIG_DFL);
+	// printf("enable\n");
+	signal(SIGINT, sigint_blocking_cmd);
 	signal(SIGTERM, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGTSTP, SIG_DFL);
