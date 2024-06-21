@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:48:24 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:12:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,47 @@ int	is_exit(char *str)
 	return (0);
 }
 
+void	control_alpha(char *s)
+{
+	printf("exit : %s: numeric argument required\n", s);
+	exit(1);
+}
+
+void	control_many_args(void)
+{
+	printf("exit : too many arugments\n");
+	exit(1);
+}
+
+void	normal_exit(void)
+{
+	printf("exit\n");
+	exit(1);
+}
+
 void	func_exit(t_parse *cmds)
 {
-	if (cmds->cmd_array[1])
+	int	i;
+
+	i = 0;
+	while (cmds->cmd_array[1][i])
 	{
-		printf("Too many arugments on exit command\n");
+		if (ft_isalpha(cmds->cmd_array[1][i]))
+			control_alpha(cmds->cmd_array[1]);
+		i++;
+	}
+	if (cmds->cmd_array[1] && cmds->cmd_array[2])
+	{
+		control_many_args();
 		return ;
 	}
-	else
-		printf("exit\n");
+	i = 0;
+	while (cmds->cmd_array[1][i])
+	{
+		if (!ft_isdigit(cmds->cmd_array[1][i]))
+			control_alpha(cmds->cmd_array[1]);
+		else
+			normal_exit();
+		i++;
+	}
 }

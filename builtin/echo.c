@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 21:09:34 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:27:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,10 @@ int	is_echo(char *str)
 
 int	print_echo(t_parse *cmds, int i, int nextline_flag)
 {
-	printf("TESTTEST\n");
 	while (cmds->cmd_array[i])
 	{
 		printf("%s", cmds->cmd_array[i]);
 		if ((cmds)->cmd_array[i])
-			// error
 			printf("$");
 		i++;
 	}

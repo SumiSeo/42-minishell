@@ -6,116 +6,106 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 16:42:20 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:11:33 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	open_heredoc(t_parse *cmds_list, t_pipe *pipe_info)
+void	heredoc_check(t_parse *cmds_list)
 {
-	int		tmp;
 	char	*str;
-	size_t	len;
+	int		fd;
 
-	(void)cmds_list;
-	tmp = open("tmp", O_RDONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
-		str = get_next_line(0);
+		str = readline("> ");
 		if (!str)
-			perror("get _next_line");
-		len = ft_strlen(str);
-		if (len > 0 && str[len - 1] == '\n')
-			str[len - 1] = '\0';
-		if (ft_strncmp(str, pipe_info->limiter,
-				ft_strlen(pipe_info->limiter)) == 0
-			&& ft_strlen(str) == ft_strlen(pipe_info->limiter))
+			perror("read string problem");
+		if (ft_strncmp(str, cmds_list->delimiter, 10) == 0)
 		{
 			free(str);
 			break ;
 		}
+		write(fd, str, ft_strlen(str));
+		write(fd, "\n", 1);
 		free(str);
 	}
 }
 
 void	only_redirection(t_parse *cmds_list)
 {
-	dup2(cmds_list->infile, STDIN_FILENO);
-	close(cmds_list->infile);
-	dup2(cmds_list->outfile, STDOUT_FILENO);
-	close(cmds_list->outfile);
+	if (cmds_list->infile)
+	{
+		dup2(cmds_list->infile, STDIN_FILENO);
+		close(cmds_list->infile);
+	}
+	if (cmds_list->outfile)
+	{
+		dup2(cmds_list->outfile, STDOUT_FILENO);
+		close(cmds_list->outfile);
+	}
 }
 
-void	redirection(t_parse *cmds_list, t_pipe *pipe_info, int i)
+void	first_cmd(t_parse *cmds_list)
 {
-	(void)cmds_list;
-	(void)i;
-	if (!cmds_list || !pipe_info)
+	if (cmds_list->infile_access)
 	{
-		printf("cmds_list or pipe_info is NULL\n");
+		dup2(cmds_list->infile, STDIN_FILENO);
+		close(cmds_list->infile);
 	}
-	if (pipe_info->total_cmds == 1)
+	if (cmds_list->outfile_token)
 	{
-		only_redirection(cmds_list);
-		return ;
+		dup2(cmds_list->outfile, STDOUT_FILENO);
+		close(cmds_list->outfile);
 	}
-	else if (i == 0)
+	else
+		dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
+	close(cmds_list->pipe_fdo);
+	close(cmds_list->pipe_fdi);
+}
+
+void	last_cmd(t_parse *cmds_list)
+{
+	if (cmds_list->outfile_token)
 	{
-		if (cmds_list->infile_name)
-		{
-			dup2(cmds_list->infile, STDIN_FILENO);
-			close(cmds_list->infile);
-		}
-		if (cmds_list->outfile_name)
-		{
-			dup2(cmds_list->outfile, STDOUT_FILENO);
-			close(cmds_list->outfile);
-			close(cmds_list->pipe_fdo);
-		}
-		else
-			dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
-		close(cmds_list->pipe_fdo);
-		close(cmds_list->pipe_fdi);
+		dup2(cmds_list->outfile, STDOUT_FILENO);
+		close(cmds_list->outfile);
 	}
-	else if (i == pipe_info->total_cmds - 1)
+	if (cmds_list->infile_access)
 	{
-		if (cmds_list->outfile_token)
-		{
-			dup2(cmds_list->outfile, STDOUT_FILENO);
-			close(cmds_list->outfile);
-			close(cmds_list->pipe_fdo);
-		}
-		if (cmds_list->infile_name)
-		{
-			dup2(cmds_list->infile, STDIN_FILENO);
-			close(cmds_list->infile);
-			close(cmds_list->prev->pipe_fdi);
-		}
-		else
-		{
-			dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
-		}
-		close(cmds_list->prev->pipe_fdi);
-		close(cmds_list->prev->pipe_fdo);
+		dup2(cmds_list->infile, STDIN_FILENO);
+		close(cmds_list->infile);
 	}
 	else
 	{
-		if (cmds_list->infile_name)
-		{
-			dup2(cmds_list->infile, STDIN_FILENO);
-			close(cmds_list->infile);
-			close(cmds_list->prev->pipe_fdi);
-		}
-		if (cmds_list->outfile_token)
-		{
-			dup2(cmds_list->outfile, STDOUT_FILENO);
-			close(cmds_list->outfile);
-			close(cmds_list->prev->pipe_fdo);
-		}
-		dup2(cmds_list->pipe_fdi, STDIN_FILENO);
-		close(cmds_list->prev->pipe_fdi);
-		dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
-		close(cmds_list->prev->pipe_fdo);
+		dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
 	}
+	close(cmds_list->prev->pipe_fdi);
+}
+
+void	middle_cmd(t_parse *cmds_list)
+{
+	if (cmds_list->infile_access)
+	{
+		dup2(cmds_list->infile, STDIN_FILENO);
+		close(cmds_list->infile);
+	}
+	else
+	{
+		dup2(cmds_list->prev->pipe_fdi, STDIN_FILENO);
+	}
+	if (cmds_list->outfile_token)
+	{
+		dup2(cmds_list->outfile, STDOUT_FILENO);
+		close(cmds_list->outfile);
+	}
+	else
+	{
+		dup2(cmds_list->pipe_fdo, STDOUT_FILENO);
+	}
+	close(cmds_list->pipe_fdi);
+	close(cmds_list->pipe_fdo);
+	close(cmds_list->prev->pipe_fdi);
 }

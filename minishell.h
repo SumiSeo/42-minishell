@@ -6,7 +6,11 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/06/21 16:14:44 by sumseo           ###   ########.fr       */
+=======
 /*   Updated: 2024/06/20 18:08:26 by ftanon           ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +38,11 @@
 
 typedef struct s_pipe
 {
-	int				pipefd[2];
-	int				fdi;
-	int				fdo;
-	int				i;
 	int				*pids;
 	char			*limiter;
-	int				infile;
-	int				outfile;
-	int				is_first_cmd;
-	int				is_last_cmd;
-	int				is_middle_cmd;
 	int				total_cmds;
 	int				only_redirect;
+	int				tmp_file;
 }					t_pipe;
 
 typedef struct s_token
@@ -97,6 +93,9 @@ typedef struct s_parse
 	int				pipe_fdo;
 	int				infile;
 	int				outfile;
+	int				is_heredoc;
+	int				tmp_file;
+	char			*delimiter;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }					t_parse;
@@ -128,11 +127,12 @@ void				runtime_shell(t_parse *cmds_list, char **env_copy,
 void				exec_shell(t_parse *cmds_list, char **env_copy);
 
 // pipex
-void				parse_path(t_parse *cmds, char **env_copy);
+int					parse_path(char **cmds, char *path, char **env);
 char				**parse_cmd(char *cmds);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
-void				execute_cmd(t_parse *cmds, char **env_copy);
+// void				execute_cmd(t_parse *cmds, char **env_copy);
+int					execute_cmd(char **cmds, char *path, char **env);
 void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
@@ -200,13 +200,21 @@ void				enable_signal(void);
 size_t				ft_strlen(const char *string);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
+// redirection
 int					receive_input(char *input_name);
-void				getfile(t_parse *cmds_list);
-
+int					getfile(t_parse *cmds_list, t_pipe *pipe_info);
 void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
-void				second_redirection(t_parse *cmds_list, t_pipe *pipe_info);
 void				only_redirection(t_parse *cmds_list);
+void				open_heredoc(t_parse *cmds_list, t_pipe *pipe_info);
+void				wait_pipe_files(t_pipe *pipe_info);
+void				close_pipe_files(t_parse *cmds_list);
+void				heredoc_check(t_parse *cmds_list);
+void				middle_cmd(t_parse *cmds_list);
+void				last_cmd(t_parse *cmds_list);
+void				first_cmd(t_parse *cmds_list);
+void				only_redirection(t_parse *cmds_list);
+void				heredoc_check(t_parse *cmds_list);
 
 #endif
