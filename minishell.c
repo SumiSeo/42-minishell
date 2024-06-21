@@ -6,11 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/20 18:10:31 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:00:56 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
+
+
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -54,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
+		// test(par_list);
 		printf("-----TRUE MINISHELL-----\n");
 		if (is_builtin(par_list, env_list))
 			builtin_check = 1;
@@ -68,6 +71,7 @@ int	main(int argc, char **argv, char **envp)
 			else
 				runtime_shell(par_list, copy, data);
 		}
+		ft_putchar_fd('\n', 1);
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}
