@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 15:05:29 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:25:29 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	control_alpha(char *s)
 
 void	control_many_args(void)
 {
-	printf("exit: too many arugments\n");
+	printf("exit : too many arugments\n");
 	exit(1);
 }
 
@@ -67,7 +67,6 @@ void	func_exit(t_parse *cmds)
 	i = 0;
 	while (cmds->cmd_array[1][i])
 	{
-		printf("%s\n", cmds->cmd_array[i]);
 		if (!ft_isdigit(cmds->cmd_array[1][i]))
 			control_alpha(cmds->cmd_array[1]);
 		else
