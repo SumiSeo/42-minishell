@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/18 18:00:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:49:56 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 					exit(EXIT_FAILURE);
 				}
 				else
-				{
 					exit(EXIT_FAILURE);
-				}
 			}
 			else
 			{
