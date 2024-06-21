@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/17 14:56:27 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/18 15:06:40 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	store_env_list(envp, &env_list);
 	while (1)
 	{
+		unlink("tmp");
 		print_dir();
 		if (take_input(data))
 			continue ;

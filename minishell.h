@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/17 16:42:48 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/18 16:09:29 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_pipe
 	char			*limiter;
 	int				total_cmds;
 	int				only_redirect;
+	int				tmp_file;
 }					t_pipe;
 
 typedef struct s_token
@@ -88,6 +89,9 @@ typedef struct s_parse
 	int				pipe_fdo;
 	int				infile;
 	int				outfile;
+	int				is_heredoc;
+	int				tmp_file;
+	char			*delimiter;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }					t_parse;
@@ -197,4 +201,6 @@ void				only_redirection(t_parse *cmds_list);
 void				open_heredoc(t_parse *cmds_list, t_pipe *pipe_info);
 void				wait_pipe_files(t_pipe *pipe_info);
 void				close_pipe_files(t_parse *cmds_list);
+void				heredoc_check(t_parse *cmds_list);
+
 #endif
