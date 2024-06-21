@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 16:21:53 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:44:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_data
 	int				has_pipe;
 	int				pos;
 	char			*input;
+	int				total_cmds;
 }					t_data;
 
 typedef struct s_parse
