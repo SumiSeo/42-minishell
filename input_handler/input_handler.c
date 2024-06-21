@@ -3,30 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/15 12:41:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 13:11:59 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_dir(void)
-{
-	char	cwd[1024];
+// void	print_dir(void)
+// {
 
-	getcwd(cwd, sizeof(cwd));
-	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m", cwd);
-}
+
+
+// 	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m", cwd);
+// 	// printf(">");
+// }
 int	take_input(t_data *data)
 {
 	char	*buf;
 	int		len;
 	int		size;
+	char	cwd[1024];
 
 	size = 0;
-	buf = readline(" ");
+	buf = readline(getcwd(cwd, sizeof(cwd)));
+	if (buf == NULL)
+		exit(0);
 	len = ft_strlen(buf);
 	if (len != 0)
 	{
