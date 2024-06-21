@@ -6,11 +6,31 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 15:49:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:03:22 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	pipe_null_check(void)
+{
+	perror("pipe_info_malloc");
+	exit(EXIT_FAILURE);
+}
+
+void	close_parent(t_parse *head, t_pipe *pipe_info)
+{
+	close_pipe_files(head);
+	wait_pipe_files(pipe_info);
+	free(pipe_info);
+}
+
+void	close_no_file(t_parse *cmds_list)
+{
+	close(cmds_list->pipe_fdi);
+	close(cmds_list->pipe_fdo);
+	exit(EXIT_FAILURE);
+}
 
 void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 {
@@ -21,10 +41,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 	t_parse *const head = cmds_list;
 	pipe_info = malloc(sizeof(t_pipe));
 	if (pipe_info == NULL)
-	{
-		perror("pipe_info_malloc");
-		exit(EXIT_FAILURE);
-	}
+		pipe_null_check();
 	i = 0;
 	pipe_info->total_cmds = count_cmds(cmds_list);
 	while (i < pipe_info->total_cmds)
@@ -47,29 +64,12 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 					exit(EXIT_FAILURE);
 			}
 			else
-			{
-				close(cmds_list->pipe_fdi);
-				close(cmds_list->pipe_fdo);
-				exit(EXIT_FAILURE);
-			}
+				close_no_file(cmds_list);
 		}
 		if (cmds_list->next != NULL)
 			close(cmds_list->pipe_fdo);
 		i++;
 		cmds_list = cmds_list->next;
 	}
-	close_pipe_files(head);
-	wait_pipe_files(pipe_info);
-	free(pipe_info);
+	close_parent(head, pipe_info);
 }
-
-// void	exec_shell(t_parse *cmds_list, char **env_copy)
-// {
-// 	printf("EXec cshell \n");
-// 	int fork_id = fork();
-// 	if (fork_id < 0)
-// 		exit_program("Fork failed");
-// 	else if (fork_id == 0)
-// 		parse_path(cmds_list, env_copy);
-// 	wait(0);
-// }
