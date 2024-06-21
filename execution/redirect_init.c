@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/18 18:02:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:11:33 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	first_cmd(t_parse *cmds_list)
 	close(cmds_list->pipe_fdo);
 	close(cmds_list->pipe_fdi);
 }
+
 void	last_cmd(t_parse *cmds_list)
 {
 	if (cmds_list->outfile_token)
@@ -107,21 +108,4 @@ void	middle_cmd(t_parse *cmds_list)
 	close(cmds_list->pipe_fdi);
 	close(cmds_list->pipe_fdo);
 	close(cmds_list->prev->pipe_fdi);
-}
-
-void	redirection(t_parse *cmds_list, t_pipe *pipe_info, int i)
-{
-	if (!cmds_list || !pipe_info)
-		perror("cmds_list or pipe_info is NULL\n");
-	if (pipe_info->total_cmds == 1)
-	{
-		only_redirection(cmds_list);
-		return ;
-	}
-	else if (i == 0)
-		first_cmd(cmds_list);
-	else if (i == pipe_info->total_cmds - 1)
-		last_cmd(cmds_list);
-	else
-		middle_cmd(cmds_list);
 }

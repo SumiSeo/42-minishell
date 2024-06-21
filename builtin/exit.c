@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 15:26:45 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:12:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	normal_exit(void)
 	printf("exit\n");
 	exit(1);
 }
+
 void	func_exit(t_parse *cmds)
 {
 	int	i;

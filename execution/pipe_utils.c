@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/09 19:52:19 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:09:59 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	count_arr_length(char **argv)
 
 int	count_cmds(t_parse *cmds_list)
 {
-	int total_cmd;
+	int		total_cmd;
 
 	total_cmd = 0;
 	while (cmds_list)

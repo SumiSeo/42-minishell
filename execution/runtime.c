@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 16:03:22 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:11:06 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,32 @@ void	close_no_file(t_parse *cmds_list)
 	exit(EXIT_FAILURE);
 }
 
+void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
+		int i)
+{
+	if (getfile(cmds_list, pipe_info))
+	{
+		if (parse_path(cmds_list->cmd_array, cmds_list->path, env_copy))
+		{
+			redirection(cmds_list, pipe_info, i);
+			execve(cmds_list->path, cmds_list->cmd_array, env_copy);
+			exit(EXIT_FAILURE);
+		}
+		else
+			exit(EXIT_FAILURE);
+	}
+	else
+		close_no_file(cmds_list);
+}
+
 void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 {
 	t_pipe	*pipe_info;
-	int		i;
 	int		fork_id;
+	int		i;
+	t_parse	*head;
 
-	t_parse *const head = cmds_list;
+	head = cmds_list;
 	pipe_info = malloc(sizeof(t_pipe));
 	if (pipe_info == NULL)
 		pipe_null_check();
@@ -51,21 +70,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data)
 		if (fork_id == -1)
 			perror("fork");
 		if (fork_id == 0)
-		{
-			if (getfile(cmds_list, pipe_info))
-			{
-				if (parse_path(cmds_list->cmd_array, cmds_list->path, env_copy))
-				{
-					redirection(cmds_list, pipe_info, i);
-					execve(cmds_list->path, cmds_list->cmd_array, env_copy);
-					exit(EXIT_FAILURE);
-				}
-				else
-					exit(EXIT_FAILURE);
-			}
-			else
-				close_no_file(cmds_list);
-		}
+			init_child_pipe(cmds_list, pipe_info, env_copy, i);
 		if (cmds_list->next != NULL)
 			close(cmds_list->pipe_fdo);
 		i++;
