@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:37:19 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/22 17:55:05 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:42:11 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_input(char const *str)
 	i = 0;
 	if (!(str[i] >= 97 && str[i] <= 122) && str[i] != '>' && str[i] != '<' && str[i] != '/' && str[i] != ' ')
 	{
-		printf("Error : Not lowercase character\n");
+		printf("Error : Invalid cmd\n");
 		return (1);
 	}
 	i++;

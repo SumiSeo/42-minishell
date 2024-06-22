@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/22 17:48:45 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/22 19:00:20 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ int	main(int argc, char **argv, char **envp)
 		store_path(env_list, data);
 		create_token_list(data, &tok_list, env_list);
 		count_nb_pipe(tok_list, data);
+		get_num_token(tok_list, data);
+		if (check_bracket_error(tok_list, data))
+		{
+			free_token_list(&tok_list);
+			continue ;
+		}
 		create_parse_list(tok_list, &par_list);
 		store_command(tok_list, par_list);
 		check_infile(par_list);
@@ -54,7 +60,6 @@ int	main(int argc, char **argv, char **envp)
 		display_token_list(tok_list);
 		printf("-----\n");
 		display_parse_list(par_list);
-		// test(par_list);
 		printf("-----TRUE MINISHELL-----\n");
 		// if (is_builtin(par_list, env_list))
 		// {

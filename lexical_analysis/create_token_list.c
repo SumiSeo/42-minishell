@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/15 12:42:25 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:42:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,6 +344,7 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
 	data->pos = 0;
+	data->num_token = 0;
 	while (data->input[data->pos] != '\0')
 	{
 		while (is_space(data->input[data->pos]))
@@ -365,6 +366,42 @@ void	display_token_list(t_token *tok_list)
 			printf("%s\n", tok_list->operator);
 		tok_list = tok_list->next;
 	}
+}
+
+void get_num_token(t_token *tok_list, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (tok_list)
+	{
+		i++;
+		tok_list = tok_list->next;
+	}
+	data->num_token = i;
+}
+
+int check_bracket_error(t_token *tok_list, t_data *data)
+{
+	int i;
+
+	i = 0;
+	if (data->num_token == 1 && tok_list->operator)
+	{
+		while (tok_list->operator[i])
+		i++;
+		if (i == 1 && is_operator(tok_list->operator[0]))
+		{
+			printf("Error : Invalid cmd\n");
+			return (1);
+		}
+		else if (i == 2 && is_double_bracket(tok_list->operator[0], tok_list->operator[1]))
+		{
+			printf("Error : Invalid cmd\n");
+			return (1);
+		}
+	}
+	return (0);
 }
 
 //---------------------------------------------------------------- V6
