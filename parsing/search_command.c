@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/01 16:35:17 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/22 17:49:48 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	search_command(t_parse *par_list, t_data *data)
 	i = 0;
 	while (par_list)
 	{
+		if (!par_list->cmd_array[0])
+			break ;
 		if (ft_strncmp(par_list->cmd_array[0], "/", 1) == 0)
 		{
 			par_list->path = par_list->cmd_array[0];

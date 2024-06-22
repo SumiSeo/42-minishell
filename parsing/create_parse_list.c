@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_parse_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/18 17:30:05 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/22 17:53:11 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
+	element->cmd_array = (char **)ft_calloc(1, sizeof(char));
 	if (*par_list == NULL)
 	{
 		*par_list = element;
@@ -92,6 +93,8 @@ void	display_parser_array(char **array)
 		printf("[%s]", array[i]);
 		i++;
 	}
+	if (i == 0)
+		printf("%s", array[i]);
 }
 
 void	display_parse_list(t_parse *par_list)

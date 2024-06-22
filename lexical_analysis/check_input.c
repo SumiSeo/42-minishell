@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:37:19 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/02 14:28:20 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/22 17:55:05 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_input(char const *str)
 	double_quotes = 0;
 	single_quotes = 0;
 	i = 0;
-	if (!(str[i] >= 97 && str[i] <= 122) && str[i] != '>' && str[i] != '<' && str[i] != '/')
+	if (!(str[i] >= 97 && str[i] <= 122) && str[i] != '>' && str[i] != '<' && str[i] != '/' && str[i] != ' ')
 	{
 		printf("Error : Not lowercase character\n");
 		return (1);
@@ -46,5 +46,10 @@ int	check_input(char const *str)
 		printf("Error : Single quotes unclosed\n");
 		return (1);
 	}
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '\0')
+		return (1);
 	return (0);
 }
