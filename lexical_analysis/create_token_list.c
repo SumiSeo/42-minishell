@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/22 18:42:26 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:02:15 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,7 +383,7 @@ void get_num_token(t_token *tok_list, t_data *data)
 
 int check_bracket_error(t_token *tok_list, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (data->num_token == 1 && tok_list->operator)
@@ -403,6 +403,8 @@ int check_bracket_error(t_token *tok_list, t_data *data)
 	}
 	return (0);
 }
+
+
 
 //---------------------------------------------------------------- V6
 

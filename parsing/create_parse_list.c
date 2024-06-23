@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/22 17:53:11 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:16:59 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,41 @@ void	display_parse_list(t_parse *par_list)
 		par_list = par_list->next;
 		i++;
 	}
+}
+
+int	check_bracket_dup(t_token *tok_list)
+{
+	int		i;
+	int		k;
+	char	*string1;
+	char	*string2;
+
+	while (tok_list)
+	{
+		i = 0;
+		k = 0;
+		i = count_words_pipe_create(tok_list);
+		string1 = tok_list->operator;
+		// printf("%s\n", string1);
+		// printf("%d\n", i);
+		while (k < i - 1)
+		{
+			tok_list = tok_list->next;
+			k++;
+		}
+		string2 = tok_list->operator;
+		// printf("%s\n", string2);
+		tok_list = tok_list->next;
+		if (string2 && string1)
+		{
+			if (ft_strncmp(string1, "<", 1) == 0 && ft_strncmp(string2, ">", 1) == 0)
+			{
+				printf("Error : invalid cmd\n");
+				return (1);
+			}
+		}
+		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
+			tok_list = tok_list->next;
+	}
+	return (0);
 }
