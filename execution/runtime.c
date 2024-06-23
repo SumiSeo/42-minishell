@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 16:47:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:38:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	close_no_file(t_parse *cmds_list)
 void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 		int i)
 {
-	if (getfile(cmds_list, pipe_info))
+	if (getfile(cmds_list))
 	{
-		if (parse_path(cmds_list->cmd_array, cmds_list->path, env_copy))
+		if (parse_path(cmds_list->cmd_array, cmds_list->path))
 		{
 			redirection(cmds_list, pipe_info, i);
 			execve(cmds_list->path, cmds_list->cmd_array, env_copy);

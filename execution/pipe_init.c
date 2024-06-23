@@ -6,15 +6,14 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 16:46:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 20:05:32 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	getfile(t_parse *cmds_list, t_pipe *pipe_info)
+int	getfile(t_parse *cmds_list)
 {
-	(void)pipe_info;
 	if (cmds_list == NULL)
 		printf("cmds_list is NULL");
 	if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<<",
@@ -31,7 +30,8 @@ int	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 		else
 		{
 			perror(cmds_list->infile_name);
-			return (0);
+			// return (0);
+			cmds_list->infile = -1;
 		}
 	}
 	if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token, ">>",
@@ -43,7 +43,8 @@ int	getfile(t_parse *cmds_list, t_pipe *pipe_info)
 		if (cmds_list->outfile_token && !cmds_list->outfile_name)
 		{
 			perror(cmds_list->outfile_token);
-			return (0);
+			cmds_list->outfile = -1;
+			// return (0);
 		}
 		else if (cmds_list->outfile_token
 			&& ft_strncmp(cmds_list->outfile_token, ">", 1) == 0)

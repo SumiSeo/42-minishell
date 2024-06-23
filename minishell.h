@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 16:44:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:38:31 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,11 @@ int					count_cmds(t_parse *cmds_list);
 // execution
 void				runtime_shell(t_parse *cmds_list, char **env_copy,
 						t_data *data);
-void				exec_shell(t_parse *cmds_list, char **env_copy);
+void				exec_shell(t_parse *cmds_list, t_env *env_list,
+						char **env_copy);
 
 // pipex
-int					parse_path(char **cmds, char *path, char **env);
+int					parse_path(char **cmds, char *path);
 char				**parse_cmd(char *cmds);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
@@ -134,7 +135,9 @@ void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
 // built-in
-int					is_builtin(t_parse *cmds, t_env *env);
+// int					is_builtin(t_parse *cmds, t_env *env);
+int					is_builtin(t_parse *cmds);
+void				exec_builtin(int func, t_parse *cmds, t_env *env);
 void				execute_builtin(char **cmds);
 int					is_echo(char *str);
 int					is_pwd(char *str);
@@ -199,7 +202,7 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 
 // redirection
 int					receive_input(char *input_name);
-int					getfile(t_parse *cmds_list, t_pipe *pipe_info);
+int					getfile(t_parse *cmds_list);
 void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
@@ -214,4 +217,8 @@ void				first_cmd(t_parse *cmds_list);
 void				only_redirection(t_parse *cmds_list);
 void				heredoc_check(t_parse *cmds_list);
 
+void				close_parent(t_parse *head, t_pipe *pipe_info);
+void				close_no_file(t_parse *cmds_list);
+void				close_pipe_files(t_parse *cmds_list);
+void				wait_pipe_files(t_pipe *pipe_info);
 #endif
