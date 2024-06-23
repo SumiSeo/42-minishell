@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 20:18:08 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 22:50:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	heredoc_check(t_parse *cmds_list)
 
 void	only_redirection(t_parse *cmds_list)
 {
-	if (cmds_list->infile)
+	if (cmds_list->infile_name)
 	{
 		dup2(cmds_list->infile, STDIN_FILENO);
 		close(cmds_list->infile);
 	}
-	if (cmds_list->outfile)
+	if (cmds_list->outfile_token)
 	{
 		dup2(cmds_list->outfile, STDOUT_FILENO);
 		close(cmds_list->outfile);
@@ -108,4 +108,5 @@ void	middle_cmd(t_parse *cmds_list)
 	close(cmds_list->pipe_fdi);
 	close(cmds_list->pipe_fdo);
 	close(cmds_list->prev->pipe_fdi);
+	close(cmds_list->prev->pipe_fdo);
 }

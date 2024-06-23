@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 19:38:31 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 20:40:01 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int					count_cmds(t_parse *cmds_list);
 
 // execution
 void				runtime_shell(t_parse *cmds_list, char **env_copy,
-						t_data *data);
+						t_data *data, t_env *env_list);
 void				exec_shell(t_parse *cmds_list, t_env *env_list,
 						char **env_copy);
 
@@ -221,4 +221,6 @@ void				close_parent(t_parse *head, t_pipe *pipe_info);
 void				close_no_file(t_parse *cmds_list);
 void				close_pipe_files(t_parse *cmds_list);
 void				wait_pipe_files(t_pipe *pipe_info);
+void				init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info,
+						char **env_copy, int i);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 20:32:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 20:36:02 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("****multiple commands or multiple commands with redirection***\n");
 			enable_signal();
-			runtime_shell(par_list, copy, data);
+			runtime_shell(par_list, copy, data, env_list);
 		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
