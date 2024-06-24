@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 20:40:01 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 16:00:48 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@
 # include <term.h>
 # include <unistd.h>
 
-# define READEND 0
-# define WRITEEND 1
-
 typedef struct s_pipe
 {
 	int				*pids;
@@ -39,6 +36,7 @@ typedef struct s_pipe
 	int				total_cmds;
 	int				only_redirect;
 	int				tmp_file;
+	int				num_cmd;
 }					t_pipe;
 
 typedef struct s_token
@@ -68,6 +66,7 @@ typedef struct s_data
 	int				pos;
 	char			*input;
 	int				total_cmds;
+	int				num_cmd;
 }					t_data;
 
 typedef struct s_parse
@@ -122,10 +121,10 @@ int					count_cmds(t_parse *cmds_list);
 void				runtime_shell(t_parse *cmds_list, char **env_copy,
 						t_data *data, t_env *env_list);
 void				exec_shell(t_parse *cmds_list, t_env *env_list,
-						char **env_copy);
+						char **env_copy, t_data *data);
 
 // pipex
-int					parse_path(char **cmds, char *path);
+int					parse_path(char **cmds, char *path, t_data *data);
 char				**parse_cmd(char *cmds);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
 void				free_array(char **line);
@@ -223,4 +222,6 @@ void				close_pipe_files(t_parse *cmds_list);
 void				wait_pipe_files(t_pipe *pipe_info);
 void				init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info,
 						char **env_copy, int i);
+
+void				push_num_cmd(int status, t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 22:25:42 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 15:33:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	getfile(t_parse *cmds_list)
 		{
 			perror(cmds_list->infile_name);
 			return (0);
-			// cmds_list->infile = -1;
 		}
 	}
 	if (cmds_list->outfile_token && ft_strncmp(cmds_list->outfile_token, ">>",
@@ -43,7 +42,6 @@ int	getfile(t_parse *cmds_list)
 		if (cmds_list->outfile_token && !cmds_list->outfile_name)
 		{
 			perror(cmds_list->outfile_token);
-			// cmds_list->outfile = -1;
 			return (0);
 		}
 		else if (cmds_list->outfile_token

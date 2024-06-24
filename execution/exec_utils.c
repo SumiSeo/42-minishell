@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 14:39:40 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:08:07 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_array(char **line)
 	free(line);
 }
 
-int	parse_path(char **cmds, char *path)
+int	parse_path(char **cmds, char *path, t_data *data)
 {
 	if (access(path, X_OK | F_OK) != 0)
 	{
@@ -36,7 +36,8 @@ int	parse_path(char **cmds, char *path)
 		return (1);
 }
 
-void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
+void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy,
+		t_data *data)
 {
 	int		builtin_check;
 	t_parse	*head;
@@ -44,11 +45,12 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 	int		old_stdin;
 	int		old_stdout;
 
+	(void)data;
 	head = cmds_list;
-	printf("****only one command or only one command with redirection***\n");
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
+		printf("HERE\n");
 		old_stdin = dup(STDIN_FILENO);
 		old_stdout = dup(STDOUT_FILENO);
 		if (getfile(cmds_list))
@@ -63,7 +65,6 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 	}
 	else
 	{
-		// execve normal
 		fork_id = fork();
 		if (fork_id == -1)
 			printf("fork failed\n");
@@ -72,7 +73,8 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 			if (getfile(cmds_list))
 			{
 				only_redirection(cmds_list);
-				execve(cmds_list->path, cmds_list->cmd_array, env_copy);
+				if (parse_path(cmds_list->cmd_array, cmds_list->path, data))
+					execve(cmds_list->path, cmds_list->cmd_array, env_copy);
 			}
 			exit(0);
 		}
