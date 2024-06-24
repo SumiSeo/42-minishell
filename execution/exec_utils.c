@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 17:10:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:11:57 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ int	parse_path(char **cmds, char *path)
 		return (1);
 }
 
-void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy,
-		t_data *data)
+void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 {
 	int		builtin_check;
 	t_parse	*head;
@@ -45,12 +44,10 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy,
 	int		old_stdin;
 	int		old_stdout;
 
-	(void)data;
 	head = cmds_list;
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
-		printf("HERE\n");
 		old_stdin = dup(STDIN_FILENO);
 		old_stdout = dup(STDOUT_FILENO);
 		if (getfile(cmds_list))
