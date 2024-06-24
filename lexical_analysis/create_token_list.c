@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/24 18:08:58 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:20:12 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,7 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 	ft_strlcpy(string, data->input + data->pos, len + 1);
 	result = env_path(env_list, len, string);
 	data->pos = i;
-	if (result == NULL)
-		element->len = element->len + 0;
-	else
+	if (result != NULL)
 		element->len = element->len + ft_strlen(result);
 	free(string);
 }
