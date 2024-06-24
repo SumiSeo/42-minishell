@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 17:11:57 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:30:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,22 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 	int		builtin_check;
 	t_parse	*head;
 	int		fork_id;
-	int		old_stdin;
-	int		old_stdout;
 
 	head = cmds_list;
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
-		old_stdin = dup(STDIN_FILENO);
-		old_stdout = dup(STDOUT_FILENO);
+		cmds_list->old_stdin = dup(STDIN_FILENO);
+		cmds_list->old_stdout = dup(STDOUT_FILENO);
 		if (getfile(cmds_list))
 		{
 			only_redirection(cmds_list);
 			exec_builtin(builtin_check, cmds_list, env_list);
 		}
-		dup2(old_stdout, STDOUT_FILENO);
-		dup2(old_stdin, STDIN_FILENO);
-		close(old_stdout);
-		close(old_stdin);
+		dup2(cmds_list->old_stdout, STDOUT_FILENO);
+		dup2(cmds_list->old_stdin, STDIN_FILENO);
+		close(cmds_list->old_stdout);
+		close(cmds_list->old_stdin);
 	}
 	else
 	{

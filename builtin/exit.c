@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 15:49:57 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:37:05 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,33 @@ int	is_exit(char *str)
 	return (0);
 }
 
-void	control_alpha(char *s)
+void	control_alpha(char *s, t_parse *cmds_list)
 {
 	printf("exit : %s: numeric argument required\n", s);
+	if (cmds_list->old_stdin != -1)
+		close(cmds_list->old_stdout);
+	if (cmds_list->old_stdout != -1)
+		close(cmds_list->old_stdin);
 	exit(1);
 }
 
-void	control_many_args(void)
+void	control_many_args(t_parse *cmds_list)
 {
 	printf("exit : too many arugments\n");
+	if (cmds_list->old_stdin != -1)
+		close(cmds_list->old_stdout);
+	if (cmds_list->old_stdout != -1)
+		close(cmds_list->old_stdin);
 	exit(1);
 }
 
-void	normal_exit(void)
+void	normal_exit(t_parse *cmds_list)
 {
 	printf("exit\n");
+	if (cmds_list->old_stdin != -1)
+		close(cmds_list->old_stdout);
+	if (cmds_list->old_stdout != -1)
+		close(cmds_list->old_stdin);
 	exit(1);
 }
 
@@ -54,24 +66,26 @@ void	func_exit(t_parse *cmds)
 	int	i;
 
 	i = 0;
+	if (!cmds->cmd_array[1])
+		normal_exit(cmds);
+	if (cmds->cmd_array[1] && cmds->cmd_array[2])
+	{
+		control_many_args(cmds);
+		return ;
+	}
 	while (cmds->cmd_array[1][i])
 	{
 		if (ft_isalpha(cmds->cmd_array[1][i]))
-			control_alpha(cmds->cmd_array[1]);
+			control_alpha(cmds->cmd_array[1], cmds);
 		i++;
-	}
-	if (cmds->cmd_array[1] && cmds->cmd_array[2])
-	{
-		control_many_args();
-		return ;
 	}
 	i = 0;
 	while (cmds->cmd_array[1][i])
 	{
 		if (!ft_isdigit(cmds->cmd_array[1][i]))
-			control_alpha(cmds->cmd_array[1]);
+			control_alpha(cmds->cmd_array[1], cmds);
 		else
-			normal_exit();
+			normal_exit(cmds);
 		i++;
 	}
 }

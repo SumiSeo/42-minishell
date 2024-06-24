@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 17:12:12 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:14:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,9 @@ int	main(int argc, char **argv, char **envp)
 		// // test(par_list);
 		// printf("-----TRUE MINISHELL-----\n");
 		if (data->has_pipe < 1)
-		{
 			exec_shell(par_list, env_list, copy);
-		}
 		else
 		{
-			printf("****multiple commands or multiple commands with redirection***\n");
 			enable_signal();
 			runtime_shell(par_list, copy, data, env_list);
 		}

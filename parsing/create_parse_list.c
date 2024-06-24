@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/18 17:30:05 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:34:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
+	element->old_stdin = -1;
+	element->old_stdout = -1;
 	if (*par_list == NULL)
 	{
 		*par_list = element;

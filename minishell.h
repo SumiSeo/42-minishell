@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 17:12:05 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:29:21 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct s_parse
 	int				is_heredoc;
 	int				tmp_file;
 	char			*delimiter;
+	int				old_stdin;
+	int				old_stdout;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }					t_parse;
@@ -205,7 +207,6 @@ void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
 void				only_redirection(t_parse *cmds_list);
-void				open_heredoc(t_parse *cmds_list, t_pipe *pipe_info);
 void				wait_pipe_files(t_pipe *pipe_info);
 void				close_pipe_files(t_parse *cmds_list);
 void				heredoc_check(t_parse *cmds_list);
@@ -223,4 +224,5 @@ void				init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info,
 						char **env_copy, int i);
 
 void				push_num_cmd(int status, t_data *data);
+void				open_heredoc(t_parse *cmds_list);
 #endif
