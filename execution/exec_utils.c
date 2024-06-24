@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 17:08:07 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:10:02 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_array(char **line)
 	free(line);
 }
 
-int	parse_path(char **cmds, char *path, t_data *data)
+int	parse_path(char **cmds, char *path)
 {
 	if (access(path, X_OK | F_OK) != 0)
 	{
@@ -73,7 +73,7 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy,
 			if (getfile(cmds_list))
 			{
 				only_redirection(cmds_list);
-				if (parse_path(cmds_list->cmd_array, cmds_list->path, data))
+				if (parse_path(cmds_list->cmd_array, cmds_list->path))
 					execve(cmds_list->path, cmds_list->cmd_array, env_copy);
 			}
 			exit(0);

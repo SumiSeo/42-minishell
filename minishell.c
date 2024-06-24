@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 16:03:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:10:28 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	main(int argc, char **argv, char **envp)
 			enable_signal();
 			runtime_shell(par_list, copy, data, env_list);
 		}
-		printf("number of commanddddd %d\n", data->num_cmd);
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}
