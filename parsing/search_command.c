@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/22 17:49:48 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/24 16:25:13 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*find_path(char *single_path, char **command)
 	if (access(path, R_OK) == 0)
 	{
 		// printf("%s\n", path);
+		free(joined);
 		return (path);
 	}
 	free(joined);
