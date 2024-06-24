@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/23 19:02:15 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:08:58 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,10 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 	result = env_path(env_list, len, string);
 	data->pos = i;
 	if (result == NULL)
-		element->len = 0;
+		element->len = element->len + 0;
 	else
 		element->len = element->len + ft_strlen(result);
+	free(string);
 }
 
 void	len_single_quote(t_data *data, t_token	*element)
@@ -163,9 +164,10 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token	*element)
 
 void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 {
-	
+	// printf("good\n");
 	while (not_operator(data->input[data->pos]))
 	{
+		// printf("o");
 		if (data->input[data->pos] == '$')
 		{
 			// printf("before %d\n", data->pos);
@@ -177,6 +179,7 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 			element->len++;
 			data->pos++;
 		}
+
 	}
 	
 }
@@ -257,6 +260,7 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 			element->j++;
 		}
 	}
+	free(src);
 	element->i = element->i + src_len;
 }
 
@@ -326,6 +330,7 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 	element->j = 0;
 	element->i = 0;
 	get_len_pos(data, env, element);
+	printf("length %d\n", element->len);
 	store_string(element, str, env);
 	element->next = NULL;
 	if (*tok_list == NULL)

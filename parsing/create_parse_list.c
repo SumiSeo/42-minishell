@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/24 15:37:22 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:05:09 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
-	element->cmd_array = (char **)ft_calloc(1, sizeof(char));
+	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
+	element->cmd_array[0] = (char *)ft_calloc (1, sizeof(char));
 	if (*par_list == NULL)
 	{
 		*par_list = element;

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/24 16:14:41 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:49:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 		}
 		else
 		{
-			free(par_list->cmd_array);
+			free_array(par_list->cmd_array);
 			par_list->cmd_array = (char **)malloc(sizeof(char *) * (i + 1));
 			while (tok_list)
 			{
