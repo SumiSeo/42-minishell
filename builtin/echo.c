@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 21:36:39 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 14:51:42 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,23 @@ void	func_echo(t_parse *cmds)
 {
 	int	nextline_flag;
 	int	i;
+	int	j;
 
 	nextline_flag = 0;
 	i = 1;
-	if (cmds->cmd_array[1] && cmds->cmd_array[1][0] == '-'
-		&& cmds->cmd_array[1][1] == 'n')
+	while (cmds->cmd_array[i] && cmds->cmd_array[i][0] == '-')
 	{
-		nextline_flag = 1;
-		i++;
+		j = 1;
+		while (cmds->cmd_array[i][j] == 'n')
+			j++;
+		if (cmds->cmd_array[i][j] == '\0')
+		{
+			nextline_flag = 1;
+			i++;
+		}
+		else
+			break ;
 	}
-	else if (print_echo(cmds, i, nextline_flag) == 2)
+	if (print_echo(cmds, i, nextline_flag) == 2)
 		return ;
-	if (cmds->cmd_array[2][0] == '-' && cmds->cmd_array[2][1] == 'n')
-		i++;
-	else
-		i = 2;
-	print_echo(cmds, i, nextline_flag);
 }

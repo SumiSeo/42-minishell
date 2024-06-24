@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 22:41:15 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 14:39:40 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
-		printf("HERE ? \n");
 		old_stdin = dup(STDIN_FILENO);
 		old_stdout = dup(STDOUT_FILENO);
 		if (getfile(cmds_list))
