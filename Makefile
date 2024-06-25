@@ -10,6 +10,7 @@ execution/pipe_utils.c\
 execution/runtime.c\
 execution/exec_utils.c\
 execution/redirect_init.c\
+execution/heredoc.c\
 builtin/echo.c\
 builtin/pwd.c\
 builtin/cd.c\

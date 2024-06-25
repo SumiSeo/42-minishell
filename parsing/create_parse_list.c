@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_parse_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/24 18:05:09 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:24:23 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
+	element->old_stdin = -1;
+	element->old_stdout = -1;
 	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
 	element->cmd_array[0] = (char *)ft_calloc (1, sizeof(char));
 	if (*par_list == NULL)

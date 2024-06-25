@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 17:32:47 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:22:16 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,20 @@ int	main(int argc, char **argv, char **envp)
 		check_outfile(par_list);
 		search_command(par_list, data);
 		// printf("-----\n");
-		// display_path(data);
-		printf("-----\n");
-		display_token_list(tok_list);
+		// // display_path(data);
+		// printf("-----\n");
+		// display_token_list(tok_list);
 		// printf("-----\n");
 		// display_parse_list(par_list);
-		printf("-----TRUE MINISHELL-----\n");
-		// if (is_builtin(par_list, env_list))
-		// {
-		// 	builtin_check = 1;
-		// }
-		// else
-		// {
-		// 	enable_signal();
-		// 	runtime_shell(par_list, copy, data);
-		// }
+		// // test(par_list);
+		// printf("-----TRUE MINISHELL-----\n");
+		if (data->has_pipe < 1)
+			exec_shell(par_list, env_list, copy);
+		else
+		{
+			enable_signal();
+			runtime_shell(par_list, copy, data, env_list);
+		}
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}

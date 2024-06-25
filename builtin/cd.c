@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:45:00 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/23 21:27:56 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	func_cd(t_parse *cmds)
 		return ;
 	else
 	{
-		while (i < 3)
+		while (i < 2)
 		{
 			if (strcmp(cmds->cmd_array[1], rel_paths[i]) == 0)
 			{
