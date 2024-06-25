@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 17:37:37 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 18:28:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	count_cmds(t_parse *cmds_list)
 	}
 	return (total_cmd);
 }
+
 void	pipe_null_check(void)
 {
 	perror("pipe_info_malloc");
@@ -46,4 +47,11 @@ void	close_no_file(t_parse *cmds_list)
 	close(cmds_list->pipe_fdi);
 	close(cmds_list->pipe_fdo);
 	exit(EXIT_FAILURE);
+}
+
+void	close_parent(t_parse *head, t_pipe *pipe_info)
+{
+	close_pipe_files(head);
+	wait_pipe_files(pipe_info);
+	free(pipe_info);
 }

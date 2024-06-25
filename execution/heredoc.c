@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:15:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 17:34:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 18:28:18 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,10 @@ void	open_heredoc(t_parse *cmds_list)
 	close(tmp);
 	open("tmp", O_RDONLY, 0644);
 	cmds_list->infile = tmp;
+}
+
+void	call_heredoc(t_parse *cmds_list)
+{
+	init_heredoc(cmds_list);
+	open_heredoc(cmds_list);
 }

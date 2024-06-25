@@ -6,18 +6,11 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 17:42:53 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:05:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	close_parent(t_parse *head, t_pipe *pipe_info)
-{
-	close_pipe_files(head);
-	wait_pipe_files(pipe_info);
-	free(pipe_info);
-}
 
 void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 		int i)
@@ -29,7 +22,28 @@ void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 		exit(EXIT_FAILURE);
 	}
 	else
+		// close the file if i do not find path
+		// ?&& close the pipes if there are pipes
 		exit(EXIT_FAILURE);
+}
+
+t_pipe	*init_pipeinfo(t_parse *cmds_list)
+{
+	t_pipe	*pipe_info;
+
+	pipe_info = malloc(sizeof(t_pipe));
+	if (pipe_info == NULL)
+		pipe_null_check();
+	pipe_info->total_cmds = count_cmds(cmds_list);
+	return (pipe_info);
+}
+
+void	close_extra_files(t_parse *cmds_list)
+{
+	if (cmds_list->next != NULL)
+		close(cmds_list->pipe_fdo);
+	if (cmds_list->prev != NULL)
+		close(cmds_list->prev->pipe_fdi);
 }
 
 void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
@@ -43,10 +57,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 
 	head = cmds_list;
 	i = 0;
-	pipe_info = malloc(sizeof(t_pipe));
-	if (pipe_info == NULL)
-		pipe_null_check();
-	pipe_info->total_cmds = count_cmds(cmds_list);
+	pipe_info = init_pipeinfo(cmds_list);
 	while (i < pipe_info->total_cmds)
 	{
 		pipe_init(pipe_info, cmds_list, i, data);
@@ -70,10 +81,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 			else
 				close_no_file(cmds_list);
 		}
-		if (cmds_list->next != NULL)
-			close(cmds_list->pipe_fdo);
-		if (cmds_list->prev != NULL)
-			close(cmds_list->prev->pipe_fdi);
+		close_extra_files(cmds_list);
 		i++;
 		cmds_list = cmds_list->next;
 	}

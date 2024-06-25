@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 17:24:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:20:54 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,16 @@ void	free_array(char **line)
 
 int	parse_path(char **cmds, char *path)
 {
-	if (access(path, X_OK | F_OK) != 0)
+	if (!path || access(path, X_OK | F_OK) != 0)
 	{
 		printf("%s: Command not found\n", cmds[0]);
 		return (0);
 	}
 	else
+	{
+		printf("HERE: %s\n", path);
 		return (1);
+	}
 }
 
 void	init_child(t_parse *cmds_list, char **env_copy)

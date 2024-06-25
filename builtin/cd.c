@@ -6,11 +6,21 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 21:27:56 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:47:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
 
 int	is_cd(char *str)
 {
@@ -47,7 +57,7 @@ void	func_cd(t_parse *cmds)
 	{
 		while (i < 2)
 		{
-			if (strcmp(cmds->cmd_array[1], rel_paths[i]) == 0)
+			if (ft_strcmp(cmds->cmd_array[1], rel_paths[i]) == 0)
 			{
 				path_int = i + 1;
 				break ;
