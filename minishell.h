@@ -6,7 +6,11 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/24 19:29:21 by sumseo           ###   ########.fr       */
+=======
+/*   Updated: 2024/06/23 19:10:02 by ftanon           ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +69,12 @@ typedef struct s_data
 	int				has_pipe;
 	int				pos;
 	char			*input;
+<<<<<<< HEAD
 	int				total_cmds;
 	int				num_cmd;
+=======
+	int				num_token;
+>>>>>>> main
 }					t_data;
 
 typedef struct s_parse
@@ -163,6 +171,9 @@ int					check_input(char const *str);
 void				create_token_list(t_data *data, t_token **tok_list,
 						t_env *env_list);
 void				free_token_list(t_token **tok_list);
+void				get_num_token(t_token *tok_list, t_data *data);
+int					check_bracket_error(t_token *tok_list, t_data *data);
+int					check_bracket_dup(t_token *tok_list);
 
 //  parsing
 void				create_parse_list(t_token *tok_list, t_parse **par_list);
