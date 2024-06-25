@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 23:07:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 23:09:24 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 		exit(EXIT_FAILURE);
 	}
 	else
-		// close the file if i do not find path
-		// ?&& close the pipes if there are pipes
 		exit(EXIT_FAILURE);
 }
 
