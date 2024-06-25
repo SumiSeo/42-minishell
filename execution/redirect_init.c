@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:13:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/23 22:50:36 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 21:50:45 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	only_redirection(t_parse *cmds_list)
 
 void	first_cmd(t_parse *cmds_list)
 {
+	printf("first infile : %d\n", cmds_list->pipe_fdi);
+	printf("first outfile : %d\n", cmds_list->pipe_fdo);
 	if (cmds_list->infile_access)
 	{
 		dup2(cmds_list->infile, STDIN_FILENO);
@@ -68,6 +70,8 @@ void	first_cmd(t_parse *cmds_list)
 
 void	last_cmd(t_parse *cmds_list)
 {
+	printf("last infile : %d\n", cmds_list->pipe_fdi);
+	printf("last outfile : %d\n", cmds_list->pipe_fdo);
 	if (cmds_list->outfile_token)
 	{
 		dup2(cmds_list->outfile, STDOUT_FILENO);

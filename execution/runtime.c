@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 19:05:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 21:43:57 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,17 @@ void	close_extra_files(t_parse *cmds_list)
 	if (cmds_list->next != NULL)
 		close(cmds_list->pipe_fdo);
 	if (cmds_list->prev != NULL)
+	{
 		close(cmds_list->prev->pipe_fdi);
+	}
+}
+
+void	close_files(t_parse *cmds_list)
+{
+	if (cmds_list->infile_name)
+		close(cmds_list->infile);
+	if (cmds_list->outfile_access)
+		close(cmds_list->outfile);
 }
 
 void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
@@ -69,11 +79,13 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 			{
 				if (builtin_check > 0)
 				{
+					printf("func called 1 \n");
 					redirection(cmds_list, pipe_info, i);
 					exec_builtin(builtin_check, cmds_list, env_list);
 				}
 				else
 				{
+					printf("func called 2 \n");
 					init_child_pipe(cmds_list, pipe_info, env_copy, i);
 					exit(0);
 				}

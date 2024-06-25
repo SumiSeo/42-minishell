@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 19:20:54 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 21:43:52 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	parse_path(char **cmds, char *path)
 	}
 	else
 	{
-		printf("HERE: %s\n", path);
 		return (1);
 	}
 }

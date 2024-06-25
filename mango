@@ -1,2 +1,0 @@
-NAME = minishell
-SRCS = minishell.c error_handler/error_controler.c\
