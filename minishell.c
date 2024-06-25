@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 17:10:43 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:46:21 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	main(int argc, char **argv, char **envp)
 		search_command(par_list, data);
 		if (data->has_pipe < 1)
 		{
+			enable_signal();
 			exec_shell(par_list, env_list, copy);
 		}
 		else
 		{
-			enable_signal();
 			runtime_shell(par_list, copy, data, env_list);
 		}
 		free_token_list(&tok_list);
