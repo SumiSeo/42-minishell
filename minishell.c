@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 16:22:16 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:12:42 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	copy = envp;
 	builtin_check = 0;
 	data = malloc(sizeof(t_data));
+	data->exit_status = 777;
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
@@ -35,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		// print_dir();
+		printf("exit status : %d\n", data->exit_status);
 		disable_signal();
 		if (take_input(data))
 			continue ;
@@ -65,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 		// display_token_list(tok_list);
 		// printf("-----\n");
 		// display_parse_list(par_list);
-		// // test(par_list);
+		// test(par_list);
 		// printf("-----TRUE MINISHELL-----\n");
 		if (data->has_pipe < 1)
 			exec_shell(par_list, env_list, copy);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runtime.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 15:33:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:06:48 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	pipe_null_check(void)
 	exit(EXIT_FAILURE);
 }
 
-void	close_parent(t_parse *head, t_pipe *pipe_info)
+void	close_parent(t_parse *head, t_pipe *pipe_info, t_data *data)
 {
 	close_pipe_files(head);
-	wait_pipe_files(pipe_info);
+	wait_pipe_files(pipe_info, data);
 	free(pipe_info);
 }
 
@@ -49,7 +49,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 		t_env *env_list)
 {
 	t_pipe	*pipe_info;
-	int		fork_id;
+	pid_t	fork_id;
 	int		i;
 	t_parse	*head;
 	int		builtin_check;
@@ -59,6 +59,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 	head = cmds_list;
 	i = 0;
 	pipe_info = malloc(sizeof(t_pipe));
+	init_pid_array(pipe_info);
 	if (pipe_info == NULL)
 		pipe_null_check();
 	pipe_info->total_cmds = count_cmds(cmds_list);
@@ -87,6 +88,7 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 			else
 				close_no_file(cmds_list);
 		}
+		store_pid(pipe_info, fork_id);
 		if (cmds_list->next != NULL)
 			close(cmds_list->pipe_fdo);
 		if (cmds_list->prev != NULL)
@@ -94,5 +96,5 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 		i++;
 		cmds_list = cmds_list->next;
 	}
-	close_parent(head, pipe_info);
+	close_parent(head, pipe_info, data);
 }
