@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:25 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/21 16:00:44 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:44:58 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,29 +62,29 @@ void	enable_signal(void)
 	signal(SIGTSTP, SIG_DFL);
 }
 
-void test(t_parse *par_list)
+void handle_ctrld(t_parse *par_list)
 {
-	int fd[2];
-	pid_t pid;
-	char *buffer;
+	int		fd[2];
+	pid_t	pid;
+	char	*buffer;
 
 	buffer = malloc(sizeof(char) * 10);
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd[0]); // close the read end of the pipe
+		close(fd[0]);
 		dup2(fd[1], 1);
 		execve(par_list->path, par_list->cmd_array, NULL);
-		close(fd[1]); // close the write end of the pipe
+		close(fd[1]);
 		// exit(EXIT_SUCCESS);
 	}
 	else
 	{
 		wait(0);
-		close(fd[1]); // close the write end of the pipe
+		close(fd[1]);
 		read(fd[0], buffer, 100);
-		close(fd[0]); // close the read end of the pipe
+		close(fd[0]);
 		if(ft_strncmp(par_list->cmd_array[0], "cat", 3) == 0 && buffer != NULL)
 			printf("Message from child: '%s'\n", buffer);
 		// exit(EXIT_SUCCESS);

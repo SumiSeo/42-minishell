@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_parse_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/18 17:30:05 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:05:09 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
+	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
+	element->cmd_array[0] = (char *)ft_calloc (1, sizeof(char));
 	if (*par_list == NULL)
 	{
 		*par_list = element;
@@ -92,6 +94,8 @@ void	display_parser_array(char **array)
 		printf("[%s]", array[i]);
 		i++;
 	}
+	if (i == 0)
+		printf("%s", array[i]);
 }
 
 void	display_parse_list(t_parse *par_list)
@@ -119,4 +123,52 @@ void	display_parse_list(t_parse *par_list)
 		par_list = par_list->next;
 		i++;
 	}
+}
+
+int	string_is_bracket(char *str)
+{
+	int	len;
+	int	is_bracket;
+
+	is_bracket = 0;
+	len = ft_strlen(str);
+	if (str[0] == '>' || str[0] == '<')
+		is_bracket = 1;
+	if (is_bracket == 1 && len ==1)
+		return (1);
+	return (0);
+}
+
+int	check_bracket_dup(t_token *tok_list)
+{
+	int		i;
+	int		k;
+	char	*string1;
+	char	*string2;
+
+	while (tok_list)
+	{
+		i = 0;
+		k = 0;
+		i = count_words_pipe_create(tok_list);
+		string1 = tok_list->operator;
+		while (k < i - 1)
+		{
+			tok_list = tok_list->next;
+			k++;
+		}
+		string2 = tok_list->operator;
+		tok_list = tok_list->next;
+		if (string2 && string1)
+		{
+			if (string_is_bracket(string1) && string_is_bracket(string2))
+			{
+				printf("Error : invalid cmd\n");
+				return (1);
+			}
+		}
+		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
+			tok_list = tok_list->next;
+	}
+	return (0);
 }

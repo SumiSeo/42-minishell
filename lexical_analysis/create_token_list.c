@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/15 12:42:25 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:20:12 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,9 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 	ft_strlcpy(string, data->input + data->pos, len + 1);
 	result = env_path(env_list, len, string);
 	data->pos = i;
-	if (result == NULL)
-		element->len = 0;
-	else
+	if (result != NULL)
 		element->len = element->len + ft_strlen(result);
+	free(string);
 }
 
 void	len_single_quote(t_data *data, t_token	*element)
@@ -163,9 +162,10 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token	*element)
 
 void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 {
-	
+	// printf("good\n");
 	while (not_operator(data->input[data->pos]))
 	{
+		// printf("o");
 		if (data->input[data->pos] == '$')
 		{
 			// printf("before %d\n", data->pos);
@@ -177,6 +177,7 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token	*element)
 			element->len++;
 			data->pos++;
 		}
+
 	}
 	
 }
@@ -257,6 +258,7 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 			element->j++;
 		}
 	}
+	free(src);
 	element->i = element->i + src_len;
 }
 
@@ -326,6 +328,7 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 	element->j = 0;
 	element->i = 0;
 	get_len_pos(data, env, element);
+	printf("length %d\n", element->len);
 	store_string(element, str, env);
 	element->next = NULL;
 	if (*tok_list == NULL)
@@ -344,6 +347,7 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 {
 	data->pos = 0;
+	data->num_token = 0;
 	while (data->input[data->pos] != '\0')
 	{
 		while (is_space(data->input[data->pos]))
@@ -366,6 +370,44 @@ void	display_token_list(t_token *tok_list)
 		tok_list = tok_list->next;
 	}
 }
+
+void get_num_token(t_token *tok_list, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (tok_list)
+	{
+		i++;
+		tok_list = tok_list->next;
+	}
+	data->num_token = i;
+}
+
+int check_bracket_error(t_token *tok_list, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->num_token == 1 && tok_list->operator)
+	{
+		while (tok_list->operator[i])
+		i++;
+		if (i == 1 && is_operator(tok_list->operator[0]))
+		{
+			printf("Error : Invalid cmd\n");
+			return (1);
+		}
+		else if (i == 2 && is_double_bracket(tok_list->operator[0], tok_list->operator[1]))
+		{
+			printf("Error : Invalid cmd\n");
+			return (1);
+		}
+	}
+	return (0);
+}
+
+
 
 //---------------------------------------------------------------- V6
 
