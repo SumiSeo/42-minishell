@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 16:22:16 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:48:19 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,6 @@ int	main(int argc, char **argv, char **envp)
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
-		// printf("-----\n");
-		// // display_path(data);
-		// printf("-----\n");
-		// display_token_list(tok_list);
-		// printf("-----\n");
-		// display_parse_list(par_list);
-		// // test(par_list);
-		// printf("-----TRUE MINISHELL-----\n");
 		if (data->has_pipe < 1)
 			exec_shell(par_list, env_list, copy);
 		else
