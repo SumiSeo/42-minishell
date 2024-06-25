@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 22:56:11 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 23:07:43 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,8 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 		t_env *env_list)
 {
 	t_pipe	*pipe_info;
-	int		fork_id;
 	int		i;
 	t_parse	*head;
-	int		builtin_check;
 
 	head = cmds_list;
 	i = 0;
@@ -71,23 +69,18 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 	while (i < pipe_info->total_cmds)
 	{
 		pipe_init(pipe_info, cmds_list, i, data);
-		fork_id = fork();
-		if (fork_id == 0)
+		if (fork() == 0)
 		{
-			builtin_check = is_builtin(cmds_list);
 			if (getfile(cmds_list))
 			{
-				if (builtin_check > 0)
+				if (is_builtin(cmds_list) > 0)
 				{
 					redirection(cmds_list, pipe_info, i);
-					exec_builtin(builtin_check, cmds_list, env_list);
-					exit(0);
+					exec_builtin(is_builtin(cmds_list), cmds_list, env_list);
 				}
 				else
-				{
 					init_child_pipe(cmds_list, pipe_info, env_copy, i);
-					exit(0);
-				}
+				exit(0);
 			}
 			else
 				close_no_file(cmds_list);
