@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/03 20:50:08 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 22:43:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ void	func_unset(t_parse *cmds, t_env *env)
 	i = 0;
 	if (!cmds->cmd_array[1])
 		return ;
+	else if (!ft_strcmp(cmds->cmd_array[1], "PATH"))
+	{
+		printf("Unset path called\n");
+		cmds->path = NULL;
+		delete_one_env(&env, cmds->cmd_array[1]);
+	}
 	else
 	{
 		while (env)

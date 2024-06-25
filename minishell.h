@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 18:27:47 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 22:37:11 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void				func_export(t_parse *parser, t_env *env);
 void				func_unset(t_parse *parser, t_env *env);
 void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
+int					ft_strcmp(const char *s1, const char *s2);
 
 //  lexical analysis
 int					check_input(char const *str);
