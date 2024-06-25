@@ -6,11 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/24 19:29:21 by sumseo           ###   ########.fr       */
-=======
-/*   Updated: 2024/06/23 19:10:02 by ftanon           ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/06/25 16:25:00 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +65,9 @@ typedef struct s_data
 	int				has_pipe;
 	int				pos;
 	char			*input;
-<<<<<<< HEAD
 	int				total_cmds;
 	int				num_cmd;
-=======
 	int				num_token;
->>>>>>> main
 }					t_data;
 
 typedef struct s_parse
