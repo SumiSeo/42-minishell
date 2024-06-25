@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 19:07:10 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:27:06 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 typedef struct s_pipe
 {
-	int				*pids;
+	pid_t			*pids;
 	char			*limiter;
 	int				total_cmds;
 	int				only_redirect;
