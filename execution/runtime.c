@@ -6,30 +6,17 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 15:33:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:42:53 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	pipe_null_check(void)
-{
-	perror("pipe_info_malloc");
-	exit(EXIT_FAILURE);
-}
 
 void	close_parent(t_parse *head, t_pipe *pipe_info)
 {
 	close_pipe_files(head);
 	wait_pipe_files(pipe_info);
 	free(pipe_info);
-}
-
-void	close_no_file(t_parse *cmds_list)
-{
-	close(cmds_list->pipe_fdi);
-	close(cmds_list->pipe_fdo);
-	exit(EXIT_FAILURE);
 }
 
 void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
@@ -54,8 +41,6 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 	t_parse	*head;
 	int		builtin_check;
 
-	(void)env_list;
-	printf("Runtime shell called\n");
 	head = cmds_list;
 	i = 0;
 	pipe_info = malloc(sizeof(t_pipe));
@@ -66,8 +51,6 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 	{
 		pipe_init(pipe_info, cmds_list, i, data);
 		fork_id = fork();
-		if (fork_id == -1)
-			perror("fork");
 		if (fork_id == 0)
 		{
 			builtin_check = is_builtin(cmds_list);

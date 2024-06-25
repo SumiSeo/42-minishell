@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 16:25:00 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:37:46 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,4 +229,9 @@ void				init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info,
 
 void				push_num_cmd(int status, t_data *data);
 void				open_heredoc(t_parse *cmds_list);
+void				init_heredoc(t_parse *cmds_list);
+void				pipe_null_check(void);
+void				pipe_null_check(void);
+void				close_no_file(t_parse *cmds_list);
+
 #endif

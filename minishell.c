@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 16:48:19 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:10:43 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	main(int argc, char **argv, char **envp)
 	par_list = NULL;
 	env_list = NULL;
 	if (argc > 1)
-		exit_program("Minishell doe not take arguments.");
+		exit_program("Minishell does not take arguments.");
 	if (argv[1] != NULL)
-		exit_program("Minishell doe not take arguments.");
+		exit_program("Minishell does not take arguments.");
 	store_env_list(envp, &env_list);
 	while (1)
 	{
@@ -60,7 +60,9 @@ int	main(int argc, char **argv, char **envp)
 		check_outfile(par_list);
 		search_command(par_list, data);
 		if (data->has_pipe < 1)
+		{
 			exec_shell(par_list, env_list, copy);
+		}
 		else
 		{
 			enable_signal();

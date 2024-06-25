@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/24 19:20:55 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:34:10 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 int	getfile(t_parse *cmds_list)
 {
-	if (cmds_list == NULL)
-		printf("cmds_list is NULL");
 	if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<<",
 			2) == 0)
 	{
-		cmds_list->delimiter = cmds_list->infile_name;
-		cmds_list->is_heredoc = 1;
+		init_heredoc(cmds_list);
 		open_heredoc(cmds_list);
 	}
 	else if (cmds_list->infile_token && ft_strncmp(cmds_list->infile_token, "<",
