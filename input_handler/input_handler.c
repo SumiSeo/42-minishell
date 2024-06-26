@@ -6,13 +6,14 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 22:18:19 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:54:04 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	take_input(t_data *data)
+
+int	take_input(t_data *data, t_env *env_list)
 {
 	char	*buf;
 	int		len;
@@ -28,7 +29,11 @@ int	take_input(t_data *data)
 	buf = readline(pretty_prompt);
 	free(pretty_prompt);
 	if (buf == NULL)
+	{
+		free(data);
+		free_env_list(&env_list);
 		exit(0);
+	}
 	len = ft_strlen(buf);
 	if (len != 0)
 	{

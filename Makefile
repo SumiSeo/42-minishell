@@ -30,6 +30,7 @@ parsing/free_parse_list.c\
 parsing/search_command.c\
 parsing/store_command.c\
 signals/signals.c\
+store_env/free_env_list.c\
 store_env/store_env_list.c\
 store_env/store_path.c\
 store_env/env_utils.c\

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 22:32:33 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:53:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		disable_signal();
-		if (take_input(data))
+		if (take_input(data, env_list))
 			continue ;
 		if (check_input(data->input))
 			continue ;
@@ -58,16 +58,17 @@ int	main(int argc, char **argv, char **envp)
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
+		enable_signal();
 		if (data->has_pipe < 1)
 		{
-			enable_signal();
 			exec_shell(par_list, env_list, copy);
 		}
 		else
 		{
-			enable_signal();
 			runtime_shell(par_list, copy, data, env_list);
 		}
+		free(data->input);
+		free_array(data->all_paths);
 		free_token_list(&tok_list);
 		free_parse_list(&par_list);
 	}
