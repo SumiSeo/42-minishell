@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 16:47:41 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/26 17:37:15 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ int	main(int argc, char **argv, char **envp)
 		// printf("-----\n");
 		// display_parse_list(par_list);
 		// // test(par_list);
+		enable_signal();
 		printf("-----TRUE MINISHELL-----\n");
 		if (data->has_pipe < 1)
 			exec_shell(par_list, env_list, copy);
 		else
 		{
-			enable_signal();
 			runtime_shell(par_list, copy, data, env_list);
 		}
 		free(data->input);
