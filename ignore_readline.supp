@@ -10,12 +10,9 @@
 	...
 	fun:add_history
 }
-<<<<<<< HEAD
 {
 	ignore_forks
 	Memcheck:Leak
 	...
 	obj:*/bin/*
 }
-=======
->>>>>>> main

@@ -6,17 +6,14 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 18:54:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:46:02 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 int	take_input(t_data *data, t_env *env_list)
 {
-	char	*buf;
-	int		len;
 	int		size;
 	char	cwd[1024];
 	char	*pretty_prompt;
@@ -26,20 +23,17 @@ int	take_input(t_data *data, t_env *env_list)
 	pretty_prompt = ft_strjoin(cwd, ">");
 	if (!pretty_prompt)
 		return (1);
-	buf = readline(pretty_prompt);
+	data->input = readline(pretty_prompt);
 	free(pretty_prompt);
-	if (buf == NULL)
+	if (data->input == NULL)
 	{
 		free(data);
 		free_env_list(&env_list);
 		exit(0);
 	}
-	len = ft_strlen(buf);
-	if (len != 0)
+	if (ft_strlen(data->input) != 0)
 	{
-		data->input = (char *)malloc(sizeof(char) * (len + 1));
-		add_history(buf);
-		size = ft_strlcpy(data->input, buf, len + 1);
+		add_history(data->input);
 		return (0);
 	}
 	else

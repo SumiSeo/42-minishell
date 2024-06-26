@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 23:03:31 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:44:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_builtin(t_parse *cmds)
 		return (0);
 }
 
-void	exec_builtin(int func, t_parse *cmds, t_env *env)
+void	exec_builtin(int func, t_parse *cmds, t_env **env)
 {
 	if (func == 1)
 		func_echo(cmds);

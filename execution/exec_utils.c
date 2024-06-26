@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 21:43:52 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:55:23 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	init_child(t_parse *cmds_list, char **env_copy)
 }
 
 void	exec_shell_builtin(t_parse *cmds_list, int builtin_check,
-		t_env *env_list)
+		t_env **env_list)
 {
 	if (getfile(cmds_list))
 	{
@@ -58,7 +58,8 @@ void	exec_shell_builtin(t_parse *cmds_list, int builtin_check,
 	}
 }
 
-void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
+void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
+		t_data *data)
 {
 	int	builtin_check;
 	int	fork_id;
@@ -80,6 +81,10 @@ void	exec_shell(t_parse *cmds_list, t_env *env_list, char **env_copy)
 		if (fork_id == 0)
 		{
 			init_child(cmds_list, env_copy);
+			free_parse_list(&cmds_list);
+			free_array(data->all_paths);
+			free_env_list(env_list);
+			free(data);
 			exit(0);
 		}
 		wait(0);
