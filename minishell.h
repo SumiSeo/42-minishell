@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 16:25:00 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 16:28:33 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				exit_program(char *s);
 void				create_prompt(char **env);
 
 // minishell
-int					take_input(t_data *data);
+int					take_input(t_data *data, t_env *env_list);
 void				print_dir(void);
 int					process_string(char *str, char **parsed, char **parsedpipe);
 void				exec_args(char **parsed);
@@ -185,6 +185,7 @@ void				push_env_list(t_env **env_list, const char *str, int len);
 void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env *env_list, char *env_val,
 						char *variable, char *value);
+void				free_env_list(t_env	**env_list);
 
 // display
 void				display_array(char **array);
