@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/21 16:27:46 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:49:11 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,21 @@
 // 	printf("\033[1;33mSuminishell😛💻 [%s]\033[0m", cwd);
 // 	// printf(">");
 // }
-int	take_input(t_data *data)
+int    take_input(t_data *data)
 {
 	char	*buf;
 	int		len;
 	int		size;
 	char	cwd[1024];
+	char	*pretty_prompt;
 
 	size = 0;
-	buf = readline(getcwd(cwd, sizeof(cwd)));
+	getcwd(cwd, sizeof(cwd));
+	pretty_prompt = ft_strjoin(cwd, ">");
+	if (!pretty_prompt)
+		return (1);
+	buf = readline(pretty_prompt);
+	free(pretty_prompt);
 	if (buf == NULL)
 		exit(0);
 	len = ft_strlen(buf);
