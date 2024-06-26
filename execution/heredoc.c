@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:15:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 18:28:18 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:32:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	open_heredoc(t_parse *cmds_list)
 			break ;
 		}
 		if (ft_strncmp(str, cmds_list->delimiter,
-				ft_strlen(cmds_list->delimiter)) == 0)
+				ft_strlen(cmds_list->delimiter)) == 0
+			&& str[ft_strlen(cmds_list->delimiter)] == '\0')
 		{
 			free(str);
 			break ;

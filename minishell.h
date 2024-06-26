@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 18:54:36 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:48:26 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_parse
 	int				old_stdout;
 	struct s_parse	*next;
 	struct s_parse	*prev;
+	// t_data			*data;
 }					t_parse;
 
 /////////////////////////////////////////////////////////////////////////
@@ -122,11 +123,12 @@ int					count_cmds(t_parse *cmds_list);
 
 // execution
 void				runtime_shell(t_parse *cmds_list, char **env_copy,
-						t_data *data, t_env *env_list);
-void				exec_shell(t_parse *cmds_list, t_env *env_list,
-						char **env_copy);
+						t_data *data, t_env **env_list);
+void				exec_shell(t_parse *cmds_list, t_env **env_list,
+						char **env_copy, t_data *data);
 
 // pipex
+// int					parse_path(char **cmds, char *path);
 int					parse_path(char **cmds, char *path);
 char				**parse_cmd(char *cmds);
 void				free_cmd_and_path(char *joined_cmd, char *joined_path);
@@ -138,7 +140,7 @@ int					check_input(char const *str);
 // built-in
 // int					is_builtin(t_parse *cmds, t_env *env);
 int					is_builtin(t_parse *cmds);
-void				exec_builtin(int func, t_parse *cmds, t_env *env);
+void				exec_builtin(int func, t_parse *cmds, t_env **env);
 void				execute_builtin(char **cmds);
 int					is_echo(char *str);
 int					is_pwd(char *str);
@@ -153,9 +155,9 @@ void				func_cd(t_parse *cmds);
 void				func_path(int path_int, char *path);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
-void				func_env(t_parse *cmds, t_env *env);
-void				func_export(t_parse *parser, t_env *env);
-void				func_unset(t_parse *parser, t_env *env);
+void				func_env(t_parse *cmds, t_env **env);
+void				func_export(t_parse *parser, t_env **env);
+void				func_unset(t_parse *parser, t_env **env);
 void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -184,7 +186,7 @@ void				store_env_list(char **envp, t_env **env_list);
 void				store_path(t_env *env_list, t_data *data);
 void				push_env_list(t_env **env_list, const char *str, int len);
 void				delete_one_env(t_env **env_list, char *variable);
-void				replace_one_env(t_env *env_list, char *env_val,
+void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
 void				free_env_list(t_env **env_list);
 

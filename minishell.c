@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 18:53:17 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:59:18 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		create_token_list(data, &tok_list, env_list);
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
+		free(data->input);
 		if (check_bracket_dup(tok_list))
 		{
 			free_token_list(&tok_list);
@@ -55,21 +56,21 @@ int	main(int argc, char **argv, char **envp)
 		}
 		create_parse_list(tok_list, &par_list);
 		store_command(tok_list, par_list);
+		free_token_list(&tok_list);
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
 		enable_signal();
 		if (data->has_pipe < 1)
 		{
-			exec_shell(par_list, env_list, copy);
+			exec_shell(par_list, &env_list, copy, data);
 		}
 		else
 		{
-			runtime_shell(par_list, copy, data, env_list);
+			runtime_shell(par_list, copy, data, &env_list);
 		}
-		free(data->input);
-		free_array(data->all_paths);
-		free_token_list(&tok_list);
+		printf("HERE\n");
+		free_env_list(&env_list);
 		free_parse_list(&par_list);
 	}
 	return (0);

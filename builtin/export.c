@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 16:53:59 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:43:26 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ t_env	*sort_env(t_env *env_copy, t_env *current)
 	return (current);
 }
 
-void	export_without_args(t_env *env)
+void	export_without_args(t_env **env)
 {
 	t_env	*env_copy;
 	t_env	*current;
 
-	current = env;
+	current = *env;
 	env_copy = NULL;
 	while (current)
 	{
@@ -77,7 +77,7 @@ void	export_without_args(t_env *env)
 	}
 }
 
-int	check_variable(t_env *env, char *variable, char *value)
+int	check_variable(t_env **env, char *variable, char *value)
 {
 	char	*found_value;
 	int		result;
@@ -85,19 +85,20 @@ int	check_variable(t_env *env, char *variable, char *value)
 	result = 0;
 	while (env)
 	{
-		found_value = ft_strnstr(env->env_var, variable, ft_strlen(variable));
+		found_value = ft_strnstr((*env)->env_var, variable,
+				ft_strlen(variable));
 		if (found_value != NULL)
 		{
 			result = 1;
-			replace_one_env(env, env->env_var, variable, value);
+			replace_one_env(env, (*env)->env_var, variable, value);
 			break ;
 		}
-		env = env->next;
+		*env = (*env)->next;
 	}
 	return (result);
 }
 
-void	func_export(t_parse *cmds, t_env *env)
+void	func_export(t_parse *cmds, t_env **env)
 {
 	char	*variable;
 	char	*value;
@@ -118,7 +119,7 @@ void	func_export(t_parse *cmds, t_env *env)
 	else
 	{
 		if (variable[0] != '\0' && value[0] != '\0')
-			push_env_list(&env, ft_strjoin(variable_join, value),
+			push_env_list(env, ft_strjoin(variable_join, value),
 				ft_strlen(ft_strjoin(variable_join, value)));
 		else
 			return ;
