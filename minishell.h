@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 16:28:33 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:54:36 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void				func_export(t_parse *parser, t_env *env);
 void				func_unset(t_parse *parser, t_env *env);
 void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
+int					ft_strcmp(const char *s1, const char *s2);
 
 //  lexical analysis
 int					check_input(char const *str);
@@ -185,7 +186,7 @@ void				push_env_list(t_env **env_list, const char *str, int len);
 void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env *env_list, char *env_val,
 						char *variable, char *value);
-void				free_env_list(t_env	**env_list);
+void				free_env_list(t_env **env_list);
 
 // display
 void				display_array(char **array);
@@ -230,4 +231,10 @@ void				init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info,
 
 void				push_num_cmd(int status, t_data *data);
 void				open_heredoc(t_parse *cmds_list);
+void				init_heredoc(t_parse *cmds_list);
+void				pipe_null_check(void);
+void				pipe_null_check(void);
+void				close_no_file(t_parse *cmds_list);
+void				close_parent(t_parse *head, t_pipe *pipe_info);
+void				call_heredoc(t_parse *cmds_list);
 #endif

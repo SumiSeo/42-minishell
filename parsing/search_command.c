@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/24 16:25:13 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:41:03 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtin_function(char **array, char *str)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -28,8 +28,8 @@ int	is_builtin_function(char **array, char *str)
 
 char	*find_path(char *single_path, char **command)
 {
-	char		*joined;
-	char		*path;
+	char	*joined;
+	char	*path;
 
 	joined = ft_strjoin(single_path, "/");
 	path = ft_strjoin(joined, command[0]);
@@ -46,12 +46,13 @@ char	*find_path(char *single_path, char **command)
 
 void	search_command(t_parse *par_list, t_data *data)
 {
-	char	*arr[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
+	char	*arr[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit",
+			NULL};
 	int		i;
 
-	i = 0;
 	while (par_list)
 	{
+		i = 0;
 		if (!par_list->cmd_array[0])
 			break ;
 		if (ft_strncmp(par_list->cmd_array[0], "/", 1) == 0)
@@ -66,7 +67,8 @@ void	search_command(t_parse *par_list, t_data *data)
 		{
 			while (data->all_paths[i])
 			{
-				par_list->path = find_path(data->all_paths[i], par_list->cmd_array);
+				par_list->path = find_path(data->all_paths[i],
+						par_list->cmd_array);
 				if (par_list->path != NULL)
 					break ;
 				// printf("%s\n", par_list->path);

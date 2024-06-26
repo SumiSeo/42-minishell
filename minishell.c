@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 17:37:15 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:53:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,12 @@ int	main(int argc, char **argv, char **envp)
 	par_list = NULL;
 	env_list = NULL;
 	if (argc > 1)
-		exit_program("Minishell doe not take arguments.");
+		exit_program("Minishell does not take arguments.");
 	if (argv[1] != NULL)
-		exit_program("Minishell doe not take arguments.");
+		exit_program("Minishell does not take arguments.");
 	store_env_list(envp, &env_list);
 	while (1)
 	{
-		// print_dir();
 		disable_signal();
 		if (take_input(data, env_list))
 			continue ;
@@ -59,17 +58,11 @@ int	main(int argc, char **argv, char **envp)
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
-		// printf("-----\n");
-		// // display_path(data);
-		// printf("-----\n");
-		// display_token_list(tok_list);
-		// printf("-----\n");
-		// display_parse_list(par_list);
-		// // test(par_list);
 		enable_signal();
-		printf("-----TRUE MINISHELL-----\n");
 		if (data->has_pipe < 1)
+		{
 			exec_shell(par_list, env_list, copy);
+		}
 		else
 		{
 			runtime_shell(par_list, copy, data, env_list);
