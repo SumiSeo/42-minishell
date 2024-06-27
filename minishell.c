@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/27 18:01:47 by ftanon           ###   ########.fr       */
+=======
+/*   Updated: 2024/06/27 18:10:46 by sumseo           ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			runtime_shell(par_list, copy, data, &env_list);
 		}
 		printf("HERE\n");
-		free_env_list(&env_list);
+		// free_env_list(&env_list);
 		free_parse_list(&par_list);
 	}
 	return (0);
