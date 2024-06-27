@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/27 18:01:47 by ftanon           ###   ########.fr       */
-=======
-/*   Updated: 2024/06/27 18:10:46 by sumseo           ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/06/27 20:21:41 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	builtin_check = 0;
 	data = malloc(sizeof(t_data));
 	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
-	data->exit_status = 777;
+	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
@@ -40,7 +36,10 @@ int	main(int argc, char **argv, char **envp)
 	store_env_list(envp, &env_list);
 	while (1)
 	{
-		printf("exit status : %d\n", data->exit_status);
+		data->exit_len = ft_strlen(ft_itoa(data->exit_status));
+		data->exit_string = malloc((data->exit_len + 1) * sizeof(char));
+		ft_strlcpy(data->exit_string, ft_itoa(data->exit_status), data->exit_len + 1);
+		// printf("exit status : %d\n", data->exit_status);
 		disable_signal();
 		if (take_input(data, env_list))
 			continue ;
@@ -63,10 +62,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		create_parse_list(tok_list, &par_list);
 		store_command(tok_list, par_list);
+		// display_token_list(tok_list);
 		free_token_list(&tok_list);
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
+		// display_parse_list(par_list);
+
 		enable_signal();
 		if (data->has_pipe < 1)
 		{
@@ -76,8 +78,12 @@ int	main(int argc, char **argv, char **envp)
 		{
 			runtime_shell(par_list, copy, data, &env_list);
 		}
-		printf("HERE\n");
+		// printf("HERE\n");
+		
 		// free_env_list(&env_list);
+		
+		// printf("chiffre %d\n", data->exit_len);
+		// printf("string %s\n", data->exit_string);
 		free_parse_list(&par_list);
 	}
 	return (0);

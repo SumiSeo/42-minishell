@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 17:42:24 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/27 19:31:17 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_data
 	int				num_cmd;
 	int				exit_status;
 	int				num_token;
+	int				exit_len;
+	char			*exit_string;
 }					t_data;
 
 typedef struct s_parse
