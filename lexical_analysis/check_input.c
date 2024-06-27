@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:37:19 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/23 17:28:38 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/27 20:21:18 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_input(char const *str)
 	double_quotes = 0;
 	single_quotes = 0;
 	i = 0;
-	if (!(str[i] >= 97 && str[i] <= 122) && str[i] != '>' && str[i] != '<' && str[i] != ' ' && str[i] != 39 && str[i] != '"')
+	if (!(str[i] >= 97 && str[i] <= 122) && str[i] != '>' && str[i] != '<' && str[i] != '.' && str[i] != '/' && str[i] != ' ' && str[i] != 39 && str[i] != '"' && str[i] != '$')
 	{
 		printf("Error : Invalid cmd\n");
 		return (1);

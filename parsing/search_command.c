@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/25 19:41:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 20:18:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	search_command(t_parse *par_list, t_data *data)
 	char	*arr[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit",
 			NULL};
 	int		i;
-
 	while (par_list)
 	{
 		i = 0;
@@ -57,7 +56,8 @@ void	search_command(t_parse *par_list, t_data *data)
 			break ;
 		if (ft_strncmp(par_list->cmd_array[0], "/", 1) == 0)
 		{
-			par_list->path = par_list->cmd_array[0];
+			par_list->path = (char *)ft_calloc (ft_strlen(par_list->cmd_array[0]), sizeof(char));
+			ft_strlcpy(par_list->path, par_list->cmd_array[0], ft_strlen(par_list->cmd_array[0]) + 1);
 		}
 		else if (is_builtin_function(arr, par_list->cmd_array[0]))
 		{

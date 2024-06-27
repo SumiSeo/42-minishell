@@ -6,11 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/27 18:25:50 by ftanon           ###   ########.fr       */
-=======
-/*   Updated: 2024/06/27 18:14:21 by sumseo           ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/06/27 20:21:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +72,7 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 	int		status;
 	int		result;
 
-	status = 123;
+	status = 0;
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
@@ -96,7 +92,7 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 			result = init_child(cmds_list, env_copy);
 			free_parse_list(&cmds_list);
 			free_array(data->all_paths);
-			// free_env_list(env_list);
+			free_env_list(env_list);
 			free(data);
 			if (result == 1)
 				exit(127);
@@ -104,7 +100,7 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 				exit(0);
 		}
 		waitpid(fork_id, &status, 0);
-		printf("loop %d\n", WEXITSTATUS(status));
+		// printf("loop %d\n", WEXITSTATUS(status));
 		data->exit_status = WEXITSTATUS(status);
 	}
 }
