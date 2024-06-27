@@ -18,6 +18,7 @@ builtin/exit.c\
 builtin/export.c\
 builtin/unset.c\
 builtin/env.c\
+builtin/export_utils.c\
 builtin/find_builtin.c\
 lexical_analysis/check_input.c\
 lexical_analysis/create_token_list.c\

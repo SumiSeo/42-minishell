@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 18:28:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 19:36:32 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	close_no_file(t_parse *cmds_list)
 	exit(EXIT_FAILURE);
 }
 
-void	close_parent(t_parse *head, t_pipe *pipe_info)
+void(t_parse *head, t_pipe *pipe_info)
 {
 	close_pipe_files(head);
 	wait_pipe_files(pipe_info);

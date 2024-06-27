@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 18:10:46 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:53:02 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	main(int argc, char **argv, char **envp)
 		{
 			runtime_shell(par_list, copy, data, &env_list);
 		}
-		printf("HERE\n");
 		// free_env_list(&env_list);
 		free_parse_list(&par_list);
 	}
