@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:59:43 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 22:31:08 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:53:33 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,19 @@ void	close_pipe_files(t_parse *cmds_list)
 	}
 }
 
-void	wait_pipe_files(t_pipe *pipe_info)
+void	wait_pipe_files(t_pipe *pipe_info, t_data *data)
 {
 	int	i;
+	int	status;
 
 	i = 0;
+	status = 123;
 	while (i < pipe_info->total_cmds)
 	{
-		wait(0);
+		waitpid(pipe_info->pids[i], &status, 0);
 		i++;
 	}
+	data->exit_status = WEXITSTATUS(status);
 }
 
 void	pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i, t_data *data)

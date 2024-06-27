@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 17:16:59 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:01:47 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	builtin_check = 0;
 	data = malloc(sizeof(t_data));
 	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
+	data->exit_status = 777;
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
@@ -35,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	store_env_list(envp, &env_list);
 	while (1)
 	{
+		printf("exit status : %d\n", data->exit_status);
 		disable_signal();
 		if (take_input(data, env_list))
 			continue ;

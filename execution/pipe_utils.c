@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/25 18:28:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:58:10 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	close_no_file(t_parse *cmds_list)
 	exit(EXIT_FAILURE);
 }
 
-void	close_parent(t_parse *head, t_pipe *pipe_info)
+void	close_parent(t_parse *head, t_pipe *pipe_info, t_data *data)
 {
 	close_pipe_files(head);
-	wait_pipe_files(pipe_info);
+	wait_pipe_files(pipe_info, data);
 	free(pipe_info);
 }
