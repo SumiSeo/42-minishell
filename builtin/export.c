@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 19:43:26 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:27:28 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	export_without_args(t_env **env)
 	t_env	*env_copy;
 	t_env	*current;
 
+	// display_env_list(*env);
 	current = *env;
 	env_copy = NULL;
 	while (current)
@@ -81,19 +82,21 @@ int	check_variable(t_env **env, char *variable, char *value)
 {
 	char	*found_value;
 	int		result;
+	t_env	*current;
 
 	result = 0;
-	while (env)
+	current = *env;
+	while (current != NULL)
 	{
-		found_value = ft_strnstr((*env)->env_var, variable,
-				ft_strlen(variable));
+		found_value = ft_strnstr(current->env_var, variable,
+				strlen(current->env_var));
 		if (found_value != NULL)
 		{
 			result = 1;
-			replace_one_env(env, (*env)->env_var, variable, value);
+			replace_one_env(env, current->env_var, variable, value);
 			break ;
 		}
-		*env = (*env)->next;
+		current = current->next;
 	}
 	return (result);
 }
