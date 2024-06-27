@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 20:46:02 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:16:34 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	take_input(t_data *data, t_env *env_list)
 	free(pretty_prompt);
 	if (data->input == NULL)
 	{
+		free_array(data->all_paths);
 		free(data);
 		free_env_list(&env_list);
 		exit(0);

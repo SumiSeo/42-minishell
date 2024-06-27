@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 20:59:18 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:16:59 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	copy = envp;
 	builtin_check = 0;
 	data = malloc(sizeof(t_data));
+	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
