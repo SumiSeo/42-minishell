@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/25 16:29:24 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 19:55:47 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,12 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token *element)
 	data->pos++;
 	while (not_double_quote(data->input[data->pos]))
 	{
-		if (data->input[data->pos] == '$')
+		if (data->input[data->pos] == '$' && data->input[data->pos] == '?')
+		{
+			element->len = element->len + data->exit_len;
+			data->pos = data->pos + data->exit_len;
+		}
+		else if (data->input[data->pos] == '$')
 		{
 			expand_len_pos(data, env_list, element);
 		}
@@ -166,7 +171,12 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 	while (not_operator(data->input[data->pos]))
 	{
 		// printf("o");
-		if (data->input[data->pos] == '$')
+		if (data->input[data->pos] == '$' && data->input[data->pos] == '?')
+		{
+			element->len = element->len + data->exit_len;
+			data->pos = data->pos + data->exit_len;
+		}
+		else if (data->input[data->pos] == '$')
 		{
 			// printf("before %d\n", data->pos);
 			expand_len_pos(data, env_list, element);
@@ -260,6 +270,20 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	element->i = element->i + src_len;
 }
 
+void	copy_exit(t_token *element,  t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->exit_len)
+	{
+		element->word[element->j] = data->exit_string[i];
+		i++;
+		element->j++;
+	}
+	element->i = element->i + 2;
+}
+
 void	store_single_quote(t_token *element, char *str)
 {
 	element->i++;
@@ -269,12 +293,14 @@ void	store_single_quote(t_token *element, char *str)
 		element->i++;
 }
 
-void	store_double_quote(t_token *element, char *str, t_env *env_list)
+void	store_double_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 {
 	element->i++;
 	while (not_double_quote(str[element->i]))
 	{
-		if (str[element->i] == '$')
+		if (str[element->i] == '$' && str[element->i + 1] == '?')
+			copy_exit(element, data);
+		else if (str[element->i] == '$')
 			expand_word(element, str, env_list);
 		else
 			copy_word(element, str);
@@ -283,18 +309,20 @@ void	store_double_quote(t_token *element, char *str, t_env *env_list)
 		element->i++;
 }
 
-void	store_no_quote(t_token *element, char *str, t_env *env_list)
+void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 {
 	while (not_operator(str[element->i]))
 	{
-		if (str[element->i] == '$')
+		if (str[element->i] == '$' && str[element->i + 1] == '?')
+			copy_exit(element, data);
+		else if (str[element->i] == '$')
 			expand_word(element, str, env_list);
 		else
 			copy_word(element, str);
 	}
 }
 
-void	store_string(t_token *element, char *str, t_env *env_list)
+void	store_string(t_token *element, char *str, t_env *env_list, t_data *data)
 {
 	if (is_operator(str[0]))
 		store_operator(element, str);
@@ -307,9 +335,9 @@ void	store_string(t_token *element, char *str, t_env *env_list)
 			if (str[element->i] == 39)
 				store_single_quote(element, str);
 			else if (str[element->i] == '"')
-				store_double_quote(element, str, env_list);
+				store_double_quote(element, str, env_list, data);
 			else
-				store_no_quote(element, str, env_list);
+				store_no_quote(element, str, env_list, data);
 		}
 		element->word[element->j] = '\0';
 	}
@@ -326,7 +354,7 @@ void	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 	element->j = 0;
 	element->i = 0;
 	get_len_pos(data, env, element);
-	store_string(element, str, env);
+	store_string(element, str, env, data);
 	element->next = NULL;
 	if (*tok_list == NULL)
 	{

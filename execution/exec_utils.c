@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 18:14:21 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 20:21:54 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,20 @@ int	parse_path(char **cmds, char *path)
 	}
 }
 
-void	init_child(t_parse *cmds_list, char **env_copy)
+int	init_child(t_parse *cmds_list, char **env_copy)
 {
 	if (getfile(cmds_list))
 	{
 		only_redirection(cmds_list);
 		if (parse_path(cmds_list->cmd_array, cmds_list->path))
+		{
 			execve(cmds_list->path, cmds_list->cmd_array, env_copy);
+			return (0);
+		}
+		else
+			return (1);
 	}
+	return (0);
 }
 
 void	exec_shell_builtin(t_parse *cmds_list, int builtin_check,
@@ -61,9 +67,12 @@ void	exec_shell_builtin(t_parse *cmds_list, int builtin_check,
 void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 		t_data *data)
 {
-	int	builtin_check;
-	int	fork_id;
+	int		builtin_check;
+	pid_t	fork_id;
+	int		status;
+	int		result;
 
+	status = 0;
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
@@ -80,13 +89,18 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 		fork_id = fork();
 		if (fork_id == 0)
 		{
-			init_child(cmds_list, env_copy);
+			result = init_child(cmds_list, env_copy);
 			free_parse_list(&cmds_list);
 			free_array(data->all_paths);
-			// free_env_list(env_list);
+			free_env_list(env_list);
 			free(data);
-			exit(0);
+			if (result == 1)
+				exit(127);
+			else
+				exit(0);
 		}
-		wait(0);
+		waitpid(fork_id, &status, 0);
+		// printf("loop %d\n", WEXITSTATUS(status));
+		data->exit_status = WEXITSTATUS(status);
 	}
 }

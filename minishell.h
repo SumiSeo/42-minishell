@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 18:52:04 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 20:44:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@
 
 typedef struct s_pipe
 {
-	int				*pids;
+	pid_t			*pids;
 	char			*limiter;
 	int				total_cmds;
 	int				only_redirect;
 	int				tmp_file;
 	int				num_cmd;
+	int 			counter;
 }					t_pipe;
 
 typedef struct s_token
@@ -67,7 +68,10 @@ typedef struct s_data
 	char			*input;
 	int				total_cmds;
 	int				num_cmd;
+	int				exit_status;
 	int				num_token;
+	int				exit_len;
+	char			*exit_string;
 }					t_data;
 
 typedef struct s_parse
@@ -204,6 +208,11 @@ char				*get_next_line(int fd);
 void				disable_signal(void);
 void				enable_signal(void);
 
+//	exit status
+
+void				init_pid_array(t_pipe *pipe_info);
+void				store_pid(t_pipe *pipe_info, pid_t fork_id);
+
 // utils
 size_t				ft_strlen(const char *string);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
@@ -215,7 +224,7 @@ void				redirection(t_parse *cmds_list, t_pipe *pipe_info, int i);
 void				pipe_init(t_pipe *pipe_info, t_parse *cmds_list, int i,
 						t_data *data);
 void				only_redirection(t_parse *cmds_list);
-void				wait_pipe_files(t_pipe *pipe_info);
+void				wait_pipe_files(t_pipe *pipe_info, t_data *data);
 void				close_pipe_files(t_parse *cmds_list);
 void				heredoc_check(t_parse *cmds_list);
 void				middle_cmd(t_parse *cmds_list);
@@ -224,10 +233,8 @@ void				first_cmd(t_parse *cmds_list);
 void				only_redirection(t_parse *cmds_list);
 void				heredoc_check(t_parse *cmds_list);
 
-void				close_parent(t_parse *head, t_pipe *pipe_info);
 void				close_no_file(t_parse *cmds_list);
 void				close_pipe_files(t_parse *cmds_list);
-void				wait_pipe_files(t_pipe *pipe_info);
 void				init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info,
 						char **env_copy, int i);
 
@@ -237,6 +244,6 @@ void				init_heredoc(t_parse *cmds_list);
 void				pipe_null_check(void);
 void				pipe_null_check(void);
 void				close_no_file(t_parse *cmds_list);
-void				close_parent(t_parse *head, t_pipe *pipe_info);
+void				close_parent(t_parse *head, t_pipe *pipe_info, t_data *data);
 void				call_heredoc(t_parse *cmds_list);
 #endif

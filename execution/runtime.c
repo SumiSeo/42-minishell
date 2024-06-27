@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runtime.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:07:40 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 19:38:51 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:48:41 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	init_child_pipe(t_parse *cmds_list, t_pipe *pipe_info, char **env_copy,
 	{
 		redirection(cmds_list, pipe_info, i);
 		execve(cmds_list->path, cmds_list->cmd_array, env_copy);
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 	else
-		exit(EXIT_FAILURE);
+		exit(127);
 }
 
 t_pipe	*init_pipeinfo(t_parse *cmds_list)
@@ -58,16 +58,19 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 		t_env **env_list)
 {
 	t_pipe	*pipe_info;
+	pid_t	fork_id;
 	int		i;
 	t_parse	*head;
 
 	head = cmds_list;
 	i = 0;
 	pipe_info = init_pipeinfo(cmds_list);
+	init_pid_array(pipe_info);
 	while (i < pipe_info->total_cmds)
 	{
 		pipe_init(pipe_info, cmds_list, i, data);
-		if (fork() == 0)
+		fork_id = fork();
+		if (fork_id == 0)
 		{
 			if (getfile(cmds_list))
 			{
@@ -83,9 +86,10 @@ void	runtime_shell(t_parse *cmds_list, char **env_copy, t_data *data,
 			else
 				close_no_file(cmds_list);
 		}
+		store_pid(pipe_info, fork_id);
 		close_extra_files(cmds_list);
 		i++;
 		cmds_list = cmds_list->next;
 	}
-	close_parent(head, pipe_info);
+	close_parent(head, pipe_info, data);
 }
