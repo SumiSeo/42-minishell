@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 19:31:17 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/27 20:44:17 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void				func_unset(t_parse *parser, t_env **env);
 void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 int					ft_strcmp(const char *s1, const char *s2);
-
+int					check_export_variable(char s);
 //  lexical analysis
 int					check_input(char const *str);
 void				create_token_list(t_data *data, t_token **tok_list,
