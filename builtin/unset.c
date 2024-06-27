@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 19:46:23 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:35:49 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ void	func_unset(t_parse *cmds, t_env **env)
 {
 	int		i;
 	char	*found_value;
+	t_env	*current;
 
+	current = *env;
 	i = 0;
 	if (!cmds->cmd_array[1])
 		return ;
@@ -47,16 +49,16 @@ void	func_unset(t_parse *cmds, t_env **env)
 	// }
 	else
 	{
-		while (env)
+		while (current)
 		{
-			found_value = ft_strnstr((*env)->env_var, cmds->cmd_array[1],
+			found_value = ft_strnstr(current->env_var, cmds->cmd_array[1],
 					ft_strlen(cmds->cmd_array[1]));
 			if (found_value != NULL)
 			{
 				delete_one_env(env, cmds->cmd_array[1]);
 				break ;
 			}
-			*env = (*env)->next;
+			current = current->next;
 		}
 	}
 }
