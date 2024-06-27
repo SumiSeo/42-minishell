@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 20:55:23 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:14:21 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 			init_child(cmds_list, env_copy);
 			free_parse_list(&cmds_list);
 			free_array(data->all_paths);
-			free_env_list(env_list);
+			// free_env_list(env_list);
 			free(data);
 			exit(0);
 		}
