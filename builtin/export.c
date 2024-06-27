@@ -6,7 +6,11 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/06/27 21:08:33 by sumseo           ###   ########.fr       */
+=======
+/*   Updated: 2024/06/27 21:01:12 by sumseo           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +107,15 @@ int	check_variable(t_env **env, char *variable, char *value)
 void	func_export(t_parse *cmds, t_env **env)
 {
 	int		i;
+<<<<<<< Updated upstream
 	char	*variable;
 	char	*value;
 	char	**split_var;
+=======
+	char	**split_var;
+	char	*variable;
+	char	*value;
+>>>>>>> Stashed changes
 	char	*variable_join;
 
 	if (!cmds->cmd_array[1])
@@ -118,6 +128,7 @@ void	func_export(t_parse *cmds, t_env **env)
 	{
 		if (cmds->cmd_array[i][0] == '_' || ft_isalpha(cmds->cmd_array[i][0]))
 		{
+<<<<<<< Updated upstream
 			split_var = ft_split(cmds->cmd_array[i], '=');
 			if (!split_var)
 				return ;
@@ -134,6 +145,15 @@ void	func_export(t_parse *cmds, t_env **env)
 				else
 					return ;
 			}
+=======
+			split_var = ft_split(cmds->cmd_array[1], '=');
+			if(split_var)
+			variable = split_var[0];
+			value = split_var[1];
+			variable_join = ft_strjoin(variable, "=");
+			printf("split var %s\n", variable);
+			printf("split var %s\n", value);
+>>>>>>> Stashed changes
 			i++;
 		}
 		else
