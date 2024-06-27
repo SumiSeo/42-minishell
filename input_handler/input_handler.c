@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 18:11:15 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 21:17:41 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	take_input(t_data *data, t_env *env_list)
 	{
 		free_array(data->all_paths);
 		free(data);
-		// free_env_list(&env_list);
 		exit(0);
 	}
 	if (ft_strlen(data->input) != 0)

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:20:22 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 18:32:23 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 21:15:45 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,13 @@ void	delete_one_env(t_env **env_list, char *variable)
 				ft_strlen(current->env_var)))
 		{
 			free(current->env_var);
-			current->prev->next = current->next;
+			if (*env_list == current)
+				*env_list = current->next;
+			if (current->prev != NULL)
+				current->prev->next = current->next;
+			free(current);
+			free(variable_and);
+			return ;
 		}
 		current = current->next;
 	}
@@ -36,16 +42,17 @@ void	replace_one_env(t_env **env_list, char *env_val, char *variable,
 {
 	t_env	*current;
 	char	*new_var;
+	size_t	new_var_len;
 
-	new_var = malloc(strlen(variable) + strlen(value) + 2);
+	current = *env_list;
+	new_var_len = strlen(variable) + strlen(value) + 1;
+	new_var = malloc(new_var_len);
 	if (new_var == NULL)
 	{
 		perror("Failed to allocate memory for new_var");
 		return ;
 	}
-	strcpy(new_var, variable);
-	strcat(new_var, value);
-	current = *env_list;
+	snprintf(new_var, new_var_len, "%s%s", variable, value);
 	while (current != NULL)
 	{
 		if (strcmp(current->env_var, env_val) == 0)

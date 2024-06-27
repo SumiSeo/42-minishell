@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/23 21:38:27 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/27 21:19:47 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	store_env_list(char **envp, t_env **env_list)
 		push_env_list(env_list, envp[i], len);
 		i++;
 	}
+	(*env_list)->prev = NULL;
 }
 
 void	display_env_list(t_env *env_list)
