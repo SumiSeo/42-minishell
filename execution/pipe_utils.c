@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:29:23 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 17:58:10 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:48:51 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void	close_parent(t_parse *head, t_pipe *pipe_info, t_data *data)
 {
 	close_pipe_files(head);
 	wait_pipe_files(pipe_info, data);
+	free(pipe_info->pids);
 	free(pipe_info);
 }
