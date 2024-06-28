@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 20:21:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/06/28 11:46:00 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 				exit(0);
 		}
 		waitpid(fork_id, &status, 0);
-		// printf("loop %d\n", WEXITSTATUS(status));
 		data->exit_status = WEXITSTATUS(status);
 	}
 }

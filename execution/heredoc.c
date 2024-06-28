@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:15:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/26 19:32:03 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/28 11:47:15 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	open_heredoc(t_parse *cmds_list)
 		str = readline(">");
 		if (str == NULL)
 		{
-			printf("warn: here-document delimited by end-of-file(wanted `%s')\n",
-				cmds_list->delimiter);
+			printf("heredoc delimited by EOF(`%s')\n", cmds_list->delimiter);
 			break ;
 		}
 		if (ft_strncmp(str, cmds_list->delimiter,
