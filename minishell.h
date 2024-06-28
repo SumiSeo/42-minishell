@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 20:44:17 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/28 11:37:46 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_pipe
 	int				only_redirect;
 	int				tmp_file;
 	int				num_cmd;
-	int 			counter;
+	int				counter;
 }					t_pipe;
 
 typedef struct s_token
@@ -166,6 +166,10 @@ void				func_absolute_cd(char *dir);
 int					print_echo(t_parse *cmds, int i, int nextline_flag);
 int					ft_strcmp(const char *s1, const char *s2);
 int					check_export_variable(char s);
+char				*func_value(char *s);
+char				*func_join_words(char *variable, char *value);
+char				*func_variable(char *s);
+
 //  lexical analysis
 int					check_input(char const *str);
 void				create_token_list(t_data *data, t_token **tok_list,
@@ -244,6 +248,7 @@ void				init_heredoc(t_parse *cmds_list);
 void				pipe_null_check(void);
 void				pipe_null_check(void);
 void				close_no_file(t_parse *cmds_list);
-void				close_parent(t_parse *head, t_pipe *pipe_info, t_data *data);
+void				close_parent(t_parse *head, t_pipe *pipe_info,
+						t_data *data);
 void				call_heredoc(t_parse *cmds_list);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 18:35:49 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/28 11:15:58 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,19 @@ void	func_unset(t_parse *cmds, t_env **env)
 	t_env	*current;
 
 	current = *env;
-	i = 0;
 	if (!cmds->cmd_array[1])
 		return ;
-	// else if (!ft_strcmp(cmds->cmd_array[1], "PATH"))
-	// {
-	// 	printf("Unset path called\n");
-	// 	cmds->path = NULL;
-	// 	delete_one_env(env, cmds->cmd_array[1]);
-	// }
-	else
+	while (current)
 	{
-		while (current)
+		i = 0;
+		while (cmds->cmd_array[i])
 		{
-			found_value = ft_strnstr(current->env_var, cmds->cmd_array[1],
-					ft_strlen(cmds->cmd_array[1]));
+			found_value = ft_strnstr(current->env_var, cmds->cmd_array[i],
+					ft_strlen(cmds->cmd_array[i]));
 			if (found_value != NULL)
-			{
-				delete_one_env(env, cmds->cmd_array[1]);
-				break ;
-			}
-			current = current->next;
+				delete_one_env(env, cmds->cmd_array[i]);
+			i++;
 		}
+		current = current->next;
 	}
 }

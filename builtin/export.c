@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/28 11:07:59 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/28 11:43:44 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	export_without_args(t_env **env)
 	t_env	*env_copy;
 	t_env	*current;
 
-	// display_env_list(*env);
 	current = *env;
 	env_copy = NULL;
 	while (current)
@@ -104,10 +103,9 @@ int	check_variable(t_env **env, char *variable, char *value)
 void	func_export(t_parse *cmds, t_env **env)
 {
 	int		i;
-	char	*variable;
 	char	*value;
-	char	**split_var;
 	char	*variable_join;
+	char	*final_value;
 
 	if (!cmds->cmd_array[1])
 	{
@@ -119,22 +117,14 @@ void	func_export(t_parse *cmds, t_env **env)
 	{
 		if (cmds->cmd_array[i][0] == '_' || ft_isalpha(cmds->cmd_array[i][0]))
 		{
-			split_var = ft_split(cmds->cmd_array[i], '=');
-			variable = split_var[0];
-			value = split_var[1];
-			variable_join = ft_strjoin(variable, "=");
+			variable_join = func_variable(cmds->cmd_array[i]);
+			value = func_value(cmds->cmd_array[i]);
+			final_value = func_join_words(variable_join, value);
 			if (!check_variable(env, variable_join, value))
-			{
-				if (variable[0] != '\0' && value[0] != '\0')
-					push_env_list(env, ft_strjoin(variable_join, value),
-						ft_strlen(ft_strjoin(variable_join, value)));
-			}
-			i++;
+				push_env_list(env, final_value, ft_strlen(final_value));
 		}
 		else
-		{
-			printf("not valid in this context %d\n", cmds->cmd_array[i][0]);
-			i++;
-		}
+			printf("not valid in this context %s\n", cmds->cmd_array[i]);
+		i++;
 	}
 }
