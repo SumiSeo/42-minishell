@@ -6,7 +6,7 @@
 /*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 19:36:19 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/06/28 11:07:59 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	check_variable(t_env **env, char *variable, char *value)
 	int		result;
 	t_env	*current;
 
-	printf("YO ? \n");
 	result = 0;
 	current = *env;
 	while (current != NULL)
@@ -104,12 +103,12 @@ int	check_variable(t_env **env, char *variable, char *value)
 
 void	func_export(t_parse *cmds, t_env **env)
 {
-	int	i;
+	int		i;
+	char	*variable;
+	char	*value;
+	char	**split_var;
+	char	*variable_join;
 
-	// char	*variable;
-	// char	*value;
-	// char	**split_var;
-	// char	*variable_join;
 	if (!cmds->cmd_array[1])
 	{
 		export_without_args(env);
@@ -118,29 +117,24 @@ void	func_export(t_parse *cmds, t_env **env)
 	i = 1;
 	while (cmds->cmd_array[i])
 	{
-		printf("cmds->cmd_array[i][0] %c\n", cmds->cmd_array[i][0]);
-		// if(//it is valable )
-		// 	{
-		// 	i++;
-		// 	}
-		// 	else{
-		// 	i++;
-		// 	}
+		if (cmds->cmd_array[i][0] == '_' || ft_isalpha(cmds->cmd_array[i][0]))
+		{
+			split_var = ft_split(cmds->cmd_array[i], '=');
+			variable = split_var[0];
+			value = split_var[1];
+			variable_join = ft_strjoin(variable, "=");
+			if (!check_variable(env, variable_join, value))
+			{
+				if (variable[0] != '\0' && value[0] != '\0')
+					push_env_list(env, ft_strjoin(variable_join, value),
+						ft_strlen(ft_strjoin(variable_join, value)));
+			}
+			i++;
+		}
+		else
+		{
+			printf("not valid in this context %d\n", cmds->cmd_array[i][0]);
+			i++;
+		}
 	}
-	// split_var = ft_split(cmds->cmd_array[1], '=');
-	// variable = split_var[0];
-	// value = split_var[1];
-	// variable_join = ft_strjoin(variable, "=");
-	// if (check_variable(env, variable_join, value))
-	// 	return ;
-	// else
-	// {
-	// 	// if (variable[0] != '\0' && value[0] != '\0')
-	// 	printf("HERE\n");
-	// 	if (check_export_variable(variable[0]))
-	// 		push_env_list(env, ft_strjoin(variable_join, value),
-	// 			ft_strlen(ft_strjoin(variable_join, value)));
-	// 	else
-	// 		return ;
-	// }
 }
